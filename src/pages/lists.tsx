@@ -64,7 +64,7 @@ const ListItem = ({ list }: { list: ListItem }) => {
 			<div className="flex justify-between min-h-[100px] items-center px-4 text-center">
 				<div className="text-gray-300 text-base">{list.people.length} <br />People</div>
 				<div className="text-emerald-400 text-base">{list.people.filter(p => p.isCompleted).length} <br />Completed</div>
-				<div className="text-3xl flex flex-col justify-center items-center text-[#f7ff58] cursor-pointer hover:text-[#ffca58]">
+				<div className="text-3xl flex flex-col justify-center items-center text-yellow-500 cursor-pointer hover:text-yellow-300">
 					<AiOutlineEdit />
 					<h3>Edit</h3>
 				</div>
