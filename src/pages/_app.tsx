@@ -9,7 +9,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 
   return (
     <div className="w-screen h-screen bg-black text-white font-main text-xl relative">
-      <header className="bg-[#000718]/50 w-full px-10 py-6 max-h-[90px] min-h-[90px] flex justify-center items-center gap-12 text-center font-normal border-b border-cyan-800/20">
+      <header className="overflow-hidden bg-[#000718]/50 w-full px-10 py-6 max-h-[90px] min-h-[90px] flex justify-center items-center gap-12 text-center font-normal border-b border-cyan-800/20">
 
         <Link href={`/lists`} className="px-2 py-1 hover:text-[#05c8cf] hover:text-2xl transition-all duration-300">
           <h1 className={pathname == `/lists` ? `text-[#0fffbf] font-medium` : ``}>Lists</h1>
@@ -23,7 +23,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 
       </header>
 
-      <main className="h-[calc(100vh_-_90px)] w-full">
+      <main className="max-h-[calc(100vh_-_90px)] h-[calc(100vh_-_90px)] w-full ">
         <Component {...pageProps} />
       </main>
     </div>
