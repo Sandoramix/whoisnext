@@ -17,18 +17,14 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 	const [currentList, setCurrentList] = useState(lists[currentListIndex])
 
 	const newNameRef = useRef<HTMLInputElement>(null)
-	const [newNameIsEmpty, setNewNameIsEmpty] = useState(false)
 
-	const update_LS_Timeout = useRef<NodeJS.Timeout>()
 
 	useEffect(() => {
 		setLists(prev => {
 			if (!currentList) return prev;
 			const newLists = prev;
 			newLists[currentListIndex] = currentList;
-			clearTimeout(update_LS_Timeout.current)
-			update_LS_Timeout.current =
-				setTimeout(() => localStorage.setItem(LS_NAMES.lists, JSON.stringify(lists)), 1000)
+
 			return newLists
 		})
 	}, [currentListIndex, setCurrentList, setLists, currentList, lists])

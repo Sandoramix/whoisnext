@@ -1,11 +1,10 @@
 import type { Dispatch, SetStateAction } from "react";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 import { AiOutlineEdit } from 'react-icons/ai';
 import LayerOver from "../components/layerOver";
 import ListDetails from "../components/ListDetails";
-import { ListItem,Person} from "../types";
-import { getListsFromLS } from '../utils/localStorage';
-
+import type { Person } from '../types';
+import { ListItem } from '../types';
 export const LS_NAMES = {
 	lists: `allLists`
 }
@@ -19,18 +18,23 @@ export default function ListsPage() {
 
 
 
+	const update_LS_Timeout = useRef<NodeJS.Timeout>()
+	useEffect(() => {
+		clearTimeout(update_LS_Timeout.current)
+		update_LS_Timeout.current = setTimeout(() => localStorage.setItem(LS_NAMES.lists, JSON.stringify(lists)), 1000)
+	}, [lists])
 
 
 	useEffect(() => () => {
-		 const p1: Person = { name: 'U', isCompleted: false }
-		 const p2: Person = { name: 'C', isCompleted: false }
-		 const allLists: ListItem[] = [
+		const p1: Person = { name: 'U', isCompleted: false }
+		const p2: Person = { name: 'C', isCompleted: false }
+		const allLists: ListItem[] = [
 			{ people: [p1, p1, p1, p2, p2, p1, p2], title: "Tmp1" },
-		 	{ people: [p1, p2, p1, p2], title: "Tmp2" },
-		 ];
-setLists(allLists)
+			{ people: [p1, p2, p1, p2], title: "Tmp2" },
+		];
 		localStorage.setItem(LS_NAMES.lists, JSON.stringify(allLists))
-		
+		setLists(allLists)
+
 	}, [])
 
 	const closeListDetails = () => {
