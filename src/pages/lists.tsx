@@ -5,9 +5,45 @@ import LayerOver from "../components/layerOver";
 import ListDetails from "../components/ListDetails";
 import type { Person } from '../types';
 import { ListItem } from '../types';
+
 export const LS_NAMES = {
 	lists: `allLists`
 }
+
+const DUMMY_NAMES = [
+	"Keelie Spindler",
+	"Noemie Bono",
+	"Yousif Wilbur",
+	"Rosella Nissen",
+	"Pierre Marlow",
+	"Breckyn Said",
+	"Joao Castano",
+	"Talaya Stutz",
+	"Kynlee Gregg",
+	"Zebadiah Birdsall",
+	"Elana Mai",
+	"Brailee Crutcher",
+	"Kevin Stevens",
+	"Freddie Caceres",
+	"Rosanna Gaskin",
+	"Azrael Sarver",
+	"Marlie London",
+	"Haven Doughty",
+	"Meya Stolz",
+	"Murphy Hargis",
+	"Kacee Blas",
+	"Jelena Salvatore",
+	"Chyna Pauley",
+	"Aleister Stamey",
+	"Vishnu Myatt",
+	"Violeta Perdue",
+	"Bridger Nunn",
+	"Lexi Melton",
+	"Robert Ortiz",
+	"Hubert Coen",
+]
+
+
 
 
 
@@ -26,12 +62,21 @@ export default function ListsPage() {
 
 
 	useEffect(() => () => {
-		const p1: Person = { name: 'U', isCompleted: false }
-		const p2: Person = { name: 'C', isCompleted: false }
-		const allLists: ListItem[] = [
-			{ people: [p1, p1, p1, p2, p2, p1, p2], title: "Tmp1" },
-			{ people: [p1, p2, p1, p2], title: "Tmp2" },
-		];
+		const rndList: Person[] = [{ name: 'U', isCompleted: false }, { name: 'C', isCompleted: false }]
+
+
+		const randomList = (quantity = 10, title = "Tmp") => {
+			const list: ListItem = { title, people: [] }
+			for (let index = 0; index < quantity; index++) {
+				list.people.push({ name: DUMMY_NAMES[Math.ceil(Math.random() * (DUMMY_NAMES.length - 1))]!, isCompleted: Boolean(Math.random() >= .5) })
+			}
+			return list
+		}
+
+
+
+
+		const allLists: ListItem[] = [randomList(10, `Tmp1`), randomList(5, 'Tmp2')];
 		localStorage.setItem(LS_NAMES.lists, JSON.stringify(allLists))
 		setLists(allLists)
 
