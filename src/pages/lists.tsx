@@ -22,14 +22,14 @@ export default function ListsPage() {
 
 
 	useEffect(() => () => {
-		// const p1: Person = { name: 'U', isCompleted: false }
-		// const p2: Person = { name: 'C', isCompleted: false }
-		// const allLists: ListItem[] = [
-		// 	{ people: [p1, p1, p1, p2, p2, p1, p2], title: "Tmp1" },
-		// 	{ people: [p1, p2, p1, p2], title: "Tmp2" },
-		// ]
-		// setLists(allLists)
-		// localStorage.setItem(LS_NAMES.lists, JSON.stringify(allLists))
+		 const p1: Person = { name: 'U', isCompleted: false }
+		 const p2: Person = { name: 'C', isCompleted: false }
+		 const allLists: ListItem[] = [
+			{ people: [p1, p1, p1, p2, p2, p1, p2], title: "Tmp1" },
+		 	{ people: [p1, p2, p1, p2], title: "Tmp2" },
+		 ]
+		etLists(allLists)
+		localStorage.setItem(LS_NAMES.lists, JSON.stringify(allLists))
 		setLists(getListsFromLS())
 	}, [])
 
