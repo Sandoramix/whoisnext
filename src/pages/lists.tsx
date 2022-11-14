@@ -30,7 +30,7 @@ export default function ListsPage() {
 		 ]
 		etLists(allLists)
 		localStorage.setItem(LS_NAMES.lists, JSON.stringify(allLists))
-		setLists(getListsFromLS())
+		
 	}, [])
 
 	const closeListDetails = () => {
