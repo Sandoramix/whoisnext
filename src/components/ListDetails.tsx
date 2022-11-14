@@ -22,14 +22,13 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 
 	useEffect(() => {
 		setLists(prev => {
-			const cList = lists[currentListIndex];
-			if (!cList) return prev;
+			if (!currentList) return prev;
 			const newLists = prev;
-			newLists[currentListIndex] = cList;
+			newLists[currentListIndex] = currentList;
 
-			return newLists
+			return [...newLists]
 		})
-	}, [currentListIndex, setLists, lists])
+	}, [currentListIndex, setLists, currentList])
 
 	if (!currentList) {
 		closeView();
@@ -39,40 +38,53 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 
 
 	const onTitleChange = (ev: ChangeEvent<HTMLInputElement>) => {
-		const title = ev.target.value
-		currentList.title = title
-		setCurrentList({ ...currentList })
+		setCurrentList(prev => { return !prev ? prev : { title: ev.target.title, people: prev.people } })
 	}
 
 	const addPersonToList = (person: Person) => {
+		setCurrentList(prev => {
+			if (!prev) return prev;
+			const newList = prev;
+			newList.people.push(person)
+			newList.people = newList.people.sort((a, b) => a.name.localeCompare(b.name))
+			return { ...newList }
+		})
 
-		currentList.people.push(person)
-		currentList.people = currentList.people.sort((a, b) => a.name.localeCompare(b.name))
-		setCurrentList({ ...currentList })
 	}
 	const removePersonFromList = (i: number) => {
-		currentList.people = currentList.people.filter((person, index) => index !== i);
-		setCurrentList({ ...currentList })
+		setCurrentList(prev => {
+			if (!prev) return prev;
+			const newList = prev;
+
+			newList.people = newList.people.filter((person, index) => index !== i);
+			return { ...newList };
+		})
+
 	}
 
 	const onAddUserClick = () => {
 		if (!newNameRef.current) return
 
 		const name = newNameRef.current.value.trim() ?? "";
-		if (name == '') return;
-		addPersonToList({
-			name,
-			isCompleted: false
-		})
+		if (name === '') return;
+		addPersonToList({ name, isCompleted: false })
 		newNameRef.current.value = ``
 	}
 
 	const togglePersonCompleteState = (personIndex: number) => {
-		const newPerson = currentList.people[personIndex]
-		if (!newPerson) return;
-		newPerson.isCompleted = !newPerson.isCompleted
-		currentList.people[personIndex] = newPerson
-		setCurrentList({ ...currentList })
+
+		setCurrentList(prev => {
+			if (!prev) return prev;
+			const newList = prev;
+
+			const newPerson = newList.people[personIndex]
+			if (!newPerson) return prev;
+
+			newPerson.isCompleted = !newPerson.isCompleted
+			newList.people[personIndex] = newPerson
+			return { ...newList }
+		})
+
 	}
 
 	const onCloseClick = () => {
