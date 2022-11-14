@@ -1,102 +1,36 @@
 import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
-import { z } from "zod";
 import LayerOver from "../components/layerOver";
 import ListDetails from "../components/ListDetails";
-import type { Person } from "../types";
 import { ListItem } from "../types";
+import { getListsFromLS } from '../utils/localStorage';
 
-const LS_NAMES = {
+export const LS_NAMES = {
 	lists: `allLists`
 }
 
-const listsValidator = z.array(z.object({
-	title: z.string(),
-	people: z.array(z.object({
-		name: z.string(),
-		isCompleted: z.boolean(),
-	}))
-}))
+
 
 export default function ListsPage() {
 
 	const [lists, setLists] = useState<ListItem[]>([])
 	const [openedListIndex, setOpenedListIndex] = useState<number | null>(null)
 
-	const getLocalStorageLists = (): ListItem[] => {
-		const parsed = JSON.parse(localStorage.getItem(LS_NAMES.lists) ?? '[]')
-		return listsValidator.safeParse(parsed).success ? parsed : []
-	}
-	const updateLocalStorage = () => {
-		localStorage.setItem(LS_NAMES.lists, JSON.stringify(lists))
-	}
 
 
-
-	const listHandlers = {
-		addPerson: (listIndex: number, person: Person) => {
-			setLists(prev => {
-				const list = prev[listIndex];
-				if (!list) return prev;
-
-				list.people.push(person);
-				const newLists = prev;
-				newLists[listIndex] = list;
-				return newLists
-			})
-
-			updateLocalStorage()
-		},
-		removePerson: (listIndex: number, personIndex: number) => {
-			setLists(prev => {
-				const list = prev[listIndex];
-				if (!list) return prev;
-
-				list.people = list.people.filter((p, index) => index !== personIndex);
-
-				const newLists = prev;
-				newLists[listIndex] = list;
-				return newLists
-			})
-
-			updateLocalStorage()
-		},
-		togglePersonState: (listIndex: number, personIndex: number) => {
-			setLists(prev => {
-				const list = prev[listIndex];
-				if (!list) return prev;
-
-				const person = list.people[personIndex];
-				if (!person) return prev;
-				person.isCompleted = !person.isCompleted;
-				list.people[personIndex] = person;
-
-				const newLists = prev;
-				newLists[listIndex] = list;
-				return newLists
-			})
-
-			updateLocalStorage()
-		},
-		updateTitle: (listIndex: number, title: string) => {
-			setLists(prev => {
-				const list = prev[listIndex];
-				if (!list) return prev;
-				list.title = title;
-
-				const newLists = prev;
-				newLists[listIndex] = list;
-				return newLists
-			})
-
-			updateLocalStorage()
-		}
-	}
 
 
 	useEffect(() => () => {
-		setLists(getLocalStorageLists())
+		// const p1: Person = { name: 'U', isCompleted: false }
+		// const p2: Person = { name: 'C', isCompleted: false }
+		// const allLists: ListItem[] = [
+		// 	{ people: [p1, p1, p1, p2, p2, p1, p2], title: "Tmp1" },
+		// 	{ people: [p1, p2, p1, p2], title: "Tmp2" },
+		// ]
+		// setLists(allLists)
+		// localStorage.setItem(LS_NAMES.lists, JSON.stringify(allLists))
+		setLists(getListsFromLS())
 	}, [])
 
 	const closeListDetails = () => {
@@ -126,9 +60,8 @@ export default function ListsPage() {
 			{
 				openedListIndex !== null && <LayerOver closeView={closeListDetails}>
 					<ListDetails
-						list={lists[openedListIndex]} listIndex={openedListIndex}
+						lists={lists} setLists={setLists} currentListIndex={openedListIndex}
 						closeView={closeListDetails}
-						addPerson={listHandlers.addPerson} updateTitle={listHandlers.updateTitle} removePerson={listHandlers.removePerson} togglePersonState={listHandlers.togglePersonState}
 					/>
 				</LayerOver>
 			}

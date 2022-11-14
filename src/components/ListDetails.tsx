@@ -1,42 +1,56 @@
-import type { ChangeEvent, FC, MouseEvent } from 'react';
-import { useRef, useState } from 'react';
+import type { ChangeEvent, Dispatch, FC, MouseEvent, SetStateAction } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiFillDelete } from 'react-icons/ai';
 import { BiExport, BiImport } from 'react-icons/bi';
 import { FiDelete } from 'react-icons/fi';
+import { LS_NAMES } from '../pages/lists';
 import type { ListItem, Person } from '../types';
 
 
 type ListDetailsProps = {
-	list?: ListItem,
-	listIndex: number,
+	lists: ListItem[],
+	setLists: Dispatch<SetStateAction<ListItem[]>>
+	currentListIndex: number,
 	closeView: () => void,
-	addPerson: (listIndex: number, person: Person) => void,
-	removePerson: (listIndex: number, personIndex: number) => void,
-	updateTitle: (listIndex: number, title: string) => void,
-	togglePersonState: (listIndex: number, personIndex: number) => void
 }
-const ListDetails: FC<ListDetailsProps> = ({ list, closeView, addPerson, removePerson, listIndex, updateTitle, togglePersonState }) => {
-	const [currentPeopleList, setCurrentPeopleList] = useState(list?.people ?? [])
-	const [tmpTitle, setTmpTitle] = useState<string>(list?.title ?? "")
+const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists, setLists }) => {
+	const [currentList, setCurrentList] = useState(lists[currentListIndex])
 
 	const newNameRef = useRef<HTMLInputElement>(null)
 	const [newNameIsEmpty, setNewNameIsEmpty] = useState(false)
-	const titleChangeTimeout = useRef<NodeJS.Timeout>()
 
-	if (!list) {
+	const update_LS_Timeout = useRef<NodeJS.Timeout>()
+
+	useEffect(() => {
+		setLists(prev => {
+			if (!currentList) return prev;
+			const newLists = prev;
+			newLists[currentListIndex] = currentList;
+			clearTimeout(update_LS_Timeout.current)
+			update_LS_Timeout.current =
+				setTimeout(() => localStorage.setItem(LS_NAMES.lists, JSON.stringify(lists)), 1000)
+			return newLists
+		})
+	}, [currentListIndex, setCurrentList, setLists, currentList, lists])
+
+	if (!currentList) {
 		closeView();
 		return null;
 	}
 
 
+
 	const onTitleChange = (ev: ChangeEvent<HTMLInputElement>) => {
 		const title = ev.target.value
-		clearTimeout(titleChangeTimeout.current)
+		currentList.title = title
 
-		setTmpTitle(title);
-		titleChangeTimeout.current = setTimeout(() => {
-			updateTitle(listIndex, title)
-		}, 1000)
+	}
+
+	const addPersonToList = (person: Person) => {
+		currentList.people.push(person)
+	}
+	const removePersonFromList = (i: number) => {
+		currentList.people = currentList.people.filter((person, index) => index !== i);
 	}
 
 	const onAddUserClick = () => {
@@ -44,29 +58,23 @@ const ListDetails: FC<ListDetailsProps> = ({ list, closeView, addPerson, removeP
 
 		const name = newNameRef.current.value.trim() ?? "";
 		if (name == '') return;
-		setCurrentPeopleList(prev => [...prev, { name, isCompleted: false }])
-		addPerson(listIndex, { name, isCompleted: false })
-
+		addPersonToList({
+			name,
+			isCompleted: false
+		})
 		newNameRef.current.value = ``
 	}
-	const removePersonFromList = (i: number) => {
-		const tmpPeopleList = list.people.filter((person, index) => index !== i);
 
-		setCurrentPeopleList(tmpPeopleList)
-		removePerson(listIndex, i);
-	}
-	const togglePersonCompleteState = (i: number) => {
-		setCurrentPeopleList(prev => prev.map((person, index) => {
-			if (index === i) {
-				return {
-					name: person.name,
-					isCompleted: !person.isCompleted
-				}
-			}
-			return person
-		}))
-
-		togglePersonState(listIndex, i)
+	const togglePersonCompleteState = (personIndex: number) => {
+		const newPeopleList = currentList.people;
+		const newPerson = newPeopleList[personIndex]
+		if (!newPerson || !currentList) return;
+		newPerson.isCompleted = !newPerson.isCompleted
+		newPeopleList[personIndex] = newPerson
+		setCurrentList({
+			title: currentList.title,
+			people: newPeopleList
+		})
 	}
 
 	const onCloseClick = () => {
@@ -87,7 +95,7 @@ const ListDetails: FC<ListDetailsProps> = ({ list, closeView, addPerson, removeP
 			<div className="relative overflow-visible w-full h-full bg-[#020114]/90 flex flex-col justify-between px-3 py-4">
 				<input
 					className="[text-shadow:_2px_2px_10px_#00a] font-extrabold text-3xl absolute -top-5 left-1/2 -translate-x-1/2 bg-transparent outline-none focus:outline-none text-center w-10/12"
-					value={tmpTitle}
+					value={currentList.title}
 					maxLength={50}
 					onChange={onTitleChange}
 				/>
@@ -137,7 +145,7 @@ const ListDetails: FC<ListDetailsProps> = ({ list, closeView, addPerson, removeP
 							</tr>
 						</thead>
 						<tbody>
-							{currentPeopleList.map(
+							{currentList.people.map(
 								(person, i) =>
 									<PersonRow key={i} index={i} person={person} removeFromList={removePersonFromList} toggleCompleteState={togglePersonCompleteState} />
 							)}
