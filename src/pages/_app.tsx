@@ -13,7 +13,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <Head>
         <title>Pickalendar</title>
         <meta name="description" content="Website designed to extract a random person from the list for school oral exams (Welcome to Italy).It also the possibility of creating a calendar until the end of the month of all the students on a specific list." />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.png" />
       </Head>
 
       <div className="w-screen h-screen bg-black text-white font-main text-base relative">
