@@ -17,16 +17,16 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       </Head>
 
       <div className="w-screen h-screen bg-black text-white font-main text-base relative">
-        <header className="overflow-hidden bg-[#000718]/50 w-full px-10 py-6 max-h-[90px] min-h-[90px] grid-flow-col grid auto-cols-fr items-center  text-center font-normal border-b border-cyan-800/20">
+        <header className="overflow-hidden bg-[#000718]/50 w-full  max-h-[90px] min-h-[90px] grid-flow-col grid grid-cols-3 justify-center items-center  text-center  border-b border-cyan-800/20 font-sub">
 
-          <Link href={`/lists`} className="px-4 py-1 min-w-fit hover:text-[#05c8cf] hover:text-xl transition-all duration-300 text-center">
-            <h1 className={pathname == `/lists` ? `text-[#0fffbf] font-medium` : ``}>Lists</h1>
+          <Link href={`/lists`} className="px-4 py-1 min-w-fit hover:text-[#05c8cf] hover:text-xl transition-all duration-300 text-center ">
+            <h1 className={pathname == `/lists` ? `text-[#0fffbf] [text-shadow:_2px_2px_5px_#080]` : ``}>Lists</h1>
           </Link>
           <Link href={`/`} className="px-4 py-1 min-w-fit hover:text-[#05c8cf] hover:text-xl transition-all duration-300 text-center">
-            <h1 className={pathname == `/` ? `text-[#0fffbf] font-medium` : ``}>Random <br className="block" />Pick</h1>
+            <h1 className={pathname == `/` ? `text-[#0fffbf] [text-shadow:_2px_2px_5px_#080]` : ``}>Random <br className="block" />Pick</h1>
           </Link>
           <Link href={`/calendar`} className="px-4 py-1 min-w-fit hover:text-[#05c8cf] hover:text-xl transition-all duration-300 text-center">
-            <h1 className={pathname == `/calendar` ? `text-[#0fffbf] font-medium` : ``}>Generate <br className="block" />Calendar</h1>
+            <h1 className={pathname == `/calendar` ? `text-[#0fffbf] [text-shadow:_2px_2px_10px_#080]` : ``}>Generate <br className="block" />Calendar</h1>
           </Link>
 
         </header>
