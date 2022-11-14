@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import { AiFillDelete } from 'react-icons/ai';
 import { BiExport, BiImport } from 'react-icons/bi';
 import { FiDelete } from 'react-icons/fi';
-import { LS_NAMES } from '../pages/lists';
 import type { ListItem, Person } from '../types';
 
 
