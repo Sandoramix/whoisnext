@@ -17,6 +17,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 	const [currentList, setCurrentList] = useState(lists[currentListIndex])
 
 	const newNameRef = useRef<HTMLInputElement>(null)
+	const [newNameIsEmpty, setNewNameIsEmpty] = useState(false)
 
 
 	useEffect(() => {
@@ -39,14 +40,16 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 	const onTitleChange = (ev: ChangeEvent<HTMLInputElement>) => {
 		const title = ev.target.value
 		currentList.title = title
-
+		setCurrentList({ ...currentList })
 	}
 
 	const addPersonToList = (person: Person) => {
 		currentList.people.push(person)
+		setCurrentList({ ...currentList })
 	}
 	const removePersonFromList = (i: number) => {
 		currentList.people = currentList.people.filter((person, index) => index !== i);
+		setCurrentList({ ...currentList })
 	}
 
 	const onAddUserClick = () => {
@@ -62,15 +65,11 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 	}
 
 	const togglePersonCompleteState = (personIndex: number) => {
-		const newPeopleList = currentList.people;
-		const newPerson = newPeopleList[personIndex]
-		if (!newPerson || !currentList) return;
+		const newPerson = currentList.people[personIndex]
+		if (!newPerson) return;
 		newPerson.isCompleted = !newPerson.isCompleted
-		newPeopleList[personIndex] = newPerson
-		setCurrentList({
-			title: currentList.title,
-			people: newPeopleList
-		})
+		currentList.people[personIndex] = newPerson
+		setCurrentList({ ...currentList })
 	}
 
 	const onCloseClick = () => {
