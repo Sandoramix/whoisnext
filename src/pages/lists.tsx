@@ -72,9 +72,9 @@ export default function ListsPage() {
 
 		const allLists: ListItem[] = [randomList(Math.ceil(Math.random() * 25) + 4, `Tmp1`), randomList(Math.ceil(Math.random() * 25) + 4, 'Tmp2')];
 
-		setLists(() => {
+		setLists((prev) => {
 			localStorage.setItem(LS_NAMES.lists, JSON.stringify(allLists))
-			return allLists
+			return [...prev, ...allLists]
 		})
 
 	}, [])
