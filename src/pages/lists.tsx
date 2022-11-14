@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import LayerOver from "../components/layerOver";
 import ListDetails from "../components/ListDetails";
-import { ListItem } from "../types";
+import { ListItem,Person} from "../types";
 import { getListsFromLS } from '../utils/localStorage';
 
 export const LS_NAMES = {
