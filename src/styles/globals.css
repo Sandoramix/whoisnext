@@ -14,8 +14,18 @@
 }
 
 @font-face {
+  src: url("./fonts/Titania-Regular.ttf");
+  font-family: "sub";
+}
+@font-face {
   src: url("./fonts/lora/Lora-VariableFont_wght.ttf");
   font-family: "main";
+}
+
+:root {
+  --scrollbar-width: 8px;
+  --scrollbar-height: 8px;
+  --scrollbar-thumb-bradius: 1rem;
 }
 
 *::-webkit-scrollbar {
@@ -23,13 +33,20 @@
   background: #000;
 }
 *::-webkit-scrollbar:vertical {
-  width: 8px;
+  width: var(--scrollbar-width);
 }
 *::-webkit-scrollbar:horizontal {
-  height: 8px;
+  height: var(--scrollbar-height);
 }
 *::-webkit-scrollbar-thumb {
-  border-radius: 1rem;
-  /*border: 2px solid white;  should match background, can't be transparent */
+  border-radius: var(--scrollbar-thumb-bradius);
   background-color: white;
+}
+
+@media (max-width: 360px) {
+  :root {
+    --scrollbar-width: 4px;
+    --scrollbar-height: 4px;
+    --scrollbar-thumb-bradius: 0.5rem;
+  }
 }
