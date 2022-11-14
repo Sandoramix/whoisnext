@@ -27,8 +27,8 @@ export default function ListsPage() {
 		 const allLists: ListItem[] = [
 			{ people: [p1, p1, p1, p2, p2, p1, p2], title: "Tmp1" },
 		 	{ people: [p1, p2, p1, p2], title: "Tmp2" },
-		 ]
-		etLists(allLists)
+		 ];
+setLists(allLists)
 		localStorage.setItem(LS_NAMES.lists, JSON.stringify(allLists))
 		
 	}, [])
