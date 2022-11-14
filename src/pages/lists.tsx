@@ -45,7 +45,14 @@ const DUMMY_NAMES = [
 
 
 
-
+const randomList = (quantity = 10, title = "Tmp") => {
+	const list: ListItem = { title, people: [] }
+	for (let index = 0; index < quantity; index++) {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		list.people.push({ name: DUMMY_NAMES[Math.ceil(Math.random() * (DUMMY_NAMES.length - 1))]!, isCompleted: Boolean(Math.random() >= .5) })
+	}
+	return list
+}
 
 export default function ListsPage() {
 
@@ -61,24 +68,14 @@ export default function ListsPage() {
 	}, [lists])
 
 
-	useEffect(() => () => {
-		const rndList: Person[] = [{ name: 'U', isCompleted: false }, { name: 'C', isCompleted: false }]
+	useEffect(() => {
 
+		const allLists: ListItem[] = [randomList(Math.ceil(Math.random() * 25) + 4, `Tmp1`), randomList(Math.ceil(Math.random() * 25) + 4, 'Tmp2')];
 
-		const randomList = (quantity = 10, title = "Tmp") => {
-			const list: ListItem = { title, people: [] }
-			for (let index = 0; index < quantity; index++) {
-				list.people.push({ name: DUMMY_NAMES[Math.ceil(Math.random() * (DUMMY_NAMES.length - 1))]!, isCompleted: Boolean(Math.random() >= .5) })
-			}
-			return list
-		}
-
-
-
-
-		const allLists: ListItem[] = [randomList(10, `Tmp1`), randomList(5, 'Tmp2')];
-		localStorage.setItem(LS_NAMES.lists, JSON.stringify(allLists))
-		setLists(allLists)
+		setLists(() => {
+			localStorage.setItem(LS_NAMES.lists, JSON.stringify(allLists))
+			return allLists
+		})
 
 	}, [])
 
@@ -103,7 +100,7 @@ export default function ListsPage() {
 			</section>
 			<div className="pt-6" />
 			<ul className="list-none w-10/12 max-h-[calc(100vh_-_90px_-_2.5rem)] overflow-auto py-6 flex flex-col gap-8">
-				{lists.map((list, index) => <ListItem setOpenedListIndex={setOpenedListIndex} index={index} list={list} key={index} />)}
+				{lists?.map((list, index) => <ListItem setOpenedListIndex={setOpenedListIndex} index={index} list={list} key={index} />)}
 			</ul>
 
 			{
