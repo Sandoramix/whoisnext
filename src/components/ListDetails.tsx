@@ -83,7 +83,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 
 	return (
 		<div
-			className="w-11/12 h-[90%]  overflow-auto relative py-4"
+			className="w-full h-[90%]  overflow-auto relative py-4"
 			onClick={(ev) => ev.stopPropagation()}
 		>
 			<div className="relative overflow-visible w-full h-full bg-[#020114]/90 flex flex-col justify-between px-3 py-4">
@@ -97,9 +97,9 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 					<AiFillDelete className='cursor-pointer hover:text-red-500 text-red-700 ' onClick={onDeleteListClick} />
 				</div>
 
-				<header className="max-h-[80px] h-[80px] flex justify-center">
+				<header className="max-h-[80px] h-[80px] flex justify-center text-sm">
 
-					<div className="flex justify-center items-center gap-2">
+					<div className="flex justify-center items-center gap-2 w-3/4">
 						<input
 							onChange={(ev) => {
 								const val = ev.target.value.trim();
@@ -110,7 +110,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 							name="name"
 							id="name"
 							ref={newNameRef}
-							className="px-2 text-black h-11 rounded placeholder:text-center placeholder:uppercase"
+							className="px-2 text-black h-10 w-10/12 rounded placeholder:text-center placeholder:uppercase"
 							placeholder='Name'
 							onKeyUp={(ev) => {
 								if (ev.key.toLowerCase() === "enter") {
@@ -120,7 +120,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 						/>
 						<button
 							onClick={onAddUserClick}
-							className=' disabled:bg-slate-800 disabled:text-slate-400 disabled:cursor-not-allowed bg-[#ff9900] hover:bg-[#e98904] px-2 py-2 rounded'
+							className=' disabled:bg-slate-800 disabled:text-slate-400 disabled:cursor-not-allowed bg-[#ff9900] hover:bg-[#e98904] px-2 py-1 w-fit rounded'
 							disabled={newNameIsEmpty}
 						>
 							Add User
@@ -132,9 +132,9 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 				<div className='grow w-full flex flex-col bg-black max-h-[calc(100%_-_140px)] h-[calc(100%_-_140px)] overflow-y-auto rounded'>
 					<table className='border-b border-green-900'>
 						<thead>
-							<tr className='bg-emerald-700'>
-								<th className='border-r border-green-900 '>Name</th>
-								<th className='border-r border-green-900'>Is completed</th>
+							<tr className='bg-emerald-700 px-2 py-1'>
+								<th className='border-r border-green-900  px-2 py-1 capitalize'>Name</th>
+								<th className='border-r border-green-900 px-2 py-1 capitalize'>Is completed</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -182,13 +182,13 @@ const PersonRow: FC<{ person: Person, index: number, removeFromList: (index: num
 
 	return (
 		<tr className="h-12 last:border-none border-b border-green-900/50">
-			<td className='text-center border-r border-green-900'>
+			<td className='text-center border-r border-green-900 px-2  capitalize'>
 				{person.name}
 			</td>
 			<td className='text-center border-r border-green-900'>
-				<input onChange={() => toggleCompleteState(index)} type="checkbox" name="isCompleted" checked={person.isCompleted} />
+				<input onChange={() => toggleCompleteState(index)} type="checkbox" name="isCompleted" className='aspect-square h-6' checked={person.isCompleted} />
 			</td>
-			<td onClick={() => removeFromList(index)} className='flex h-12 justify-center items-center text-red-700 hover:text-red-500 cursor-pointer'>
+			<td onClick={() => removeFromList(index)} className='text-3xl px-2 flex h-12 justify-center items-center text-red-700 hover:text-red-500 cursor-pointer'>
 				<FiDelete />
 			</td>
 		</tr>
