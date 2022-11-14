@@ -1,4 +1,4 @@
-import type { ChangeEvent, Dispatch, FC, MouseEvent, SetStateAction } from 'react';
+import type { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { AiFillDelete } from 'react-icons/ai';
 import { BiExport, BiImport } from 'react-icons/bi';
@@ -45,7 +45,9 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 	}
 
 	const addPersonToList = (person: Person) => {
+
 		currentList.people.push(person)
+		currentList.people = currentList.people.sort((a, b) => a.name.localeCompare(b.name))
 		setCurrentList({ ...currentList })
 	}
 	const removePersonFromList = (i: number) => {
