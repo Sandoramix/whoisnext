@@ -1,16 +1,17 @@
 
-import type { Dispatch, FC, SetStateAction } from 'react';
+import { randomBytes } from 'crypto';
+import type { FC } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BiImport } from 'react-icons/bi';
-
-import type { ListItem } from '../types';
+import { useLists } from '../lib/ListsContext';
+import type { ListItem, Person } from '../types';
 
 type CreateListProps = {
-	setLists: Dispatch<SetStateAction<ListItem[]>>
 	closeView: () => void,
 }
-const CreateList: FC<CreateListProps> = ({ closeView, setLists }) => {
 
+const CreateList: FC<CreateListProps> = ({ closeView }) => {
+	const { setLists } = useLists();
 	const titleInputRef = useRef<HTMLInputElement>(null);
 	const peopleTextareaRef = useRef<HTMLTextAreaElement>(null);
 	const usersFileRef = useRef<HTMLInputElement>(null)
@@ -73,13 +74,15 @@ const CreateList: FC<CreateListProps> = ({ closeView, setLists }) => {
 		if (!isPeopleNamesValid || !isTitleValid) return;
 
 		setLists(prev => {
-			return [
-				...prev,
-				{
-					title, people: peopleNames.map((name) => {
-						return { name, isCompleted: false }
-					})
-				}]
+			const newList: ListItem = {
+				title, people: [], peopleIndex: -1
+			}
+
+			peopleNames.forEach(name => {
+				newList.peopleIndex++
+				newList.people.push({ id: newList.peopleIndex, name, isCompleted: false })
+			})
+			return [...prev, newList]
 		})
 		closeView();
 	}
