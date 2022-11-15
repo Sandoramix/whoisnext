@@ -1,29 +1,34 @@
-import type { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { randomBytes } from 'crypto';
+import type { ChangeEvent, FC } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { AiFillDelete } from 'react-icons/ai';
 import { BiExport, BiImport } from 'react-icons/bi';
 import { FiDelete } from 'react-icons/fi';
+import { useLists } from '../lib/ListsContext';
 import type { ListItem, Person } from '../types';
 import LayerOver from './layerOver';
 
 
 type ListDetailsProps = {
-	lists: ListItem[],
-	setLists: Dispatch<SetStateAction<ListItem[]>>
 	currentListIndex: number,
 	closeView: () => void,
 }
-const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists, setLists }) => {
+const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, }) => {
+	const { lists, setLists, } = useLists();
+
 	const [currentList, setCurrentList] = useState(lists[currentListIndex])
 
 	const newNameRef = useRef<HTMLInputElement>(null)
 	const [newNameIsEmpty, setNewNameIsEmpty] = useState(true)
 	const [deletePopupShowing, setDeletePopupShowing] = useState(false)
 
+
 	useEffect(() => {
 		setLists(prev => {
-			if (!currentList) return prev;
+			if (!prev) return prev;
 			const newLists = prev;
+			if (!currentList) return prev;
+
 			newLists[currentListIndex] = currentList;
 
 			return [...newLists]
@@ -38,25 +43,35 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 
 
 	const onTitleChange = (ev: ChangeEvent<HTMLInputElement>) => {
-		setCurrentList(prev => { return !prev ? prev : { title: ev.target.title, people: prev.people } })
-	}
-
-	const addPersonToList = (person: Person) => {
 		setCurrentList(prev => {
 			if (!prev) return prev;
-			const newList = prev;
-			newList.people.push(person)
-			newList.people = newList.people.sort((a, b) => a.name.localeCompare(b.name))
+			const newList = prev
+			newList.title = ev.target.value;
+
+			return { ...newList }
+		})
+	}
+
+	const addPersonToList = (name: string) => {
+		setCurrentList(prev => {
+			if (!prev) return prev;
+			const newList = { ...prev };
+
+			const personExists = newList.people.find(p => p.name === name)
+			if (personExists) return prev;
+			newList.peopleIndex++;
+
+			newList.people = [...newList.people, { id: newList.peopleIndex, name, isCompleted: false }]
 			return { ...newList }
 		})
 
 	}
-	const removePersonFromList = (i: number) => {
+	const removeFromList = (person: Person) => {
 		setCurrentList(prev => {
 			if (!prev) return prev;
-			const newList = prev;
+			const newList = { ...prev };
+			newList.people = newList.people.filter(p => p.id !== person.id);
 
-			newList.people = newList.people.filter((person, index) => index !== i);
 			return { ...newList };
 		})
 
@@ -67,22 +82,25 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 
 		const name = newNameRef.current.value.trim() ?? "";
 		if (name === '') return;
-		addPersonToList({ name, isCompleted: false })
+		addPersonToList(name)
 		newNameRef.current.value = ``
 	}
 
-	const togglePersonCompleteState = (personIndex: number) => {
+	const togglePersonCompleteState = (person: Person) => {
 
 		setCurrentList(prev => {
 			if (!prev) return prev;
-			const newList = prev;
+			const newList = { ...prev };
 
-			const newPerson = newList.people[personIndex]
-			if (!newPerson) return prev;
+			newList.people = newList.people.map(p => {
+				if (p.id === person.id) p.isCompleted = !p.isCompleted;
 
-			newPerson.isCompleted = !newPerson.isCompleted
-			newList.people[personIndex] = newPerson
+				return p;
+			})
+
+
 			return { ...newList }
+
 		})
 
 	}
@@ -91,7 +109,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 		closeView();
 	}
 
-	const deleteList = () => {
+	const deleteThisList = () => {
 		setLists(prev => prev.filter((list, index) => index !== currentListIndex))
 		onCloseClick();
 	}
@@ -112,14 +130,14 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 						<div className='flex gap-2'>
 							<button
 								onClick={() => setDeletePopupShowing(false)}
-								className=' rounded px-2 py-1 bg-red-700 hover:bg-red-800 text-xl'
+								className=' rounded px-2 py-1 bg-green-800 hover:bg-green-900 text-xl'
 							>
 								Cancel
 							</button>
 
 							<button
-								className='rounded px-2 py-1 bg-green-800 hover:bg-green-900 text-xl'
-								onClick={deleteList}
+								className='rounded px-2 py-1 bg-red-700 hover:bg-red-800 text-xl'
+								onClick={deleteThisList}
 							>
 								Remove
 							</button>
@@ -133,7 +151,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 				className="focus:animate-none animate-semipulse font-serif whitespace-nowrap font-bold text-[#00ffee] [text-shadow:_2px_2px_5px_#080] text-3xl absolute -top-5 left-1/2 -translate-x-1/2 bg-transparent outline-none focus:outline-none text-center w-10/12"
 				value={currentList.title}
 				maxLength={50}
-				onChange={onTitleChange}
+				onInput={onTitleChange}
 			/>
 			<div className='absolute top-2 right-2 text-4xl'>
 				<AiFillDelete className='cursor-pointer hover:text-red-500 text-red-700 ' onClick={() => setDeletePopupShowing(true)} />
@@ -161,6 +179,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 						}}
 					/>
 					<button
+						type='button'
 						onClick={onAddUserClick}
 						className=' disabled:bg-slate-800 disabled:text-slate-400 disabled:cursor-not-allowed whitespace-nowrap bg-[#ff9900] hover:bg-[#e98904] px-3 py-2 w-fit rounded'
 						disabled={newNameIsEmpty}
@@ -181,9 +200,9 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 						</tr>
 					</thead>
 					<tbody>
-						{currentList.people.map(
+						{currentList.people.sort((a, b) => a.name.localeCompare(b.name)).map(
 							(person, i) =>
-								<PersonRow key={i} index={i} person={person} removeFromList={removePersonFromList} toggleCompleteState={togglePersonCompleteState} />
+								<PersonRow key={i} person={person} removeFromList={() => removeFromList(person)} toggleCompleteState={() => togglePersonCompleteState(person)} />
 						)}
 					</tbody>
 				</table>
@@ -213,7 +232,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, lists,
 }
 
 
-const PersonRow: FC<{ person: Person, index: number, removeFromList: (index: number) => void, toggleCompleteState: (index: number) => void }> = ({ person, index, removeFromList, toggleCompleteState }) => {
+const PersonRow: FC<{ person: Person, removeFromList: () => void, toggleCompleteState: () => void }> = ({ person, removeFromList, toggleCompleteState }) => {
 
 
 	return (
@@ -222,9 +241,9 @@ const PersonRow: FC<{ person: Person, index: number, removeFromList: (index: num
 				{person.name}
 			</td>
 			<td className='text-center border-r border-green-900'>
-				<input onChange={() => toggleCompleteState(index)} type="checkbox" name="isCompleted" className='aspect-square h-6' checked={person.isCompleted} />
+				<input onChange={toggleCompleteState} type="checkbox" name="isCompleted" className='aspect-square h-6' checked={person.isCompleted} />
 			</td>
-			<td onClick={() => removeFromList(index)} className='text-3xl px-2 flex h-12 justify-center items-center text-red-700 hover:text-red-500 cursor-pointer'>
+			<td onClick={removeFromList} className='text-3xl px-2 flex h-12 justify-center items-center text-red-700 hover:text-red-500 cursor-pointer'>
 				<FiDelete />
 			</td>
 		</tr>
