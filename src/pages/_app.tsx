@@ -3,6 +3,7 @@ import Head from "next/head";
 
 import Link from 'next/link';
 import { useRouter } from "next/router";
+import { ListsProvider } from "../lib/ListsContext";
 import "../styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
@@ -32,7 +33,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         </header>
 
         <main className="max-h-[calc(100vh_-_90px)] h-[calc(100vh_-_90px)] w-full ">
-          <Component {...pageProps} />
+          <ListsProvider>
+            <Component {...pageProps} />
+          </ListsProvider>
         </main>
       </div>
     </>
