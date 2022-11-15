@@ -1,47 +1,25 @@
 import type { Dispatch, SetStateAction } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { AiOutlineEdit } from 'react-icons/ai';
 import CreateList from "../components/CreateList";
 import LayerOver from "../components/layerOver";
 import ListDetails from "../components/ListDetails";
 
+import { useLists } from '../lib/ListsContext';
 import { ListItem } from '../types';
-import { getListsFromLS } from '../utils/localStorage';
 
-export const LS_NAMES = {
-	lists: `allLists`
-}
 
 
 export default function ListsPage() {
 
-	const [lists, setLists] = useState<ListItem[]>([])
+	const { lists } = useLists();
 	const [openedListIndex, setOpenedListIndex] = useState<number | null>(null)
 	const [createListPanelOpened, setCreateListPanelOpened] = useState(false)
 
 
-	const update_LS_Timeout = useRef<NodeJS.Timeout>()
-	useEffect(() => {
-		clearTimeout(update_LS_Timeout.current)
-		update_LS_Timeout.current = setTimeout(() => localStorage.setItem(LS_NAMES.lists, JSON.stringify(lists)), 1000)
-	}, [lists])
-
-
-	useEffect(() => {
-		setLists(getListsFromLS())
-	}, [])
-
 	const closeListDetails = () => {
 		setOpenedListIndex(null)
 	}
-
-
-
-
-
-
-
-
 
 
 	return (
@@ -65,11 +43,11 @@ export default function ListsPage() {
 
 			{
 				createListPanelOpened ? <LayerOver closeView={() => setCreateListPanelOpened(false)}>
-					<CreateList closeView={() => setCreateListPanelOpened(false)} setLists={setLists} />
+					<CreateList closeView={() => setCreateListPanelOpened(false)} />
 				</LayerOver>
 					: openedListIndex !== null && <LayerOver closeView={closeListDetails}>
 						<ListDetails
-							lists={lists} setLists={setLists} currentListIndex={openedListIndex}
+							currentListIndex={openedListIndex}
 							closeView={closeListDetails}
 						/>
 					</LayerOver>
