@@ -58,10 +58,7 @@ const CreateList: FC<CreateListProps> = ({ closeView, setLists }) => {
 		onPeopleInput();
 	}
 	const onPeopleInput = () => {
-		const people = peopleTextareaRef.current?.textContent?.trim()?.split(`\n`);
-		console.log(peopleTextareaRef.current?.textContent?.trim());
-		console.log(people);
-
+		const people = peopleTextareaRef.current?.value?.trim()?.split(`\n`);
 		setPeopleNames(people ?? [])
 	}
 
