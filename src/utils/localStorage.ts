@@ -1,8 +1,9 @@
 import { z } from "zod"
 import { DB } from "../lib/ListsContext"
-import type { ListItem } from "../types"
+import type { List } from "../types"
 
 const listsValidator = z.array(z.object({
+	id: z.string().uuid(),
 	title: z.string(),
 	peopleIndex: z.number(),
 	people: z.array(z.object({
@@ -13,7 +14,7 @@ const listsValidator = z.array(z.object({
 }))
 
 
-export const getListsFromLS = (): ListItem[] => {
+export const getListsFromLS = (): List[] => {
 	const parsed = JSON.parse(localStorage.getItem(DB.lists) ?? '[]')
 	return listsValidator.safeParse(parsed).success ? parsed : []
 }

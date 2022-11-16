@@ -1,4 +1,5 @@
-export type ListItem = {
+export type List = {
+	id: string,
 	peopleIndex: number,
 	title: string,
 	people: Person[]
