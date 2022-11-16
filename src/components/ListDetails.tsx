@@ -153,13 +153,14 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, }) => 
 				maxLength={50}
 				onInput={onTitleChange}
 			/>
-			<div className='absolute top-2 right-2 text-4xl'>
-				<AiFillDelete className='cursor-pointer hover:text-red-500 text-red-700 ' onClick={() => setDeletePopupShowing(true)} />
+			<div className='absolute top-2 right-1 text-4xl flex'>
+				<BiImport className='text-emerald-500 hover:text-emerald-600 cursor-not-allowed' />
+				<BiExport className='text-cyan-600 hover:text-cyan-700 cursor-not-allowed' />
 			</div>
 
-			<header className="max-h-[80px] h-[80px] flex justify-center text-sm">
+			<div className="max-h-[80px] h-[80px] flex justify-center text-sm pt-10">
 
-				<div className="flex justify-center items-center gap-2 w-3/4">
+				<div className="flex justify-center items-center gap-2 w-3/4 bg-white focus-within:outline-double outline-white h-10 rounded">
 					<input
 						onChange={(ev) => {
 							const val = ev.target.value.trim();
@@ -170,7 +171,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, }) => 
 						name="name"
 						id="name"
 						ref={newNameRef}
-						className="px-2 text-black h-10 w-10/12 rounded placeholder:text-center placeholder:uppercase"
+						className="px-2 text-black h-10 w-full rounded placeholder:text-center placeholder:uppercase ring-0 focus:outline-none bg-transparent "
 						placeholder='Name'
 						onKeyUp={(ev) => {
 							if (ev.key.toLowerCase() === "enter") {
@@ -181,25 +182,27 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, }) => 
 					<button
 						type='button'
 						onClick={onAddUserClick}
-						className=' disabled:bg-slate-800 disabled:text-slate-400 disabled:cursor-not-allowed whitespace-nowrap bg-[#ff9900] hover:bg-[#e98904] px-3 py-2 w-fit rounded'
+						className=' h-full disabled:bg-zinc-700 disabled:text-slate-400 disabled:cursor-not-allowed whitespace-nowrap bg-[#ff9900] hover:bg-[#e98904] px-3 py-2 w-fit rounded rounded-l-none'
 						disabled={newNameIsEmpty}
 					>
 						Add User
 					</button>
 				</div>
 
-			</header>
+			</div>
+
 
 			<div className='grow w-full flex flex-col bg-black max-h-[calc(100%_-_140px)] h-[calc(100%_-_140px)] overflow-y-auto rounded'>
+
 				<table className='border-b border-green-900'>
 					<thead>
-						<tr className='bg-emerald-700 px-2 py-1'>
-							<th className='border-r border-green-900  px-2 py-1 capitalize'>Name</th>
-							<th className='border-r border-green-900 px-2 py-1 capitalize'>Is completed</th>
+						<tr className='bg-emerald-700 '>
+							<th className='border-r border-green-900 px-1 py-0 capitalize'>Name</th>
+							<th className='border-r border-green-900 px-1 py-0 capitalize'>Is completed</th>
 							<th></th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody className=''>
 						{currentList.people.sort((a, b) => a.name.localeCompare(b.name)).map(
 							(person, i) =>
 								<PersonRow key={i} person={person} removeFromList={() => removeFromList(person)} toggleCompleteState={() => togglePersonCompleteState(person)} />
@@ -208,16 +211,20 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, }) => 
 				</table>
 			</div>
 
-			<footer className="max-h-[50px] h-[50px] flex justify-between items-center">
-				<div className='flex text-5xl gap-2 '>
-					<BiImport className='text-emerald-500 hover:text-emerald-600 cursor-not-allowed' />
-					<BiExport className='text-cyan-600 hover:text-cyan-700 cursor-not-allowed' />
+
+
+
+			<footer className="max-h-[50px] h-[50px] flex justify-between items-center text-base">
+
+				<div className='flex text-4xl gap-2 '>
+					<AiFillDelete className='cursor-pointer hover:text-red-500 text-red-700 ' onClick={() => setDeletePopupShowing(true)} />
+
 				</div>
 
 				<div className='flex gap-4 justify-end'>
 
 					<button
-						className='rounded px-4 py-3 bg-green-800 hover:bg-green-900 min-w-[90px] text-xl'
+						className='rounded px-4 py-3 bg-green-800 hover:bg-green-900 min-w-[90px]'
 						onClick={onCloseClick}
 					>
 						Close
@@ -236,14 +243,14 @@ const PersonRow: FC<{ person: Person, removeFromList: () => void, toggleComplete
 
 
 	return (
-		<tr className="h-12 last:border-none border-b border-green-900/50">
-			<td className='text-center border-r border-green-900 px-2  capitalize'>
+		<tr className="h-12 last:border-none border-b  border-green-900/50">
+			<td className='text-center border-r border-l border-green-900 px-2  capitalize'>
 				{person.name}
 			</td>
 			<td className='text-center border-r border-green-900'>
 				<input onChange={toggleCompleteState} type="checkbox" name="isCompleted" className='aspect-square h-6' checked={person.isCompleted} />
 			</td>
-			<td onClick={removeFromList} className='text-3xl px-2 flex h-12 justify-center items-center text-red-700 hover:text-red-500 cursor-pointer'>
+			<td onClick={removeFromList} className='text-3xl px-2 flex h-12 justify-center items-center text-red-700 hover:text-red-500 cursor-pointer border-r border-green-900 '>
 				<FiDelete />
 			</td>
 		</tr>
