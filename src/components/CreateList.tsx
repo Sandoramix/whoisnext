@@ -1,17 +1,14 @@
-
-import { randomBytes } from 'crypto';
 import type { FC } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BiImport } from 'react-icons/bi';
 import { useLists } from '../lib/ListsContext';
-import type { ListItem, Person } from '../types';
 
 type CreateListProps = {
 	closeView: () => void,
 }
 
 const CreateList: FC<CreateListProps> = ({ closeView }) => {
-	const { setLists } = useLists();
+	const { addList } = useLists();
 	const titleInputRef = useRef<HTMLInputElement>(null);
 	const peopleTextareaRef = useRef<HTMLTextAreaElement>(null);
 	const usersFileRef = useRef<HTMLInputElement>(null)
@@ -44,23 +41,29 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 			console.warn(`Please select a file before clicking 'Load'`);
 			return
 		}
-		//TODO file size limit, check if it is an txt or not.
-
+		//TODO file size limit.
+		//file.size 1024 / 1024 + "MiB"
 
 		const rawData = await file.arrayBuffer();
 		const plaintext = new TextDecoder().decode(rawData)
+
 		//TODO VALIDATE text
 		const people = plaintext.trim()
 		if (people.length === 0) return;
 
-		if (!peopleTextareaRef.current) return
-		peopleTextareaRef.current.textContent = plaintext;
+		usersFileRef.current.value = ``
 
-		onPeopleInput();
+		onPeopleInput(people);
 	}
-	const onPeopleInput = () => {
-		const people = peopleTextareaRef.current?.value?.trim()?.split(`\n`);
-		setPeopleNames(people ?? [])
+	const onPeopleInput = (plaintext?: string) => {
+		const people = plaintext ?? peopleTextareaRef.current?.value
+
+		if (people?.trim() === `` || !people) return;
+		const peopleList = people.split(`\n`).filter(name => name.trim() !== ``);
+		setPeopleNames(peopleList)
+
+		if (!peopleTextareaRef.current) return
+		peopleTextareaRef.current.value = people
 	}
 
 
@@ -73,17 +76,8 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 
 		if (!isPeopleNamesValid || !isTitleValid) return;
 
-		setLists(prev => {
-			const newList: ListItem = {
-				title, people: [], peopleIndex: -1
-			}
+		addList(title, peopleNames)
 
-			peopleNames.forEach(name => {
-				newList.peopleIndex++
-				newList.people.push({ id: newList.peopleIndex, name, isCompleted: false })
-			})
-			return [...prev, newList]
-		})
 		closeView();
 	}
 
@@ -100,11 +94,11 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 				noValidate
 				onSubmit={onFormSubmit}
 
-				className='flex flex-col gap-4 justify-center items-center'>
+				className='flex flex-col items-center justify-center gap-4'>
 				<div className='mt-6' />
-				<div className='w-full flex flex-col justify-center items-center'>
-					<label htmlFor="title" className='text-2xl font-bold uppercase text-gray-200'>Title </label>
-					<span className='text-gray-300 text-sm'>(max 20 chars)</span>
+				<div className='flex flex-col items-center justify-center w-full'>
+					<label htmlFor="title" className='text-2xl font-bold text-gray-200 uppercase'>Title </label>
+					<span className='text-sm text-gray-300'>(max 20 chars)</span>
 					<input
 						type="text"
 						name="title"
@@ -120,19 +114,19 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 				</div>
 
 
-				<div className='w-full flex flex-col justify-center items-center'>
-					<div className='w-full flex flex-col'>
-						<label htmlFor="users" className='text-2xl font-bold uppercase text-gray-200'>Users </label>
-						<span className='text-gray-300 text-sm'>(one per line)</span>
+				<div className='flex flex-col items-center justify-center w-full'>
+					<div className='flex flex-col w-full'>
+						<label htmlFor="users" className='text-2xl font-bold text-gray-200 uppercase'>Users </label>
+						<span className='text-sm text-gray-300'>(one per line)</span>
 						<textarea
 							name="users"
 							id="users"
 							autoComplete="off"
 							rows={5}
-							onInput={onPeopleInput}
-							onChange={onPeopleInput}
+							onInput={() => onPeopleInput()}
+
 							ref={peopleTextareaRef}
-							className={`text-black w-full ${isPeopleNamesValid ? `` : `border border-red-500`}`}
+							className={`text-black w-full ${isPeopleNamesValid ? `` : `border border-red-500`} px-2 py-1`}
 							placeholder={`E.g.
 Marco
 Sophie
@@ -145,11 +139,11 @@ Sophie
 
 
 					<div className='w-full '>
-						<label htmlFor="usersFile" className='flex relative min-w-fit bg-cyan-900 hover:bg-cyan-800 cursor-pointer rounded-sm whitespace-nowrap w-1/3 mx-auto px-2 py-1 gap-2 justify-center items-center'>
+						<label htmlFor="usersFile" className='relative flex items-center justify-center w-1/3 gap-2 px-2 py-1 mx-auto rounded-sm cursor-pointer min-w-fit bg-cyan-900 hover:bg-cyan-800 whitespace-nowrap'>
 							<BiImport className='text-slate-200 hover:text-slate-300' />
 							<span>Import from file</span>
 						</label>
-						<input ref={usersFileRef} type="file" name="text" id="usersFile" className='sr-only' onInput={onUsersFileUpload} />
+						<input ref={usersFileRef} type="file" name="text" id="usersFile" className='sr-only' accept='.txt' size={1024} onInput={onUsersFileUpload} />
 					</div>
 				</div>
 
