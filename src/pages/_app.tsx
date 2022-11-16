@@ -17,7 +17,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <link rel="icon" href="/logo.png" />
       </Head>
 
-      <div className="w-screen h-screen bg-black text-white font-main text-base relative">
+      <div className="w-screen min-h-[600px] overflow-x-hidden h-screen bg-black text-white font-main text-base relative">
         <header className="overflow-hidden bg-[#000718]/50 w-full  max-h-[90px] min-h-[90px] grid-flow-col grid grid-cols-3 justify-center items-center  text-center  border-b border-cyan-800/20 font-sub">
 
           <Link href={`/lists`} className="px-4 py-1 min-w-fit hover:text-[#05c8cf] hover:text-xl transition-all duration-300 text-center ">

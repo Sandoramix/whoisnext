@@ -195,7 +195,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListIndex, }) => 
 			<div className='grow w-full flex flex-col bg-black max-h-[calc(100%_-_140px)] h-[calc(100%_-_140px)] overflow-y-auto rounded'>
 
 				<table className='border-b border-green-900'>
-					<thead>
+					<thead className='sticky top-0 left-0'>
 						<tr className='bg-emerald-700 '>
 							<th className='border-r border-green-900 px-1 py-0 capitalize'>Name</th>
 							<th className='border-r border-green-900 px-1 py-0 capitalize'>Is completed</th>
