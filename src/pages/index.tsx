@@ -4,7 +4,7 @@ const Home: NextPage = () => {
   return (
     <>
       <div className="w-full h-full">
-        Home Page
+        <h1 className="flex items-center justify-center w-full h-full text-2xl font-sub">I&apos;m being implemented...</h1>
       </div>
     </>
   );
