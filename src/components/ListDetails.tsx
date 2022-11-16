@@ -61,7 +61,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 			<DeletePopup visible={deletePopupShowing} setVisible={setDeletePopupShowing} onDeleteConfirm={onListDeleteConfirm} />
 
 			<input
-				className="focus:animate-none animate-semipulse font-serif whitespace-nowrap font-bold text-[#00ffee] [text-shadow:_2px_2px_5px_#080] text-3xl absolute -top-5 left-1/2 -translate-x-1/2 bg-transparent outline-none focus:outline-none text-center w-10/12"
+				className="focus:animate-none focus:text-yellow-500 focus:border-b focus:border-yellow-400/30 focus:[text-shadow:_2px_2px_5px_#880] animate-semipulse font-serif whitespace-nowrap font-bold text-[#00ffee] [text-shadow:_2px_2px_5px_#080] text-3xl absolute -top-5 left-1/2 -translate-x-1/2 bg-transparent outline-none focus:outline-none text-center w-3/4"
 				value={currentList.title}
 				maxLength={50}
 				onInput={onTitleInput}
