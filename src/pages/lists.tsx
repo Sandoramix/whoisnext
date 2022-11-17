@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { AiOutlineEdit } from 'react-icons/ai';
-import CreateList from "../components/CreateList";
 import LayerOver from "../components/layerOver";
-import ListDetails from "../components/ListDetails";
+import CreateList from "../components/listsPage/CreateList";
+import ListDetails from "../components/listsPage/ListDetails";
 
 import { useLists } from '../lib/ListsContext';
 import { List } from '../types';

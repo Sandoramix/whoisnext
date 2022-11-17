@@ -23,7 +23,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           <Link href={`/lists`} className="px-4 py-1 min-w-fit hover:text-[#05c8cf] hover:text-xl transition-all duration-300 text-center ">
             <h1 className={pathname == `/lists` ? `text-[#0fffbf] [text-shadow:_2px_2px_5px_#080]` : ``}>Lists</h1>
           </Link>
-          <Link href={`/`} className="px-4 py-1 min-w-fit hover:text-[#05c8cf] hover:text-xl transition-all duration-300 text-center">
+          <Link href={`/pick`} className="px-4 py-1 min-w-fit hover:text-[#05c8cf] hover:text-xl transition-all duration-300 text-center">
             <h1 className={pathname == `/` ? `text-[#0fffbf] [text-shadow:_2px_2px_5px_#080]` : ``}>Random <br className="block" />Pick</h1>
           </Link>
           <Link href={`/calendar`} className="px-4 py-1 min-w-fit hover:text-[#05c8cf] hover:text-xl transition-all duration-300 text-center">
@@ -32,7 +32,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 
         </header>
 
-        <main className="max-h-[calc(100vh_-_90px)] h-[calc(100vh_-_90px)] w-full ">
+        <main className="max-h-[calc(100vh_-_90px)] h-[calc(100vh_-_90px)] w-full text-white">
           <ListsProvider>
             <Component {...pageProps} />
           </ListsProvider>
