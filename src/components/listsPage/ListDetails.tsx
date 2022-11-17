@@ -1,11 +1,11 @@
 import type { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
 import { useMemo, useRef, useState } from 'react';
 import { AiFillDelete } from 'react-icons/ai';
-import { BiExport, BiImport } from 'react-icons/bi';
+import { BiExport } from 'react-icons/bi';
 import { FiDelete } from 'react-icons/fi';
-import { useLists } from '../lib/ListsContext';
-import type { Person } from '../types';
-import LayerOver from './layerOver';
+import { useLists } from '../../lib/ListsContext';
+import type { Person } from '../../types';
+import LayerOver from '../layerOver';
 
 
 type ListDetailsProps = {
@@ -67,7 +67,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 				onInput={onTitleInput}
 			/>
 			<div className='absolute flex text-4xl top-2 right-1'>
-				<BiImport className='cursor-not-allowed text-emerald-500 hover:text-emerald-600' />
+				{/* <BiImport className='cursor-not-allowed text-emerald-500 hover:text-emerald-600' /> */}
 				<BiExport className='cursor-not-allowed text-cyan-600 hover:text-cyan-700' />
 			</div>
 

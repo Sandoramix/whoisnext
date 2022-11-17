@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BiImport } from 'react-icons/bi';
-import { useLists } from '../lib/ListsContext';
+import { useLists } from '../../lib/ListsContext';
 
 type CreateListProps = {
 	closeView: () => void,
