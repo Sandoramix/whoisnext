@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 
-const Calendar: NextPage = () => {
+const CalendarPage: NextPage = () => {
 	return (
 		<>
 			<div className="w-full h-full">
@@ -10,5 +10,5 @@ const Calendar: NextPage = () => {
 	);
 };
 
-export default Calendar;
+export default CalendarPage;
 

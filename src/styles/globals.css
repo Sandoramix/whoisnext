@@ -23,8 +23,8 @@
 }
 
 :root {
-  --scrollbar-width: 8px;
-  --scrollbar-height: 8px;
+  --scrollbar-width: 6px;
+  --scrollbar-height: 6px;
   --scrollbar-thumb-bradius: 1rem;
 }
 
@@ -42,6 +42,26 @@
   border-radius: var(--scrollbar-thumb-bradius);
   background-color: white;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* MUI CUSTOMIZATIONS */
+.MuiTextField-root svg {
+  fill: whitesmoke;
+}
+
+.MuiTextField-root label {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.MuiTextField-root input {
+  color: white;
+}
+/* END */
 
 @media (max-width: 360px) {
   :root {
