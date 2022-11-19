@@ -61,6 +61,14 @@ input::-webkit-inner-spin-button {
 .MuiTextField-root input {
   color: white;
 }
+.MuiPopperUnstyled-root,
+.MuiPopperUnstyled-root > * {
+  color: white;
+  background: rgb(39, 38, 42);
+  border: 1px solid #ffffff3e;
+  border-top: none;
+}
+
 /* END */
 
 @media (max-width: 360px) {
