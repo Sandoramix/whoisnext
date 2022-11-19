@@ -3,6 +3,21 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      colors: {
+        cyemerald: {
+          100: "#cffff2",
+          200: "#9fffe5",
+          300: "#6fffd9",
+          400: "#3fffcc",
+          500: "#0fffbf",
+          600: "#0ccc99",
+          700: "#099973",
+          800: "#06664c",
+          900: "#033326"
+        },
+
+
+      },
       fontFamily: {
         'main': 'main',
         'sub': 'sub'
