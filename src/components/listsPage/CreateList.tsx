@@ -84,7 +84,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 	return (
 		<>
 			<h2
-				className='absolute -top-5 left-1/2 -translate-x-1/2 font-serif whitespace-nowrap font-bold text-[#00ffee] [text-shadow:_2px_2px_5px_#080] text-3xl'
+				className='absolute -top-5 left-1/2 -translate-x-1/2 font-serif whitespace-nowrap font-bold text-cyemerald-300 [text-shadow:_2px_2px_5px_#080] text-3xl'
 			>
 				Create new List
 			</h2>
