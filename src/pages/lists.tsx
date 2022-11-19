@@ -27,7 +27,7 @@ export default function ListsPage() {
 
 			<section className="flex justify-center w-full">
 				<button
-					className="px-6 py-2 bg-[#1f2e47] hover:bg-[#2c3f61]  rounded w-1/3 whitespace-nowrap"
+					className="px-6 py-2 bg-[#1d3155] hover:bg-[#2c3f61]  rounded w-1/3 whitespace-nowrap"
 					onClick={() => setCreateListPanelOpened(true)}
 				>Add List</button>
 			</section>
@@ -63,7 +63,7 @@ const List = ({ list, openThisList }: { list: List, openThisList: () => void }) 
 	}
 
 	return (
-		<li className="relative bg-[#000d22] overflow-visible rounded select-none">
+		<li className="relative bg-[#0b0031] overflow-visible rounded select-none">
 			<h2 className="absolute font-serif text-xl font-bold -translate-x-1/2 -top-4 left-1/2">{list.title}</h2>
 			<div className="flex justify-between min-h-[100px] items-center px-4 text-center">
 				<div className="text-sm text-gray-300">{list.people.length} <br />People</div>
