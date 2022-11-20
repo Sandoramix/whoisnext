@@ -3,15 +3,14 @@ import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import PickList from '../components/PickList';
 import QuantityInput from '../components/QuantityInput';
-import { useLists } from '../lib/ListsContext';
 import type { List, Person } from '../types';
 import { getPeopleCount } from '../utils/lists';
 
 
 
 const PickPage: NextPage = () => {
-	const { lists } = useLists();
-	const [ignoreCompleted, setIgnoreCompleted] = useState(false)
+
+	// const [ignoreCompleted, setIgnoreCompleted] = useState(false)
 
 	const [selectedList, setSelectedList] = useState<List | undefined>(undefined)
 
