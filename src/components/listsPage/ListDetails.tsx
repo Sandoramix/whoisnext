@@ -152,6 +152,30 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 }
 
 
+
+
+
+
+const PersonRow: FC<{ person: Person, removeFromList: () => void, toggleCompleteState: () => void }> = ({ person, removeFromList, toggleCompleteState }) => {
+
+
+	return (
+		<tr className="h-12 border-b last:border-none border-green-900/40">
+			<td className='px-2 text-center capitalize border-r border-green-900'>
+				{person.name}
+			</td>
+			<td className='text-center border-r border-green-900'>
+				<input onChange={toggleCompleteState} type="checkbox" name="isCompleted" className='h-6 aspect-square' checked={person.isCompleted} />
+			</td>
+			<td onClick={removeFromList} className='flex items-center justify-center h-12 px-2 text-3xl text-red-700 border-r border-green-900 cursor-pointer hover:text-red-500'>
+				<FiDelete />
+			</td>
+		</tr>
+	)
+}
+
+
+
 const DeletePopup: FC<{ visible: boolean, setVisible: Dispatch<SetStateAction<boolean>>, onDeleteConfirm: () => void }> = ({ visible, setVisible, onDeleteConfirm }) => {
 
 	if (!visible) return null;
@@ -185,27 +209,6 @@ const DeletePopup: FC<{ visible: boolean, setVisible: Dispatch<SetStateAction<bo
 			</div>
 		</div >
 	</LayerOver>
-}
-
-
-
-
-const PersonRow: FC<{ person: Person, removeFromList: () => void, toggleCompleteState: () => void }> = ({ person, removeFromList, toggleCompleteState }) => {
-
-
-	return (
-		<tr className="h-12 border-b last:border-none border-green-900/50">
-			<td className='px-2 text-center capitalize border-r border-green-900'>
-				{person.name}
-			</td>
-			<td className='text-center border-r border-green-900'>
-				<input onChange={toggleCompleteState} type="checkbox" name="isCompleted" className='h-6 aspect-square' checked={person.isCompleted} />
-			</td>
-			<td onClick={removeFromList} className='flex items-center justify-center h-12 px-2 text-3xl text-red-700 border-r border-green-900 cursor-pointer hover:text-red-500'>
-				<FiDelete />
-			</td>
-		</tr>
-	)
 }
 
 
