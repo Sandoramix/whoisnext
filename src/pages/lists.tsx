@@ -28,28 +28,34 @@ export default function ListsPage() {
 			<section className="flex justify-center w-full">
 				<button
 					className="px-6 py-2 bg-[#1d3155] hover:bg-[#2c3f61]  rounded w-1/3 whitespace-nowrap"
-					onClick={() => setCreateListPanelOpened(true)}
-				>Add List</button>
+					onClick={() => setCreateListPanelOpened(true)}>
+					Add List
+				</button>
 			</section>
 
 			<div className="pt-6" />
 
-			<div className="max-h-[calc(100vh_-_90px_-_2.5rem)] overflow-auto w-full flex flex-col justify-center items-center">
+			<div className="max-h-[calc(100vh_-_90px_-_2.5rem)] overflow-auto w-full flex flex-col justify-start items-center">
 				<ul className="flex flex-col w-10/12 gap-8 py-6 list-none">
 					{lists?.map((list, index) => <List openThisList={() => setOpenedListId(list.id)} list={list} key={index} />)}
 				</ul>
 			</div>
 
 			{
-				createListPanelOpened ? <LayerOver closeView={() => setCreateListPanelOpened(false)}>
+				createListPanelOpened
+				&& <LayerOver closeView={() => setCreateListPanelOpened(false)}>
 					<CreateList closeView={() => setCreateListPanelOpened(false)} />
 				</LayerOver>
-					: openedListId !== null && <LayerOver closeView={closeListDetails}>
-						<ListDetails
-							currentListId={openedListId}
-							closeView={closeListDetails}
-						/>
-					</LayerOver>
+			}
+
+			{
+				openedListId !== null
+				&& <LayerOver closeView={closeListDetails}>
+					<ListDetails
+						currentListId={openedListId}
+						closeView={closeListDetails}
+					/>
+				</LayerOver>
 			}
 
 		</div>
