@@ -61,12 +61,15 @@ input::-webkit-inner-spin-button {
 .MuiTextField-root input {
   color: white;
 }
+
+.MuiAutocomplete-listbox,
+.MuiAutocomplete-listbox ul {
+  padding: 0 !important;
+}
 .MuiPopperUnstyled-root,
 .MuiPopperUnstyled-root > * {
   color: white;
-  background: rgb(39, 38, 42);
-  border: 1px solid #ffffff3e;
-  border-top: none;
+  background: #1f1f1f;
 }
 
 /* END */
