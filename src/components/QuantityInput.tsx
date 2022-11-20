@@ -47,7 +47,7 @@ const QuantityInput: FC<QuantityInputProps> = ({ onChange, list, onlyIncompleteL
 
 
 	return (
-		<div id="quantity-input" className='relative w-3/4 max-w-xs h-14  min-w-[150px]  text-xl bg-white/10 px-[2ch] rounded focus-within:outline-white border border-white/20'>
+		<div id="quantity-input" className='relative w-3/4 max-w-xs h-14  min-w-[150px]  text-xl bg-white/10 px-[2ch] rounded focus-within:outline-white border border-white/10'>
 			<button className='absolute top-1/2 left-0 -translate-y-1/2 text-4xl font-bold text-red-600 hover:text-red-500 p-1 disabled:text-gray-500'
 				onClick={() => incrementQuantity(-1)}
 				disabled={!list}
