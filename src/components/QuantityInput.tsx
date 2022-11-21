@@ -23,8 +23,8 @@ const QuantityInput: FC<QuantityInputProps> = ({ onChange, list, onlyIncompleteL
 
 	function fixNumber(value: string) {
 		const quantity = parseInt(value);
-		if (!list || value.trim() === ``) return "";
-		return String((quantity < 1) ? 1 : (quantity > getPeopleCount(list, onlyIncompleteList)) ? getPeopleCount(list, onlyIncompleteList) : quantity)
+		if (!list || getPeopleCount(list, onlyIncompleteList) === 0 || value.trim() === ``) return "";
+		return String((quantity > getPeopleCount(list, onlyIncompleteList)) ? getPeopleCount(list, onlyIncompleteList) : (quantity < 1) ? 1 : quantity)
 	}
 
 	function onInputChange(ev: React.ChangeEvent<HTMLInputElement>) {
@@ -38,7 +38,7 @@ const QuantityInput: FC<QuantityInputProps> = ({ onChange, list, onlyIncompleteL
 		if (!inputRef.current) return;
 
 		const value = inputRef.current.value.trim();
-		const number = value === `` ? 0 : parseInt(value) + n;
+		const number = (value === `` ? 0 : parseInt(value)) + n;
 
 		const finalValue = fixNumber(number.toString())
 		onChange(finalValue)
@@ -50,10 +50,10 @@ const QuantityInput: FC<QuantityInputProps> = ({ onChange, list, onlyIncompleteL
 		<div id="quantity-input" className='relative w-3/4 max-w-xs h-14  min-w-[150px]  text-xl bg-white/10 px-[2ch] rounded focus-within:outline-white border border-white/10'>
 			<button className='absolute top-1/2 left-0 -translate-y-1/2 text-4xl font-bold text-red-600 hover:text-red-500 p-1 disabled:text-gray-500'
 				onClick={() => incrementQuantity(-1)}
-				disabled={!list}
+				disabled={!list || getPeopleCount(list, onlyIncompleteList) === 0}
 			>-</button>
 			<input
-				disabled={!list}
+				disabled={!list || getPeopleCount(list, onlyIncompleteList) === 0}
 				onChange={onInputChange}
 				onInput={onInputChange}
 				autoComplete="off"
@@ -66,7 +66,7 @@ const QuantityInput: FC<QuantityInputProps> = ({ onChange, list, onlyIncompleteL
 			/>
 			<button className='absolute top-1/2 right-0 -translate-y-1/2 text-4xl font-bold text-green-600 hover:text-green-500 p-1 disabled:text-gray-500'
 				onClick={() => incrementQuantity(1)}
-				disabled={!list}
+				disabled={!list || getPeopleCount(list, onlyIncompleteList) === 0}
 			>+</button>
 		</div>
 	)
