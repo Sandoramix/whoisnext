@@ -70,7 +70,7 @@ const List = ({ list, openThisList }: { list: List, openThisList: () => void }) 
 
 	return (
 		<li className="relative bg-[#0b0031] overflow-visible rounded select-none">
-			<h2 className="absolute font-serif text-xl font-bold -translate-x-1/2 -top-4 left-1/2">{list.title}</h2>
+			<h2 className="absolute font-serif text-xl font-bold -translate-x-1/2 -top-4 left-1/2 whitespace-nowrap ">{list.title}</h2>
 			<div className="flex justify-between min-h-[100px] items-center px-4 text-center">
 				<div className="text-sm text-gray-300">{list.people.length} <br />People</div>
 				<div className="text-sm text-emerald-400">{list.people.filter(p => p.isCompleted).length} <br />Completed</div>
