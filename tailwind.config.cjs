@@ -3,6 +3,14 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      maxHeight: {
+        header: '90px',
+        main: 'calc(100vh - 100px)'
+      },
+      height: {
+        header: '90px',
+        main: 'calc(100vh - 100px)'
+      },
       colors: {
         cyemerald: {
           100: "#cffff2",
@@ -19,8 +27,8 @@ module.exports = {
 
       },
       fontFamily: {
-        'main': 'main',
-        'sub': 'sub'
+        main: 'main',
+        sub: 'sub'
       },
       keyframes: {
 
@@ -31,7 +39,7 @@ module.exports = {
         }
       },
       animation: {
-        'semipulse': 'semipulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+        semipulse: 'semipulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
       }
     },
   },
