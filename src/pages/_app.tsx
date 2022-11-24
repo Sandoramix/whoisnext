@@ -18,7 +18,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       </Head>
 
       <div className="w-screen min-h-[600px] overflow-x-hidden h-screen bg-black text-white font-main text-base relative">
-        <header className="overflow-hidden bg-[#080015] w-full  max-h-[90px] min-h-[90px] grid-flow-col grid grid-cols-3 justify-center items-center  text-center  border-b border-cyan-800/30 font-sub">
+        <header className="overflow-hidden bg-[#080015] w-full max-h-header h-header grid-flow-col grid grid-cols-3 justify-center items-center text-center border-b border-cyan-800/30 font-sub">
 
           <Link href={`/lists`} className="px-4 py-1 min-w-fit hover:text-[#05c8cf] hover:text-xl transition-all duration-300 text-center ">
             <h1 className={pathname == `/lists` ? `text-cyemerald-400 [text-shadow:_2px_2px_5px_#080]` : ``}>Lists</h1>
@@ -32,11 +32,13 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 
         </header>
 
-        <main className="max-h-[calc(100vh_-_90px)] h-[calc(100vh_-_90px)] w-full text-white">
-          <ListsProvider>
+
+        <ListsProvider>
+          <main className="w-full text-white h-main max-h-main">
             <Component {...pageProps} />
-          </ListsProvider>
-        </main>
+          </main>
+        </ListsProvider>
+
       </div>
     </>
   );

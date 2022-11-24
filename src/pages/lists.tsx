@@ -35,7 +35,7 @@ export default function ListsPage() {
 
 			<div className="pt-6" />
 
-			<div className="max-h-[calc(100vh_-_90px_-_2.5rem)] overflow-auto w-full flex flex-col justify-start items-center">
+			<div className="flex flex-col items-center justify-start w-full overflow-auto max-h-main">
 				<ul className="flex flex-col w-10/12 gap-8 py-6 list-none">
 					{lists?.map((list, index) => <List openThisList={() => setOpenedListId(list.id)} list={list} key={index} />)}
 				</ul>
