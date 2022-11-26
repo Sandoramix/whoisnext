@@ -9,11 +9,12 @@ type QuantityInputProps = {
 	list?: List,
 	onlyIncompletePeople?: boolean,
 	setValue: (val: string) => void,
-	fullWidth?: boolean
+	fullWidth?: boolean,
+	children: JSX.Element | JSX.Element[]
 }
 
 
-const QuantityInput: FC<QuantityInputProps> = ({ setValue, list, onlyIncompletePeople, fullWidth }) => {
+const QuantityInput: FC<QuantityInputProps> = ({ setValue, list, onlyIncompletePeople, fullWidth, children }) => {
 	const inputRef = useRef<HTMLInputElement>(null)
 
 
@@ -52,27 +53,33 @@ const QuantityInput: FC<QuantityInputProps> = ({ setValue, list, onlyIncompleteP
 
 
 	return (
-		<div id="quantity-input" className={`relative ${fullWidth ? `w-full` : `w-1/2`} grow h-14  text-xl bg-white/10 px-[2ch] rounded focus-within:outline-white border border-white/10`}>
-			<button className='absolute left-0 p-1 text-4xl font-bold text-red-600 -translate-y-1/2 top-1/2 hover:text-red-500 disabled:text-gray-500'
-				onClick={() => incrementQuantity(-1)}
-				disabled={!list || peopleCount === 0}
-			>-</button>
-			<input
-				disabled={!list || peopleCount === 0}
-				onChange={onInputChange}
-				onInput={onInputChange}
-				autoComplete="off"
-				type="number"
-				name="name"
-				id="name"
-				ref={inputRef}
-				className="w-full h-full text-base text-center text-white bg-transparent placeholder:text-center placeholder:uppercase focus:outline-none disabled:line-through"
-				placeholder='Quantity'
-			/>
-			<button className='absolute right-0 p-1 text-4xl font-bold text-green-600 -translate-y-1/2 top-1/2 hover:text-green-500 disabled:text-gray-500'
-				onClick={() => incrementQuantity(1)}
-				disabled={!list || peopleCount === 0}
-			>+</button>
+		<div id="quantity-input__cnt" className={`relative ${fullWidth ? `w-full` : `min-w-[280px] md:min-w-[40%]`} grow min-h-[6rem] overflow-hidden  text-xl bg-white/10  rounded focus-within:outline-white border border-white/10 flex flex-col`}>
+			<div id="quantity-input" className='flex grow justify-center items-center relative h-full w-full px-[2ch]'>
+				<button className='absolute left-0 p-1 text-4xl font-bold text-red-600 -translate-y-1/2 top-1/2 hover:text-red-500 disabled:text-gray-500'
+					onClick={() => incrementQuantity(-1)}
+					disabled={!list || peopleCount === 0}
+				>-</button>
+				<input
+					disabled={!list || peopleCount === 0}
+					onChange={onInputChange}
+					onInput={onInputChange}
+					autoComplete="off"
+					type="number"
+					name="name"
+					id="name"
+					ref={inputRef}
+					className="w-full font-mono h-full text-base text-center text-white bg-transparent placeholder:text-center placeholder:uppercase focus:outline-none disabled:line-through"
+					placeholder='Quantity'
+				/>
+				<button className='absolute right-0 p-1 text-4xl font-bold text-green-600 -translate-y-1/2 top-1/2 hover:text-green-500 disabled:text-gray-500'
+					onClick={() => incrementQuantity(1)}
+					disabled={!list || peopleCount === 0}
+				>+</button>
+			</div>
+			<hr className='border-white/30' />
+			<div className='w-full flex justify-center items-center grow'>
+				{children}
+			</div>
 		</div>
 	)
 }

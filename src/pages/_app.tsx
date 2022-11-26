@@ -34,7 +34,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 
 
         <ListsProvider>
-          <main className="w-full text-white h-main max-h-main relative">
+          <main className="w-full text-white h-main max-h-main">
             <Component {...pageProps} />
           </main>
         </ListsProvider>

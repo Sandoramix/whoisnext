@@ -43,14 +43,16 @@ export default function ListsPage() {
 
 			{
 				createListPanelOpened
-				&& <LayerOver closeView={() => setCreateListPanelOpened(false)}>
+				&&
+				<LayerOver closeView={() => setCreateListPanelOpened(false)}>
 					<CreateList closeView={() => setCreateListPanelOpened(false)} />
 				</LayerOver>
 			}
 
 			{
 				openedListId !== null
-				&& <LayerOver closeView={closeListDetails}>
+				&&
+				<LayerOver closeView={closeListDetails}>
 					<ListDetails
 						currentListId={openedListId}
 						closeView={closeListDetails}

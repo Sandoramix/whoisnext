@@ -36,7 +36,7 @@ const PickList: FC<PickListProps> = ({ setSelectedList, onlyIncompletePeople, fu
 	return (
 		<Autocomplete
 			key={`autocomplete-list`}
-			className={`bg-[#021130] rounded text-white placeholder:text-white relative ${fullWidth ? `w-full` : `w-1/2`} grow border border-white/10`}
+			className={`h-full  bg-[#021130] rounded text-white placeholder:text-white relative ${fullWidth ? `w-full` : `min-w-[310px] md:min-w-[60%]`} grow border border-white/10`}
 			isOptionEqualToValue={(option, value) => value.id === option.id}
 			clearOnEscape
 			openOnFocus
@@ -74,7 +74,7 @@ const PickList: FC<PickListProps> = ({ setSelectedList, onlyIncompletePeople, fu
 
 			onChange={(ev, option) => setSelectedList(option?.list)}
 
-			renderInput={(params) => <TextField className='' key={`item-${params.id}`} {...params} color="info" label="List" />}
+			renderInput={(params) => <TextField className='h-full' key={`item-${params.id}`} {...params} color="info" label="List" />}
 		/>
 	)
 }

@@ -57,11 +57,11 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 
 
 	return (
-		<>
+		<div className='w-full h-full flex flex-col justify-between items-center'>
 			<DeletePopup visible={deletePopupShowing} setVisible={setDeletePopupShowing} onDeleteConfirm={onListDeleteConfirm} />
 
 			<input
-				className="focus:animate-none focus:text-yellow-500 focus:border-b focus:border-yellow-400/30 focus:[text-shadow:_2px_2px_5px_#880] animate-semipulse font-serif whitespace-nowrap font-bold text-[#00ffee] [text-shadow:_2px_2px_5px_#080] text-3xl absolute -top-5 left-1/2 -translate-x-1/2 bg-transparent outline-none focus:outline-none text-center w-3/4"
+				className=" focus:text-yellow-500 border-b border-white/20 focus:border-yellow-400/20 focus:[text-shadow:none] focus:bg-black/20 font-serif whitespace-nowrap font-bold text-[#6cfff5]  [text-shadow:_2px_2px_5px_#080] text-3xl absolute -top-5 left-1/2 -translate-x-1/2 bg-transparent outline-none focus:outline-none text-center w-3/4"
 				value={currentList.title}
 				maxLength={50}
 				onInput={onTitleInput}
@@ -73,7 +73,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 
 			<div className="max-h-[80px] h-[80px] flex justify-center text-sm pt-10">
 
-				<div className="flex items-center justify-center w-3/4 h-10 gap-2 bg-white rounded focus-within:outline-double outline-white">
+				<div className="flex items-center justify-center min-w-[80px] h-10 gap-2 bg-white rounded focus-within:outline-double outline-white">
 					<input
 						onChange={(ev) => {
 							const val = ev.target.value.trim();
@@ -105,11 +105,11 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 			</div>
 
 
-			<div className='grow w-full flex flex-col bg-black max-h-[calc(100%_-_140px)] h-[calc(100%_-_140px)] overflow-y-auto rounded border border-gray-900'>
+			<div className='grow flex flex-col bg-black max-h-[calc(100%_-_140px)] h-[calc(100%_-_140px)] min-w-[290px] w-10/12 overflow-y-auto rounded border border-gray-900'>
 
 				<table className=''>
 					<thead className='sticky top-0 left-0'>
-						<tr className='bg-emerald-700 '>
+						<tr className='bg-emerald-700 h-8'>
 							<th className='px-1 py-0 capitalize border-r border-green-900'>Name</th>
 							<th className='px-1 py-0 capitalize border-r border-green-900'>Is completed</th>
 							<th></th>
@@ -127,7 +127,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 
 
 
-			<footer className="max-h-[50px] h-[50px] flex justify-between items-center text-base">
+			<footer className="max-h-[50px] h-[50px] flex justify-between items-center text-base w-full">
 
 				<div className='flex gap-2 text-4xl '>
 					<AiFillDelete className='text-red-700 cursor-pointer hover:text-red-500 ' onClick={() => setDeletePopupShowing(true)} />
@@ -146,7 +146,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 				</div>
 
 			</footer>
-		</>
+		</div>
 
 	)
 }

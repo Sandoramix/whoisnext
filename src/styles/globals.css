@@ -66,18 +66,20 @@ input::-webkit-inner-spin-button {
 .MuiTextField-root input {
   color: white;
 }
+.MuiOutlinedInput-root{
+  height: 100%;
+}
 
 .MuiAutocomplete-listbox,
 .MuiAutocomplete-listbox ul {
   padding: 0 !important;
 }
-.MuiPopperUnstyled-root,
-.MuiPopperUnstyled-root > * {
+.MuiPopperUnstyled-root[role="presentation"] > * {
   color: white;
   background: #1f1f1f;
 }
 
-/* END */
+/* MEDIA QUERIES */
 
 @media (max-width: 360px) {
   :root {

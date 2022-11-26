@@ -34,7 +34,7 @@ module.exports = {
 
         'semipulse': {
           '50%': {
-            'opacity': 0.75
+            'opacity': 0.85
           }
         }
       },
