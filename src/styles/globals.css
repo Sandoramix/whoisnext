@@ -13,6 +13,11 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 @font-face {
   src: url("./fonts/Titania-Regular.ttf");
   font-family: "sub";

@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import type { FC } from 'react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import PickList from '../components/PickList';
 import QuantityInput from '../components/QuantityInput';
 import type { List, Person } from '../types';
@@ -31,26 +31,36 @@ const PickPage: NextPage = () => {
 	}, [quantity, selectedListPeopleLength])
 
 
-	return (
-		<div className="w-full h-full">
-			<div className='px-2 py-1 pt-2 w-full h-full min-w-[300px]'>
-				<header className='flex justify-center items-center'>
+	function updateSelectedList(list?: List) {
+		setQuantity("")
+		setSelectedList(list)
+	}
 
-					<PickList setSelectedList={setSelectedList} />
-					<QuantityInput list={selectedList} onChange={setQuantity} onlyIncompleteList />
+
+	return (
+		<div className="w-full full ">
+			<div className='flex flex-col w-full h-full gap-2 px-2 pt-2'>
+				<header className='flex items-center justify-center gap-1 px-1'>
+
+					<PickList setSelectedList={updateSelectedList} onlyIncompletePeople />
+					<QuantityInput list={selectedList} setValue={setQuantity} onlyIncompletePeople />
 				</header>
 
-				<RandomPicker isQuantityValid={isQuantityValid} quantity={quantity} list={selectedList} />
+				<RandomPicker isQuantityValid={isQuantityValid} quantity={quantity} list={selectedList} onlyIncompletePeople />
 
 			</div>
 		</div>
 	);
 };
 
-const RandomPicker: FC<{ list?: List, quantity: string, isQuantityValid: boolean }> = ({ list, quantity, isQuantityValid }) => {
+const RandomPicker: FC<{ list?: List, quantity: string, isQuantityValid: boolean, onlyIncompletePeople?: boolean }> = ({ list, quantity, isQuantityValid }) => {
 	const [extractedPeople, setExtractedPeople] = useState<Person[]>([])
 
 
+
+	useEffect(() => {
+		setExtractedPeople([])
+	}, [list])
 
 
 	function onPickBtnClick() {
@@ -73,40 +83,50 @@ const RandomPicker: FC<{ list?: List, quantity: string, isQuantityValid: boolean
 
 
 	return (
-		<div className=''>
-			<div className='py-1'></div>
-			<div className='w-full flex flex-col justify-center items-center gap-2'>
+		<div className='flex flex-col gap-2'>
+			<div className='flex flex-col items-center justify-center w-full'>
 				<button
 					disabled={!isQuantityValid || !list}
-					className='px-4 py-1 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-700 disabled:cursor-not-allowed rounded text-xl font-mono'
+					className='px-4 py-1 font-mono text-xl rounded bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-700 disabled:cursor-not-allowed'
 					onClick={onPickBtnClick}
 				>Pick</button>
 			</div>
 
-			<div className='py-1'></div>
-			<div className='flex flex-col grow overflow-y-auto max-h-96 relative rounded border-zinc-900/40 border'>
+
+			<div>
 				{extractedPeople.length > 0 && (
-					<table className='border-b border-x border-emerald-900'>
-						<thead className='sticky top-0 left-0'>
-							<tr className='bg-emerald-700 text-center'>
-								<td className='px-2 py-1'>N</td>
-								<td className='px-2 py-1 '>Name</td>
-							</tr>
-						</thead>
-						<tbody >
-							{
-								extractedPeople.map((person, index) => (
-									<tr key={index} className="last:border-none border-b border-green-900/40">
-										<td className='px-2 py-1 text-center border-r border-green-900/80'>{index + 1}</td>
-										<td className='px-2 py-1 text-center'>{person.name}</td>
-									</tr>)
-								)
-							}
-						</tbody>
-					</table>
+					<div className='relative flex flex-col overflow-y-auto border rounded max-h-96 grow border-zinc-900/40'>
+
+						<table className='border-b border-x border-emerald-900'>
+							<thead className='sticky top-0 left-0'>
+								<tr className='text-center bg-emerald-700'>
+									<td className='' >
+										<div className=" max-w-[80px] px-2 py-1 border-r border-black">
+											&nbsp;&nbsp;N°
+										</div>
+									</td>
+									<td className='px-2 py-1 '>Name</td>
+								</tr>
+							</thead>
+							<tbody >
+								{
+									extractedPeople.map((person, index) => (
+										<tr key={index} className="border-b last:border-none border-green-900/40">
+											<td>
+												<div className="px-2 py-1 text-center border-r border-green-900/80 max-w-[80px]">
+													{index + 1}
+												</div>
+											</td>
+											<td className='px-2 py-1 text-center'>{person.name}</td>
+										</tr>)
+									)
+								}
+							</tbody>
+						</table>
+
+					</div>
 				)}
 			</div>
-
 		</div>
 	)
 }
