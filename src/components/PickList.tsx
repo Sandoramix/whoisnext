@@ -15,6 +15,7 @@ const PickList: FC<PickListProps> = ({ setSelectedList, onlyIncompletePeople, fu
 
 	const options = lists.map((_list => {
 		const list = { ..._list }
+		const total = getPeopleCount(list, false)
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const firstLetter = list.title[0]!
 		if (onlyIncompletePeople) {
@@ -24,8 +25,8 @@ const PickList: FC<PickListProps> = ({ setSelectedList, onlyIncompletePeople, fu
 			firstLetter: /[0-9]/.test(firstLetter) ? `0-9` : firstLetter.toUpperCase(),
 			title: list.title,
 			id: list.id,
-			total: getPeopleCount(list, false),
-			incomplete: getPeopleCount(list),
+			total,
+			incompleted: getPeopleCount(list),
 			list
 		}
 	}))
@@ -57,8 +58,8 @@ const PickList: FC<PickListProps> = ({ setSelectedList, onlyIncompletePeople, fu
 					<div key={`opt-${option.id}`} className="flex items-center justify-between gap-2 py-2 pl-3 pr-2 text-center cursor-pointer bg-zinc-800 hover:bg-zinc-700">
 						<hr className='absolute w-1 left-1' />
 						<h4 className="font-bold capitalize text-ellipsis max-w-[90%] overflow-hidden whitespace-nowrap" >{option.title}</h4>
-						<div className=''>
-							<h5 className="text-xs text-[greenyellow]">{option.incomplete}</h5>
+						<div className='flex items-center justify-end text-sm gap-1'>
+							<h5 className=" text-[greenyellow]">{option.total - option.incompleted}</h5>/<h5>{option.total}</h5>
 						</div>
 					</div>
 				</li>
