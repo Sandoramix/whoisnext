@@ -61,7 +61,8 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 			<DeletePopup visible={deletePopupShowing} setVisible={setDeletePopupShowing} onDeleteConfirm={onListDeleteConfirm} />
 
 			<input
-				className=" focus:text-yellow-500 border-b border-white/20 focus:border-yellow-400/20 focus:[text-shadow:none] focus:bg-black/20 font-serif whitespace-nowrap font-bold text-[#6cfff5]  [text-shadow:_2px_2px_5px_#080] text-3xl absolute -top-5 left-1/2 -translate-x-1/2 bg-transparent outline-none focus:outline-none text-center w-3/4"
+				className=" focus:text-yellow-500 border-b border-white/10 focus:border-yellow-400/20 focus:[text-shadow:none] focus:bg-black/20 font-serif whitespace-nowrap font-bold 
+				text-[#43ff7c]  [text-shadow:_2px_2px_5px_#080] text-3xl absolute -top-5 left-1/2 -translate-x-1/2 bg-transparent outline-none focus:outline-none text-center w-3/4"
 				value={currentList.title}
 				maxLength={50}
 				onInput={onTitleInput}
@@ -105,14 +106,14 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 			</div>
 
 
-			<div className='grow flex flex-col bg-black max-h-[calc(100%_-_140px)] h-[calc(100%_-_140px)] min-w-[290px] w-10/12 overflow-y-auto rounded border border-gray-900'>
+			<div className='grow flex flex-col bg-black max-h-[calc(100%_-_140px)] h-[calc(100%_-_140px)] min-w-[290px] w-[99%] overflow-y-auto rounded border border-gray-900'>
 
-				<table className=''>
-					<thead className='sticky top-0 left-0'>
-						<tr className='bg-emerald-700 h-8'>
-							<th className='px-1 py-0 capitalize border-r border-green-900'>Name</th>
-							<th className='px-1 py-0 capitalize border-r border-green-900'>Is completed</th>
-							<th></th>
+				<table className='text-sm sm:text-base'>
+					<thead className='sticky top-0 left-0 select-none'>
+						<tr className=' h-8'>
+							<th className='bg-cyan-700 px-1 py-0 capitalize border-r border-cyan-900'>Name</th>
+							<th className='bg-cyan-700 px-1 py-0 capitalize border-r border-cyan-900'>Is&nbsp;completed</th>
+							<th className='bg-cyan-800 text-sm text-red-300'>Delete</th>
 						</tr>
 					</thead>
 					<tbody className=''>
@@ -160,14 +161,14 @@ const PersonRow: FC<{ person: Person, removeFromList: () => void, toggleComplete
 
 
 	return (
-		<tr className="h-12 border-b last:border-none border-green-900/40">
-			<td className='px-2 text-center capitalize border-r border-green-900'>
+		<tr className="h-12 border-b last:border-none border-indigo-900/40">
+			<td className='px-2 text-center capitalize border-r border-indigo-900'>
 				{person.name}
 			</td>
-			<td className='text-center border-r border-green-900'>
+			<td className='text-center border-r border-indigo-900'>
 				<input onChange={toggleCompleteState} type="checkbox" name="isCompleted" className='h-6 aspect-square' checked={person.isCompleted} />
 			</td>
-			<td onClick={removeFromList} className='flex items-center justify-center h-12 px-2 text-3xl text-red-700 border-r border-green-900 cursor-pointer hover:text-red-500'>
+			<td onClick={removeFromList} className='flex items-center justify-center h-12 px-2 text-3xl text-red-700 border-r border-indigo-900 cursor-pointer hover:text-red-500'>
 				<FiDelete />
 			</td>
 		</tr>

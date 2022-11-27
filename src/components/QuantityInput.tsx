@@ -53,8 +53,9 @@ const QuantityInput: FC<QuantityInputProps> = ({ setValue, list, onlyIncompleteP
 
 
 	return (
-		<div id="quantity-input__cnt" className={`relative ${fullWidth ? `w-full` : `min-w-[280px] md:min-w-[40%]`} grow min-h-[6rem] overflow-hidden  text-xl bg-white/10  rounded focus-within:outline-white border border-white/10 flex flex-col`}>
-			<div id="quantity-input" className='flex grow justify-center items-center relative h-full w-full px-[2ch]'>
+		<div className={` w-full min-w-[280px] ${fullWidth ? `` : `max-w-[550px]`} flex flex-col text-xl bg-white/10 rounded focus-within:outline-white border border-white/10 `}>
+
+			<div id="quantity-input" className='flex grow justify-center items-center relative h-12 sm:h-16 transition-all duration-200 w-full px-[2ch]'>
 				<button className='absolute left-0 p-1 text-4xl font-bold text-red-600 -translate-y-1/2 top-1/2 hover:text-red-500 disabled:text-gray-500'
 					onClick={() => incrementQuantity(-1)}
 					disabled={!list || peopleCount === 0}
@@ -68,7 +69,7 @@ const QuantityInput: FC<QuantityInputProps> = ({ setValue, list, onlyIncompleteP
 					name="name"
 					id="name"
 					ref={inputRef}
-					className="w-full font-mono h-full text-base text-center text-white bg-transparent placeholder:text-center placeholder:uppercase focus:outline-none disabled:line-through"
+					className="w-full h-full font-mono text-base text-center text-white bg-transparent placeholder:text-center placeholder:uppercase focus:outline-none disabled:line-through"
 					placeholder='Quantity'
 				/>
 				<button className='absolute right-0 p-1 text-4xl font-bold text-green-600 -translate-y-1/2 top-1/2 hover:text-green-500 disabled:text-gray-500'
@@ -76,10 +77,11 @@ const QuantityInput: FC<QuantityInputProps> = ({ setValue, list, onlyIncompleteP
 					disabled={!list || peopleCount === 0}
 				>+</button>
 			</div>
-			<hr className='border-white/30' />
-			<div className='w-full flex justify-center items-center grow'>
+			<hr className='border-white/20' />
+			<div id="quantity-input" className='flex grow justify-center items-center w-full'>
 				{children}
 			</div>
+
 		</div>
 	)
 }

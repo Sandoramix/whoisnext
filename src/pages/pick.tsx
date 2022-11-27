@@ -84,75 +84,76 @@ const PickPage: NextPage = () => {
 
 
 	return (
-		<div className="w-full full ">
-			<div className='flex flex-col w-full h-full gap-24 px-2 pt-2'>
-				<header className='flex flex-col md:flex-row md:items-center justify-start gap-2 py-2 relative h-24'>
 
-					<PickList setSelectedList={updateSelectedList} onlyIncompletePeople />
-					<QuantityInput list={selectedList} setValue={setQuantity} onlyIncompletePeople  >
-						<button
-							disabled={!isQuantityValid || !selectedList}
-							className='px-4 py-1 font-mono text-xl  bg-emerald-600 hover:bg-emerald-500 disabled:bg-gray-700 disabled:cursor-not-allowed w-full disabled:text-gray-400 '
-							onClick={onPickBtnClick}
-						>
+		<div className='flex flex-col w-full h-full px-1 sm:px-4 py-4 '>
+			<section className='flex flex-col  gap-2 justify-center  items-center'>
 
-							Pick
-						</button>
-					</QuantityInput>
-				</header>
+				<PickList setSelectedList={updateSelectedList} onlyIncompletePeople />
+
+				<QuantityInput list={selectedList} setValue={setQuantity} onlyIncompletePeople  >
+					<button
+						disabled={!isQuantityValid || !selectedList}
+						className='rounded-b w-full h-10 sm:h-12 px-4 py-1 font-mono text-xl block  bg-emerald-600 hover:bg-emerald-500 disabled:bg-gray-700 disabled:cursor-not-allowed  disabled:text-gray-400 '
+						onClick={onPickBtnClick}
+					>
+						Pick
+					</button>
+				</QuantityInput>
+			</section>
 
 
+			<div className="h-1/5 sm:h-full"></div>
 
-				<div className="flex flex-col w-full items-center justify-start">
-					{extractedPeople.length > 0 && (
-						<div className='relative flex flex-col w-10/12 min-w-[312px] overflow-y-auto border rounded max-h-80 grow border-zinc-900/40 justify-start items-center'>
+			<div className="flex flex-col w-full items-center justify-self-end self-end">
+				{extractedPeople.length > 0 && (
+					<div className='relative flex flex-col w-full min-w-[315px] max-w-[800px] overflow-y-auto border rounded max-h-[calc(100vh_-_90px_-_250px)] grow border-zinc-900/40 justify-start items-center'>
 
-							<table className='border-b border-x border-emerald-900'>
-								<thead className='sticky -top-0 left-0 '>
-									<tr className='text-center bg-emerald-700 '>
-										<td className='' >
-											<div className=" max-w-[80px] w-[80px] h-10 border-r border-black flex justify-center items-center">
-												<h3>&nbsp;&nbsp;N°</h3>
-											</div>
-										</td>
-										<td className='h-10 w-full relative'>
-											<h3>Name</h3>
-											<Tooltip
-												arrow
-												placeholder="top-start"
-												title={isCopyClicked ? `Done!` : `Copy to clipboard`}
-												className="absolute right-2 top-1/2 -translate-y-1/2 text-3xl text-yellow-500"
-												onClick={onCopyClick}
-												onMouseEnter={() => setIsCopyClicked(false)}
-											>
-												<button>
-													<AiOutlineCopy />
-												</button>
-											</Tooltip>
-										</td>
-									</tr>
-								</thead>
-								<tbody className="">
-									{
-										extractedPeople.map((person, index) => (
-											<tr key={index} className="border-b last:border-none border-green-900/40">
-												<td>
-													<div className="px-2 py-1 text-center border-r border-green-900/80 max-w-[80px] w-[80px] ">
-														{index + 1}
-													</div>
-												</td>
-												<td className='px-2 py-1 text-center w-full'>{person.name}</td>
-											</tr>)
-										)
-									}
-								</tbody>
-							</table>
+						<table className='border-b border-x border-emerald-900'>
+							<thead className='sticky -top-0 left-0 '>
+								<tr className='text-center bg-emerald-700 '>
+									<td className='' >
+										<div className=" max-w-[80px] w-[80px] h-10 border-r border-black flex justify-center items-center">
+											<h3>&nbsp;&nbsp;N°</h3>
+										</div>
+									</td>
+									<td className='h-10 w-full relative'>
+										<h3>Name</h3>
+										<Tooltip
+											arrow
+											placeholder="top-start"
+											title={isCopyClicked ? `Done!` : `Copy to clipboard`}
+											className="absolute right-2 top-1/2 -translate-y-1/2 text-3xl text-yellow-500"
+											onClick={onCopyClick}
+											onMouseEnter={() => setIsCopyClicked(false)}
+										>
+											<button>
+												<AiOutlineCopy />
+											</button>
+										</Tooltip>
+									</td>
+								</tr>
+							</thead>
+							<tbody className="">
+								{
+									extractedPeople.map((person, index) => (
+										<tr key={index} className="border-b last:border-none border-green-900/40">
+											<td>
+												<div className="px-2 py-1 text-center border-r border-green-900/80 max-w-[80px] w-[80px] ">
+													{index + 1}
+												</div>
+											</td>
+											<td className='px-2 py-1 text-center w-full'>{person.name}</td>
+										</tr>)
+									)
+								}
+							</tbody>
+						</table>
 
-						</div>
-					)}
-				</div>
+					</div>
+				)}
 			</div>
 		</div>
+
 	);
 };
 
