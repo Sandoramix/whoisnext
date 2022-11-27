@@ -113,7 +113,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 						<tr className=' h-8'>
 							<th className='bg-cyan-700 px-1 py-0 capitalize border-r border-cyan-900'>Name</th>
 							<th className='bg-cyan-700 px-1 py-0 capitalize border-r border-cyan-900'>Is&nbsp;completed</th>
-							<th className='bg-cyan-800 text-sm text-red-300'>Delete</th>
+							<th className='bg-black text-sm text-red-500'>Delete</th>
 						</tr>
 					</thead>
 					<tbody className=''>
