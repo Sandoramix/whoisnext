@@ -27,6 +27,11 @@ html {
   font-family: "main";
 }
 
+@font-face {
+  src: url("./fonts/octapost/OctapostNbp-3e0X.ttf");
+  font-family: "flat";
+}
+
 :root {
   --scrollbar-width: 6px;
   --scrollbar-height: 6px;
@@ -66,9 +71,7 @@ input::-webkit-inner-spin-button {
 .MuiTextField-root input {
   color: white;
 }
-.MuiOutlinedInput-root{
-  height: 100%;
-}
+
 
 .MuiAutocomplete-listbox,
 .MuiAutocomplete-listbox ul {
