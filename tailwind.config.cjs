@@ -3,13 +3,14 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+
       maxHeight: {
         header: '90px',
-        main: 'calc(100vh - 100px)'
+        main: 'calc(100vh - 90px)'
       },
       height: {
         header: '90px',
-        main: 'calc(100vh - 100px)'
+        main: 'calc(100vh - 90px)'
       },
       colors: {
         cyemerald: {
@@ -28,7 +29,8 @@ module.exports = {
       },
       fontFamily: {
         main: 'main',
-        sub: 'sub'
+        sub: 'sub',
+        flat: 'flat'
       },
       keyframes: {
 
