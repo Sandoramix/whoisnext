@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import LayerOver from "../components/layerOver";
 import CreateList from "../components/listsPage/CreateList";
@@ -11,17 +11,17 @@ import { List } from '../types';
 
 export default function ListsPage() {
 
-	const { lists, setSelectedList, selectedDetailsListId, setSelectedDetailsListId } = useLists();
+	const { lists } = useLists();
 	const [createListPanelOpened, setCreateListPanelOpened] = useState(false)
 
-
+	const [selectedList, setSelectedList] = useState<List | null>(null)
 	const closeListDetails = () => {
 
-		setSelectedDetailsListId("")
+		setSelectedList(null)
 	}
 
 	function openList(list: List) {
-		setSelectedDetailsListId(list.id)
+		setSelectedList(list)
 
 	}
 
@@ -40,7 +40,7 @@ export default function ListsPage() {
 
 			<div className="pt-6" />
 
-			<div className="flex flex-col items-center justify-start w-full overflow-auto max-h-main h-full bg-[#373737]/10">
+			<div className="flex flex-col items-center justify-start w-full overflow-auto max-h-main h-full ">
 				<ul className="flex flex-col w-[95%] min-w-[310px] max-w-[950px] gap-8 py-6 list-none">
 					{[...lists.values()].map((list, index) => <List openThisList={() => openList(list)} list={list} key={index} />)}
 				</ul>
@@ -55,10 +55,10 @@ export default function ListsPage() {
 			}
 
 			{
-				selectedDetailsListId !== ""
-				&&
+				selectedList &&
 				<LayerOver closeView={closeListDetails}>
 					<ListDetails
+						selectedList={selectedList}
 						closeView={closeListDetails}
 					/>
 				</LayerOver>

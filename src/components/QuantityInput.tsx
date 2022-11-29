@@ -1,11 +1,11 @@
 
 import type { FC } from 'react';
 import { useEffect, useMemo, useRef } from 'react';
-import { useLists } from '../lib/ListsContext';
+import { type List } from '../types';
 import { getPeopleCount } from '../utils/lists';
 
 type QuantityInputProps = {
-
+	selectedList: List | null,
 	onlyIncompletePeople?: boolean,
 	setValue: (val: string) => void,
 	fullWidth?: boolean,
@@ -13,22 +13,22 @@ type QuantityInputProps = {
 }
 
 
-const QuantityInput: FC<QuantityInputProps> = ({ setValue, onlyIncompletePeople, fullWidth, children }) => {
-	const { selectedList: list } = useLists();
+const QuantityInput: FC<QuantityInputProps> = ({ setValue, onlyIncompletePeople, fullWidth, children, selectedList }) => {
+
 	const inputRef = useRef<HTMLInputElement>(null)
 
 
-	const peopleCount = useMemo(() => !list ? -1 : getPeopleCount(list, onlyIncompletePeople), [list, onlyIncompletePeople])
+	const peopleCount = useMemo(() => !selectedList ? -1 : getPeopleCount(selectedList, onlyIncompletePeople), [selectedList, onlyIncompletePeople])
 
 
 	useEffect(() => {
 		if (!inputRef.current) return
 		inputRef.current.value = ``
-	}, [list])
+	}, [selectedList])
 
 	function fixQuantity(value: string) {
 		const quantity = parseInt(value);
-		if (!list || peopleCount === 0 || value.trim() === ``) return "";
+		if (!selectedList || peopleCount === 0 || value.trim() === ``) return "";
 		return String((quantity > peopleCount) ? peopleCount : (quantity < 1) ? 1 : quantity)
 	}
 
@@ -58,10 +58,10 @@ const QuantityInput: FC<QuantityInputProps> = ({ setValue, onlyIncompletePeople,
 			<div id="quantity-input" className='flex grow justify-center items-center relative h-12 sm:h-16 transition-all duration-200 w-full px-[2ch]'>
 				<button className='absolute left-0 p-1 text-4xl font-bold text-red-600 -translate-y-1/2 top-1/2 hover:text-red-500 disabled:text-gray-500'
 					onClick={() => incrementQuantity(-1)}
-					disabled={!list || peopleCount === 0}
+					disabled={!selectedList || peopleCount === 0}
 				>-</button>
 				<input
-					disabled={!list || peopleCount === 0}
+					disabled={!selectedList || peopleCount === 0}
 					onChange={onInputChange}
 					onInput={onInputChange}
 					autoComplete="off"
@@ -74,7 +74,7 @@ const QuantityInput: FC<QuantityInputProps> = ({ setValue, onlyIncompletePeople,
 				/>
 				<button className='absolute right-0 p-1 text-4xl font-bold text-green-600 -translate-y-1/2 top-1/2 hover:text-green-500 disabled:text-gray-500'
 					onClick={() => incrementQuantity(1)}
-					disabled={!list || peopleCount === 0}
+					disabled={!selectedList || peopleCount === 0}
 				>+</button>
 			</div>
 			<hr className='border-white/20' />

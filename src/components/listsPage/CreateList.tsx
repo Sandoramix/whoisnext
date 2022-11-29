@@ -1,13 +1,16 @@
 import type { FC } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { isMobile } from 'react-device-detect';
 import { BiImport } from 'react-icons/bi';
 import { useLists } from '../../lib/ListsContext';
+import { maxPeopleCount, maxTitleLength } from "../../utils/lists";
 
 type CreateListProps = {
 	closeView: () => void,
 }
 
 const CreateList: FC<CreateListProps> = ({ closeView }) => {
+
 	const { addList } = useLists();
 	const titleInputRef = useRef<HTMLInputElement>(null);
 	const peopleTextareaRef = useRef<HTMLTextAreaElement>(null);
@@ -16,9 +19,11 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 
 	const [title, setTitle] = useState("");
 	const isTitleValid = useMemo(() => title.trim() !== `` && title.length <= 20, [title])
-	const [peopleNames, setPeopleNames] = useState<string[]>([])
-	const isPeopleNamesValid = useMemo(() => peopleNames.length !== 0, [peopleNames])
+	const titleLeftChars = useMemo(() => 20 - title.trim().length, [title])
 
+	const [peopleTextareaValue, setPeopleTextareaValue] = useState("")
+	const [peopleNames, setPeopleNames] = useState<string[]>([])
+	const peopleLeftCount = useMemo(() => maxPeopleCount - getPeopleFromTextArea(peopleTextareaValue).length, [peopleTextareaValue])
 	useEffect(() => {
 		setTitle("")
 		setPeopleNames([])
@@ -26,9 +31,10 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 
 
 	const onTitleInput = () => {
-		const title = titleInputRef.current?.value?.trim();
+		const title = titleInputRef.current?.value.trim();
 		setTitle(title ?? "")
 	}
+
 
 	const onUsersFileUpload = async () => {
 		const files = usersFileRef.current?.files;
@@ -49,21 +55,27 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 
 		//TODO VALIDATE text
 		const people = plaintext.trim()
-		if (people.length === 0) return;
 
 		usersFileRef.current.value = ``
 
 		onPeopleInput(people);
 	}
-	const onPeopleInput = (plaintext?: string) => {
+	function getPeopleFromTextArea(plaintext?: string) {
 		const people = plaintext ?? peopleTextareaRef.current?.value
+		if (people?.trim() === `` || !people) return [];
+		return people.split(`\n`).filter(name => name.trim() !== ``);
+	}
 
-		if (people?.trim() === `` || !people) return;
-		const peopleList = people.split(`\n`).filter(name => name.trim() !== ``);
+
+
+	const onPeopleInput = (plaintext?: string) => {
+
+		const peopleList = getPeopleFromTextArea(plaintext)
+
+		setPeopleTextareaValue(plaintext ?? peopleTextareaRef.current?.value ?? "")
+		if (peopleLeftCount < 0 || peopleList.length > maxPeopleCount) return;
 		setPeopleNames(peopleList)
 
-		if (!peopleTextareaRef.current) return
-		peopleTextareaRef.current.value = people
 	}
 
 
@@ -74,7 +86,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 	const onFormSubmit = (ev: any) => {
 		ev?.preventDefault();
 
-		if (!isPeopleNamesValid || !isTitleValid) return;
+		if (peopleLeftCount < 0 || !isTitleValid) return;
 
 		addList(title, peopleNames)
 
@@ -84,7 +96,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 	return (
 		<>
 			<h2
-				className='absolute -top-5 left-1/2 -translate-x-1/2 font-serif whitespace-nowrap font-bold text-cyemerald-300 [text-shadow:_2px_2px_5px_#080] text-3xl'
+				className='absolute -top-5 left-1/2 -translate-x-1/2 font-serif whitespace-nowrap font-bold text-cyemerald [text-shadow:_2px_2px_5px_#080] text-3xl'
 			>
 				Create new List
 			</h2>
@@ -97,60 +109,80 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 				className='flex flex-col items-center justify-center gap-4'>
 				<div className='mt-6' />
 				<div className='flex flex-col items-center justify-center w-full'>
-					<label htmlFor="title" className='text-2xl font-bold text-gray-200 uppercase'>Title </label>
-					<span className='text-sm text-gray-300'>(max 20 chars)</span>
-					<input
-						type="text"
-						name="title"
-						id="title"
-						onInput={onTitleInput}
-						ref={titleInputRef}
-						autoComplete="off"
-						maxLength={20}
-						className={`w-full h-14 text-2xl text-center text-black rounded ${isTitleValid ? `` : `border border-red-500`}`}
-						placeholder='E.g. Math 5A'
-					/>
-					<p className='min-h-[2ch] text-red-600 font-mono'>{isTitleValid ? `` : <span>Title cannot be empty <br className='block' />(and max 20 characters)</span>}</p>
+					<label htmlFor="title" className='grid grid-flow-row auto-cols-fr grid-cols-3 w-full items-center'>
+						<span></span>
+						<span className='text-3xl text-gray-200 uppercase font-flat '>Title</span>
+						<span className='text-sm text-gray-400 font-mono text-end self-end'></span>
+					</label>
+
+					<div className={`relative w-full h-14 text-2xl text-center text-black rounded ${isTitleValid ? `` : `outline outline-red-500`} relative`}>
+						<input
+							type="text"
+							name="title"
+							id="title"
+							onInput={onTitleInput}
+							ref={titleInputRef}
+							autoComplete="off"
+							maxLength={20}
+							className={`w-full h-full px-3 py-1`}
+							placeholder='E.g. Math 5A'
+						/>
+						<p className='pointer-events-none select-none absolute right-1 bottom-1 font-serif text-xl text-gray-600'>{titleLeftChars}/{maxTitleLength}</p>
+					</div>
+
 				</div>
 
 
 				<div className='flex flex-col items-center justify-center w-full'>
 					<div className='flex flex-col w-full'>
-						<label htmlFor="users" className='text-2xl font-bold text-gray-200 uppercase'>Users </label>
-						<span className='text-sm text-gray-300'>(one per line)</span>
-						<textarea
-							name="users"
-							id="users"
-							autoComplete="off"
-							rows={5}
-							onInput={() => onPeopleInput()}
+						<label htmlFor="users" className='grid grid-flow-row auto-cols-fr grid-cols-3 w-full items-center'>
+							<span></span>
+							<span className='text-3xl text-gray-200 uppercase font-flat'>Users</span>
+							<span className='text-sm text-gray-400 font-mono text-end self-end'>one per line</span>
+						</label>
 
-							ref={peopleTextareaRef}
-							className={`text-black w-full ${isPeopleNamesValid ? `` : `border border-red-500`} px-2 py-1`}
-							placeholder={`E.g.
+
+						<div className={`flex flex-col relative text-black w-full  h-full max-h-[40vh] rounded ${peopleLeftCount < 0 ? `outline outline-red-500` : ``}`}>
+							<textarea
+								name="users"
+								id="users"
+								autoComplete="off"
+								rows={5}
+								onInput={() => onPeopleInput()}
+								draggable={false}
+								value={peopleTextareaValue}
+								ref={peopleTextareaRef}
+								className={`px-2 py-1 h-full min-h-[40vh] max-h-[40vh] w-full`}
+								placeholder={`E.g.
 Marco
 Sophie
 							`}
-						/>
-						<p className='min-h-[2ch] text-red-600 font-mono'>{isPeopleNamesValid ? `` : `Users list cannot be empty`}</p>
+							/>
+							<p className={`pointer-events-none select-none absolute right-2 bottom-1 font-serif text-xl  ${peopleLeftCount < 0 ? `text-red-600` : `text-gray-600`}`}>{peopleLeftCount}/{maxPeopleCount}</p>
+						</div>
 					</div>
 
-					<p className='py-2 '>or</p>
+					{
+						!isMobile && (
+							<>
+								<p className='py-2 '>or</p>
 
-
-					<div className='w-full '>
-						<label htmlFor="usersFile" className='relative flex items-center justify-center w-1/3 gap-2 px-2 py-1 mx-auto rounded-sm cursor-pointer min-w-fit bg-cyan-900 hover:bg-cyan-800 whitespace-nowrap'>
-							<BiImport className='text-slate-200 hover:text-slate-300' />
-							<span>Import from file</span>
-						</label>
-						<input ref={usersFileRef} type="file" name="text" id="usersFile" className='sr-only' accept='.txt' size={1024} onInput={onUsersFileUpload} />
-					</div>
+								<div className='w-full '>
+									<label htmlFor="usersFile" className='relative flex items-center justify-center gap-2 px-4 py-3 w-min mx-auto rounded-sm cursor-pointer min-w-fit bg-indigo-700 hover:bg-indigo-600 whitespace-nowrap'>
+										<BiImport className='text-slate-200 hover:text-slate-300 text-xl' />
+										<span>Import from file</span>
+									</label>
+									<input ref={usersFileRef} type="file" name="text" id="usersFile" className='sr-only' accept='.txt' size={1024} onInput={onUsersFileUpload} />
+								</div>
+							</>
+						)
+					}
 				</div>
 
 			</form>
 
 
-			<footer className="max-h-[50px] h-[50px] flex justify-between gap-4  items-center  text-xl">
+			<footer className="max-h-[50px] h-[50px] flex justify-between gap-4  items-center  text-2xl px-4 pb-2">
 
 
 				<button
@@ -164,7 +196,7 @@ Sophie
 				<button
 					onClick={onFormSubmit}
 					className='rounded px-4 py-2 bg-green-800 hover:bg-green-900 min-w-[90px] disabled:bg-zinc-800 disabled:cursor-not-allowed'
-					disabled={!isPeopleNamesValid || !isTitleValid}
+					disabled={peopleLeftCount < 0 || !isTitleValid}
 				>
 					Create
 				</button>

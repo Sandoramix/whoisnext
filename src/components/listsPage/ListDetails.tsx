@@ -1,30 +1,32 @@
 import type { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
-import { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { AiFillDelete } from 'react-icons/ai';
 import { BiExport } from 'react-icons/bi';
 import { FiDelete } from 'react-icons/fi';
 import { useLists } from '../../lib/ListsContext';
-import type { Person } from '../../types';
+import type { List, Person } from '../../types';
+import { maxPeopleCount } from '../../utils/lists';
 import LayerOver from '../layerOver';
 
 
 type ListDetailsProps = {
 	closeView: () => void,
+	selectedList: List | null,
 }
-const ListDetails: FC<ListDetailsProps> = ({ closeView, }) => {
-	const { lists, addPersonToList, deleteList, setListTitle, deletePersonFromList, togglePersonState, selectedDetailsListId, setSelectedDetailsListId } = useLists();
-
+const ListDetails: FC<ListDetailsProps> = ({ closeView, selectedList }) => {
+	const { addPersonToList, deleteList, setListTitle, deletePersonFromList, togglePersonState } = useLists();
 
 	const newNameRef = useRef<HTMLInputElement>(null)
-	const [newNameIsEmpty, setNewNameIsEmpty] = useState(true)
 	const [deletePopupShowing, setDeletePopupShowing] = useState(false)
 
-	const selectedList = useMemo(() => lists.get(selectedDetailsListId) ?? null, [selectedDetailsListId, lists])
+	const newNameIsEmpty = useMemo(() => newNameRef.current?.value.trim() === ``, [newNameRef])
 
+	const [titleInputValue, setTitleInputValue] = useState(selectedList?.title ?? "")
 	if (!selectedList) {
 		closeView();
 		return null;
 	}
+
 
 	// --------------EVENTS---------------------
 
@@ -39,7 +41,11 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, }) => {
 
 	function onTitleInput(ev: ChangeEvent<HTMLInputElement>) {
 		if (!selectedList) return;
-		setListTitle(selectedList.id, ev.target.value)
+		const value = ev.target.value;
+
+
+		setTitleInputValue(value)
+		setListTitle(selectedList.id, value)
 	}
 	function addPerson(name: string) {
 		if (!selectedList) return;
@@ -66,7 +72,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, }) => {
 			<input
 				className=" focus:text-yellow-500 border-b border-white/10 focus:border-yellow-400/20 focus:[text-shadow:none] focus:bg-black/20 font-serif whitespace-nowrap font-bold 
 				text-[#43ff7c]  [text-shadow:_2px_2px_5px_#080] text-3xl absolute -top-5 left-1/2 -translate-x-1/2 bg-transparent outline-none focus:outline-none text-center w-3/4"
-				value={selectedList.title}
+				value={titleInputValue}
 				maxLength={50}
 				onInput={onTitleInput}
 			/>
@@ -77,46 +83,51 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, }) => {
 
 			<div className="max-h-[80px] h-[80px] flex justify-center text-sm pt-10">
 
-				<div className="flex items-center justify-center min-w-[80px] h-10 gap-2 bg-white rounded focus-within:outline-double outline-white">
-					<input
-						onChange={(ev) => {
-							const val = ev.target.value.trim();
-							setNewNameIsEmpty(val === '')
-						}}
-						autoComplete="off"
-						type="text"
-						name="name"
-						id="name"
-						ref={newNameRef}
-						className="w-full h-10 px-2 text-black bg-transparent rounded placeholder:text-center placeholder:uppercase ring-0 focus:outline-none "
-						placeholder='Name'
-						onKeyUp={(ev) => {
-							if (ev.key.toLowerCase() === "enter") {
-								onAddUserClick();
-							}
-						}}
-					/>
-					<button
-						type='button'
-						onClick={onAddUserClick}
-						className=' h-full disabled:bg-zinc-700 disabled:text-slate-400 disabled:cursor-not-allowed whitespace-nowrap bg-[#ff9900] hover:bg-[#e98904] px-3 py-2 w-fit rounded rounded-l-none'
-						disabled={newNameIsEmpty}
-					>
-						Add User
-					</button>
-				</div>
+				{
+					(selectedList.people.length < maxPeopleCount) && (
+						<div className="flex items-center justify-center min-w-[80px] h-10 gap-2 bg-white rounded focus-within:outline-double outline-white">
 
+
+
+							<input
+
+								autoComplete="off"
+								type="text"
+								name="name"
+								id="name"
+								ref={newNameRef}
+								className="w-full h-10 px-2 text-black bg-transparent rounded placeholder:text-center placeholder:uppercase ring-0 focus:outline-none "
+								placeholder='Name'
+								onKeyUp={(ev) => {
+									if (ev.key.toLowerCase() === "enter") {
+										onAddUserClick();
+									}
+								}}
+							/>
+
+							<button
+								type='button'
+								onClick={onAddUserClick}
+								className=' h-full disabled:bg-zinc-700 disabled:text-slate-400 disabled:cursor-not-allowed whitespace-nowrap bg-[#ff9900] hover:bg-[#e98904] px-3 py-2 w-fit rounded rounded-l-none'
+								disabled={newNameIsEmpty}
+							>
+								Add User
+							</button>
+
+
+						</div>
+					)}
 			</div>
 
 
-			<div className='grow flex flex-col bg-black max-h-[calc(100%_-_140px)] h-[calc(100%_-_140px)] min-w-[290px] w-[99%] overflow-y-auto rounded border border-gray-900'>
+			<div className='grow flex flex-col bg-black max-h-[calc(100%_-_140px)] h-[calc(100%_-_140px)] min-w-[290px] w-[99%] overflow-y-auto rounded outline outline-gray-900/50'>
 
-				<table className='text-sm sm:text-base'>
+				<table className='text-sm sm:text-base border-b border-indigo-900'>
 					<thead className='sticky top-0 left-0 select-none'>
 						<tr className=' h-8'>
 							<th className='bg-cyan-700 px-1 py-0 capitalize border-r border-cyan-900'>Name</th>
 							<th className='bg-cyan-700 px-1 py-0 capitalize border-r border-cyan-900'>Is&nbsp;completed</th>
-							<th className='bg-black text-sm text-red-500'>Delete</th>
+							<th className='bg-cyan-700 text-sm text-rose-200'>Delete</th>
 						</tr>
 					</thead>
 					<tbody className=''>
@@ -171,7 +182,7 @@ const PersonRow: FC<{ person: Person, removeFromList: () => void, toggleComplete
 			<td className='text-center border-r border-indigo-900'>
 				<input onChange={toggleCompleteState} type="checkbox" name="isCompleted" className='h-6 aspect-square' checked={person.isCompleted} />
 			</td>
-			<td onClick={removeFromList} className='flex items-center justify-center h-12 px-2 text-3xl text-red-700 border-r border-indigo-900 cursor-pointer hover:text-red-500'>
+			<td onClick={removeFromList} className='flex items-center justify-center h-12 px-2 text-3xl text-red-700 cursor-pointer hover:text-red-500'>
 				<FiDelete />
 			</td>
 		</tr>
