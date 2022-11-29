@@ -12,20 +12,16 @@ module.exports = {
         header: '90px',
         main: 'calc(100vh - 90px)'
       },
+
       colors: {
-        cyemerald: {
-          100: "#cffff2",
-          200: "#9fffe5",
-          300: "#6fffd9",
-          400: "#3fffcc",
-          500: "#0fffbf",
-          600: "#0ccc99",
-          700: "#099973",
-          800: "#06664c",
-          900: "#033326"
-        },
+        cyemerald: `#3fffcc`,
+        cyemeraldHover: `#05c8cf`,
 
-
+      },
+      backgroundColor: {
+        html: `#000`,
+        header: `#00004f`,
+        main: `#01000a`
       },
       fontFamily: {
         main: 'main',
