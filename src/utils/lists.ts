@@ -1,6 +1,6 @@
 import { listValidator, type List } from "../types";
 
-export const maxTitleLength = 20;
+export const maxTitleLength = 25;
 export const maxPeopleCount = 200;
 
 export function getPeopleFromList(list: List, onlyIncomplete = true) {
