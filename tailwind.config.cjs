@@ -21,7 +21,8 @@ module.exports = {
       backgroundColor: {
         html: `#000`,
         header: `#00004f`,
-        main: `#01000a`
+        main: `#01000a`,
+        overlay: `#01052e`
       },
       fontFamily: {
         main: 'main',

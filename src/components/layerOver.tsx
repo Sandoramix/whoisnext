@@ -11,7 +11,7 @@ const LayerOver: FC<{ children: JSX.Element | JSX.Element[], closeView?: () => v
 				? children
 				: (
 					<div
-						className="transition-all duration-500 rounded h-[90%] w-full min-w-[300px] max-w-[800px] relative overflow-visible bg-layout-overlay-bg bg-opacity-80 flex flex-col justify-between px-4 py-2 text-center border border-white/20"
+						className="transition-all duration-500 rounded h-[90%] w-full min-w-[300px] max-w-[800px] relative overflow-visible bg-overlay bg-opacity-80 flex flex-col justify-between px-4 py-2 text-center border border-white/20"
 						onClick={(ev) => ev.stopPropagation()}
 					>
 
