@@ -127,7 +127,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 							className={`w-full h-full px-3 py-1`}
 							placeholder='E.g. Math 5A'
 						/>
-						<p className='pointer-events-none select-none absolute right-1 bottom-1 font-serif text-xl text-gray-600'>{titleLeftChars}/{maxTitleLength}</p>
+						<p className={`pointer-events-none select-none absolute right-1 bottom-1 font-serif text-xl ${titleLeftChars < 0 ? `text-red-600` : `text-gray-600`}`}>{titleLeftChars}</p>
 					</div>
 
 				</div>
@@ -158,7 +158,7 @@ Marco
 Sophie
 							`}
 							/>
-							<p className={`pointer-events-none select-none absolute right-2 bottom-1 font-serif text-xl  ${peopleLeftCount < 0 ? `text-red-600` : `text-gray-600`}`}>{peopleLeftCount}/{maxPeopleCount}</p>
+							<p className={`pointer-events-none select-none absolute right-2 bottom-1 font-serif text-xl  ${peopleLeftCount < 0 ? `text-red-600` : `text-gray-600`}`}>{peopleLeftCount}</p>
 						</div>
 					</div>
 
