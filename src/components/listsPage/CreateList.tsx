@@ -22,11 +22,12 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 	const titleLeftChars = useMemo(() => 20 - title.trim().length, [title])
 
 	const [peopleTextareaValue, setPeopleTextareaValue] = useState("")
-	const [peopleNames, setPeopleNames] = useState<string[]>([])
 	const peopleLeftCount = useMemo(() => maxPeopleCount - getPeopleFromTextArea(peopleTextareaValue).length, [peopleTextareaValue])
+
+
 	useEffect(() => {
 		setTitle("")
-		setPeopleNames([])
+		setPeopleTextareaValue("")
 	}, [])
 
 
@@ -57,25 +58,20 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 		const people = plaintext.trim()
 
 		usersFileRef.current.value = ``
+		setPeopleTextareaValue("")
 
 		onPeopleInput(people);
 	}
-	function getPeopleFromTextArea(plaintext?: string) {
-		const people = plaintext ?? peopleTextareaRef.current?.value
+	function getPeopleFromTextArea(plaintext: string) {
+		const people = plaintext
 		if (people?.trim() === `` || !people) return [];
 		return people.split(`\n`).filter(name => name.trim() !== ``);
 	}
 
 
 
-	const onPeopleInput = (plaintext?: string) => {
-
-		const peopleList = getPeopleFromTextArea(plaintext)
-
-		setPeopleTextareaValue(plaintext ?? peopleTextareaRef.current?.value ?? "")
-		if (peopleLeftCount < 0 || peopleList.length > maxPeopleCount) return;
-		setPeopleNames(peopleList)
-
+	const onPeopleInput = (plaintext: string) => {
+		setPeopleTextareaValue(plaintext)
 	}
 
 
@@ -88,7 +84,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 
 		if (peopleLeftCount < 0 || !isTitleValid) return;
 
-		addList(title, peopleNames)
+		addList(title, getPeopleFromTextArea(peopleTextareaValue))
 
 		closeView();
 	}
@@ -148,7 +144,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 								id="users"
 								autoComplete="off"
 								rows={5}
-								onInput={() => onPeopleInput()}
+								onInput={(ev) => onPeopleInput(ev.currentTarget.value)}
 								draggable={false}
 								value={peopleTextareaValue}
 								ref={peopleTextareaRef}
