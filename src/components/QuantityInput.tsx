@@ -1,12 +1,11 @@
 
 import type { FC } from 'react';
 import { useEffect, useMemo, useRef } from 'react';
-import { type List } from '../types';
+import { useLists } from '../lib/ListsContext';
 import { getPeopleCount } from '../utils/lists';
 
 type QuantityInputProps = {
 
-	list?: List,
 	onlyIncompletePeople?: boolean,
 	setValue: (val: string) => void,
 	fullWidth?: boolean,
@@ -14,7 +13,8 @@ type QuantityInputProps = {
 }
 
 
-const QuantityInput: FC<QuantityInputProps> = ({ setValue, list, onlyIncompletePeople, fullWidth, children }) => {
+const QuantityInput: FC<QuantityInputProps> = ({ setValue, onlyIncompletePeople, fullWidth, children }) => {
+	const { selectedList: list } = useLists();
 	const inputRef = useRef<HTMLInputElement>(null)
 
 

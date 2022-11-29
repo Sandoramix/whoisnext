@@ -6,14 +6,14 @@ import { getPeopleCount } from "../utils/lists";
 
 type PickListProps = {
 	onlyIncompletePeople?: boolean,
-	setSelectedList: (list?: List) => void,
+	setSelectedList: (list: List | null) => void,
 	fullWidth?: boolean,
 }
 
 const PickList: FC<PickListProps> = ({ setSelectedList, onlyIncompletePeople, fullWidth }) => {
 	const { lists } = useLists();
 
-	const options = lists.map((_list => {
+	const options = [...lists.values()].map((_list => {
 		const list = { ..._list }
 		const total = getPeopleCount(list, false)
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -26,7 +26,7 @@ const PickList: FC<PickListProps> = ({ setSelectedList, onlyIncompletePeople, fu
 			title: list.title,
 			id: list.id,
 			total,
-			incompleted: getPeopleCount(list),
+			completed: total - getPeopleCount(list),
 			list
 		}
 	}))
@@ -59,7 +59,7 @@ const PickList: FC<PickListProps> = ({ setSelectedList, onlyIncompletePeople, fu
 						<hr className='absolute w-1 left-1' />
 						<h4 className="font-bold capitalize text-ellipsis max-w-[90%] overflow-hidden whitespace-nowrap" >{option.title}</h4>
 						<div className='flex items-center justify-end text-sm gap-1'>
-							<h5 className=" text-[greenyellow]">{option.total - option.incompleted}</h5>/<h5>{option.total}</h5>
+							<h5 className=" text-[greenyellow]">{option.completed}</h5>/<h5>{option.total}</h5>
 						</div>
 					</div>
 				</li>
@@ -73,7 +73,7 @@ const PickList: FC<PickListProps> = ({ setSelectedList, onlyIncompletePeople, fu
 			)}
 			id="select-list-input"
 
-			onChange={(ev, option) => setSelectedList(option?.list)}
+			onChange={(ev, option) => setSelectedList(option?.list ?? null)}
 
 			renderInput={(params) => <TextField className='' key={`item-${params.id}`} {...params} color="info" label="List" />}
 		/>

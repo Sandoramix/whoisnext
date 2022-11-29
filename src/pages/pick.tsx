@@ -1,11 +1,10 @@
 import { Tooltip } from "@mui/material";
 import { type NextPage } from "next";
-import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { AiOutlineCopy } from "react-icons/ai";
-import { BiCopy } from "react-icons/bi";
 import PickList from '../components/PickList';
 import QuantityInput from '../components/QuantityInput';
+import { useLists } from '../lib/ListsContext';
 import type { List, Person } from '../types';
 import { getPeopleCount } from '../utils/lists';
 import { MSG } from "../utils/messages";
@@ -16,9 +15,7 @@ const PickPage: NextPage = () => {
 
 	// const [ignoreCompleted, setIgnoreCompleted] = useState(false)
 
-	const [selectedList, setSelectedList] = useState<List | undefined>(undefined)
-
-
+	const { selectedList, setSelectedList } = useLists();
 	const selectedListPeopleLength = useMemo(() => selectedList ? getPeopleCount(selectedList) : 0, [selectedList])
 
 	const [extractedPeople, setExtractedPeople] = useState<Person[]>([])
@@ -43,7 +40,7 @@ const PickPage: NextPage = () => {
 	}, [selectedList])
 
 
-	function updateSelectedList(list?: List) {
+	function updateSelectedList(list: List | null) {
 		setQuantity("")
 		setSelectedList(list)
 	}
@@ -90,7 +87,7 @@ const PickPage: NextPage = () => {
 
 				<PickList setSelectedList={updateSelectedList} onlyIncompletePeople />
 
-				<QuantityInput list={selectedList} setValue={setQuantity} onlyIncompletePeople  >
+				<QuantityInput setValue={setQuantity} onlyIncompletePeople  >
 					<button
 						disabled={!isQuantityValid || !selectedList}
 						className='rounded-b w-full h-10 sm:h-12 px-4 py-1 font-mono text-xl block  bg-emerald-600 hover:bg-emerald-500 disabled:bg-gray-700 disabled:cursor-not-allowed  disabled:text-gray-400 '
