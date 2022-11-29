@@ -9,19 +9,19 @@ import LayerOver from '../layerOver';
 
 
 type ListDetailsProps = {
-	currentListId: string,
 	closeView: () => void,
 }
-const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
-	const { lists, addPersonToList, deleteList, setListTitle, deletePersonFromList, togglePersonState } = useLists();
+const ListDetails: FC<ListDetailsProps> = ({ closeView, }) => {
+	const { lists, addPersonToList, deleteList, setListTitle, deletePersonFromList, togglePersonState, selectedDetailsListId, setSelectedDetailsListId } = useLists();
 
-	const currentList = useMemo(() => lists.find(list => list.id === currentListId), [lists, currentListId])
 
 	const newNameRef = useRef<HTMLInputElement>(null)
 	const [newNameIsEmpty, setNewNameIsEmpty] = useState(true)
 	const [deletePopupShowing, setDeletePopupShowing] = useState(false)
 
-	if (!currentList) {
+	const selectedList = useMemo(() => lists.get(selectedDetailsListId) ?? null, [selectedDetailsListId, lists])
+
+	if (!selectedList) {
 		closeView();
 		return null;
 	}
@@ -38,13 +38,16 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 	}
 
 	function onTitleInput(ev: ChangeEvent<HTMLInputElement>) {
-		setListTitle(currentListId, ev.target.value)
+		if (!selectedList) return;
+		setListTitle(selectedList.id, ev.target.value)
 	}
 	function addPerson(name: string) {
-		addPersonToList(currentListId, name)
+		if (!selectedList) return;
+		addPersonToList(selectedList.id, name)
 	}
 	function onListDeleteConfirm() {
-		deleteList(currentListId)
+		if (!selectedList) return;
+		deleteList(selectedList.id)
 		onCloseClick();
 	}
 
@@ -63,7 +66,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 			<input
 				className=" focus:text-yellow-500 border-b border-white/10 focus:border-yellow-400/20 focus:[text-shadow:none] focus:bg-black/20 font-serif whitespace-nowrap font-bold 
 				text-[#43ff7c]  [text-shadow:_2px_2px_5px_#080] text-3xl absolute -top-5 left-1/2 -translate-x-1/2 bg-transparent outline-none focus:outline-none text-center w-3/4"
-				value={currentList.title}
+				value={selectedList.title}
 				maxLength={50}
 				onInput={onTitleInput}
 			/>
@@ -117,9 +120,9 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, currentListId, }) => {
 						</tr>
 					</thead>
 					<tbody className=''>
-						{currentList.people.sort((a, b) => a.name.localeCompare(b.name)).map(
+						{selectedList.people.sort((a, b) => a.name.localeCompare(b.name)).map(
 							(person, i) =>
-								<PersonRow key={i} person={person} removeFromList={() => deletePersonFromList(currentListId, person.id)} toggleCompleteState={() => togglePersonState(currentListId, person.id)} />
+								<PersonRow key={i} person={person} removeFromList={() => deletePersonFromList(selectedList.id, person.id)} toggleCompleteState={() => togglePersonState(selectedList.id, person.id)} />
 						)}
 					</tbody>
 				</table>
