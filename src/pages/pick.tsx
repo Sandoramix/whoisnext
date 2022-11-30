@@ -43,8 +43,6 @@ const PickPage: NextPage = () => {
 	function updateSelectedList(list: List | null) {
 		setQuantity("")
 		setSelectedList(list)
-		console.log(list);
-
 	}
 	function onCopyClick() {
 		if (!selectedList) return;
