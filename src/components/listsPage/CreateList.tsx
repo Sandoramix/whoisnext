@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { BiImport } from 'react-icons/bi';
 import { useLists } from '../../lib/ListsContext';
-import { maxPeopleCount, maxTitleLength } from "../../utils/lists";
+import { maxPeopleCount, maxTitleLength } from '../../utils/lists';
 
 type CreateListProps = {
 	closeView: () => void,
@@ -18,8 +18,8 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 
 
 	const [title, setTitle] = useState("");
-	const isTitleValid = useMemo(() => title.trim() !== `` && title.length <= 20, [title])
-	const titleLeftChars = useMemo(() => 20 - title.trim().length, [title])
+	const isTitleValid = useMemo(() => title.trim() !== `` && title.length <= maxTitleLength, [title])
+	const titleLeftChars = useMemo(() => maxTitleLength - title.trim().length, [title])
 
 	const [peopleTextareaValue, setPeopleTextareaValue] = useState("")
 	const peopleLeftCount = useMemo(() => maxPeopleCount - getPeopleFromTextArea(peopleTextareaValue).length, [peopleTextareaValue])
@@ -119,7 +119,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 							onInput={onTitleInput}
 							ref={titleInputRef}
 							autoComplete="off"
-							maxLength={20}
+							maxLength={maxTitleLength}
 							className={`w-full h-full px-3 py-1`}
 							placeholder='E.g. Math 5A'
 						/>
