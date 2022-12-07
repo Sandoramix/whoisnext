@@ -2,14 +2,14 @@ import type { GetServerSideProps } from "next";
 import { type NextPage } from "next";
 
 
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   return {
-//     redirect: {
-//       destination: `/lists`,
-//       permanent: false
-//     }
-//   }
-// }
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    redirect: {
+      destination: `/lists`,
+      permanent: false
+    }
+  }
+}
 
 const Home: NextPage = () => {
   return (
