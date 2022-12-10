@@ -30,7 +30,7 @@ export default function ListsPage() {
 		<div className="flex flex-col items-center w-full h-full">
 			<div className="pt-4" />
 
-			<section className="flex justify-center w-full px-4">
+			<section className={`${[...lists.values()].length === 0 ? `` : `sm:hidden`}  flex justify-center w-full px-4`}>
 				<button
 					className="text-xl font-flat px-6 py-2 bg-[#002569] hover:bg-[#002b71]  rounded w-full min-w-[300px] max-w-[400px] h-[calc(100vw_*_.05_+_40px)] max-h-[90px] whitespace-nowrap"
 					onClick={() => setCreateListPanelOpened(true)}>
@@ -38,13 +38,26 @@ export default function ListsPage() {
 				</button>
 			</section>
 
+
 			<div className="pt-6" />
 
-			<div className="flex flex-col items-center justify-start w-full overflow-auto max-h-main h-full ">
-				<ul className="flex flex-col w-[95%] min-w-[310px] max-w-[950px] gap-8 py-6 list-none">
-					{[...lists.values()].map((list, index) => <List openThisList={() => openList(list)} list={list} key={index} />)}
-				</ul>
-			</div>
+			<fieldset className=" w-full max-h-main h-full ">
+				<legend>Lists</legend>
+				<div className="flex flex-col items-center justify-start w-full overflow-auto max-h-main h-full ">
+					<ul className="flex flex-col w-[95%] min-w-[310px] max-w-[950px] gap-8 py-6 list-none">
+						{[...lists.values()].map((list, index) => <List openThisList={() => openList(list)} list={list} key={index} />)}
+					</ul>
+				</div>
+			</fieldset>
+			<footer className='flex'>
+				<div id="add" className={`${[...lists.values()].length === 0 ? `` : ` sm:flex`} hidden    `}>
+					<button
+						className="text-xl font-mono bg-[#002569] hover:bg-[#002b71]  rounded-full aspect-square h-16 whitespace-nowrap"
+						onClick={() => setCreateListPanelOpened(true)}>
+						+
+					</button>
+				</div>
+			</footer>
 
 			{
 				createListPanelOpened

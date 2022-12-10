@@ -36,6 +36,11 @@ html {
   --scrollbar-width: 6px;
   --scrollbar-height: 6px;
   --scrollbar-thumb-bradius: 1rem;
+  --scrollbar-color:white;
+}
+
+.custom-scrollbar{
+  --scrollbar-color:red;
 }
 
 *::-webkit-scrollbar {
@@ -50,7 +55,7 @@ html {
 }
 *::-webkit-scrollbar-thumb {
   border-radius: var(--scrollbar-thumb-bradius);
-  background-color: white;
+  background-color: var(--scrollbar-color);
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

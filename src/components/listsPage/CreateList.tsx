@@ -92,7 +92,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 	return (
 		<>
 			<h2
-				className='absolute -top-5 left-1/2 -translate-x-1/2 font-serif whitespace-nowrap font-bold text-cyemerald [text-shadow:_2px_2px_5px_#080] text-3xl'
+				className='absolute -top-2 left-1/2 -translate-x-1/2 font-serif whitespace-nowrap font-bold text-cyemerald [text-shadow:_2px_2px_5px_#080] text-3xl'
 			>
 				Create new List
 			</h2>
@@ -134,7 +134,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 						<label htmlFor="users" className='grid grid-flow-row auto-cols-fr grid-cols-3 w-full items-center'>
 							<span></span>
 							<span className='text-3xl text-gray-200 uppercase font-flat'>Users</span>
-							<span className='text-sm text-gray-400 font-mono text-end self-end'>one per line</span>
+							<span className='text-sm text-gray-400 font-mono self-end text-end'>one<br className='sm:hidden' /><span className='sm:visible hidden'>&nbsp;</span> per line</span>
 						</label>
 
 
@@ -148,7 +148,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 								draggable={false}
 								value={peopleTextareaValue}
 								ref={peopleTextareaRef}
-								className={`px-2 py-1 h-full min-h-[40vh] max-h-[40vh] w-full`}
+								className={`px-2 py-1 h-full min-h-[40vh] max-h-[40vh] w-full custom-scrollbar`}
 								placeholder={`E.g.
 Marco
 Sophie
@@ -164,7 +164,7 @@ Sophie
 								<p className='py-2 '>or</p>
 
 								<div className='w-full '>
-									<label htmlFor="usersFile" className='relative flex items-center justify-center gap-2 px-4 py-3 w-min mx-auto rounded-sm cursor-pointer min-w-fit bg-indigo-700 hover:bg-indigo-600 whitespace-nowrap'>
+									<label htmlFor="usersFile" className='relative flex items-center justify-center gap-2 px-3 py-2 w-min mx-auto rounded-sm cursor-pointer min-w-fit bg-indigo-700 hover:bg-indigo-600 whitespace-nowrap'>
 										<BiImport className='text-slate-200 hover:text-slate-300 text-xl' />
 										<span>Import from file</span>
 									</label>
@@ -178,7 +178,7 @@ Sophie
 			</form>
 
 
-			<footer className="max-h-[50px] h-[50px] flex justify-between gap-4  items-center  text-2xl px-4 pb-2">
+			<footer className="max-h-[50px] h-[50px] mt-2 flex justify-between gap-4  items-center  text-2xl px-4 pb-2">
 
 
 				<button

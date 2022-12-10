@@ -71,7 +71,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, selectedList }) => {
 
 			<input
 				className=" focus:text-yellow-500 border-b border-white/10 focus:border-yellow-400/20 focus:[text-shadow:none] focus:bg-black/20 font-serif whitespace-nowrap font-bold 
-				text-[#43ff7c]  [text-shadow:_2px_2px_5px_#080] text-3xl absolute -top-5 left-1/2 -translate-x-1/2 bg-transparent outline-none focus:outline-none text-center w-3/4"
+				text-[#43ff7c]  [text-shadow:_2px_2px_5px_#080] text-3xl absolute -top-2 left-1/2 -translate-x-1/2 bg-transparent outline-none focus:outline-none text-center w-3/4"
 				value={titleInputValue}
 				maxLength={50}
 				onInput={onTitleInput}
