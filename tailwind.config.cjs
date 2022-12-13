@@ -3,14 +3,27 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-
+      minHeight: {
+        "90px": "90px"
+      },
+      minWidth: {
+        "90px": "90px"
+      },
       maxHeight: {
+        "90px": "90px",
         header: '90px',
         main: 'calc(100vh - 90px)'
       },
+      maxWidth: {
+        "90px": "90px"
+      },
       height: {
         header: '90px',
-        main: 'calc(100vh - 90px)'
+        main: 'calc(100vh - 90px)',
+        unknown: "calc(100vw * .05 + 40px)"
+      },
+      width: {
+        unknown: "calc(100vw * .05 + 40px)"
       },
 
       colors: {
