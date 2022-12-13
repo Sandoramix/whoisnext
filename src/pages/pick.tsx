@@ -74,8 +74,9 @@ const PickPage: NextPage = () => {
 
 	return (
 
-		<div className='flex flex-col w-full h-full px-1 sm:px-4 py-4 '>
-			<section className='flex flex-col  gap-2 justify-center  items-center'>
+		<div className='flex flex-col w-full h-full  bg-gradient-to-b to-[#0f0c4c] from-[#06001a]'>
+
+			<section className='bg-[#060018] flex flex-col py-2 px-4  gap-2 justify-center  items-center sticky top-0 left-0 w-full'>
 
 				<PickList setSelectedList={updateSelectedList} onlyIncompletePeople />
 
@@ -93,15 +94,15 @@ const PickPage: NextPage = () => {
 
 			<div className="h-1/5 sm:h-full"></div>
 
-			<div className="flex flex-col w-full grow self-end max-h-[calc(100vh_-_90px_-_250px)] min-h-[calc(100vh_-_90px_-_250px)] justify-start items-center">
+			<div className="px-1 sm:px-4 py-4 flex flex-col w-full grow self-end max-h-[calc(100vh_-_90px_-_250px)] min-h-[calc(100vh_-_90px_-_250px)] justify-start items-center">
 
 
 
 				{extractedPeople.length > 0 && (
-					<div className=' pointer-events-auto  my-auto relative flex flex-col w-full min-w-[315px] min-h-[250px]  max-w-[800px] overflow-y-auto h-full rounded max-h-[calc(100vh_-_90px_-_250px)] grow justify-start items-start'>
+					<div className=' pointer-events-auto  my-auto relative flex flex-col w-full min-w-[315px] min-h-[250px]  max-w-[800px] overflow-y-auto h-full  max-h-[calc(100vh_-_90px_-_250px)] grow justify-start items-start'>
 
-						<table className='border-b border-x border-emerald-900'>
-							<thead className='sticky -top-0 left-0 '>
+						<table className='border-b border-x border-emerald-900 bg-zinc-900'>
+							<thead className='sticky -top-0 left-0'>
 								<tr className='text-center bg-emerald-700 '>
 									<td className='' >
 										<div className=" max-w-[80px] w-[80px] h-10 border-r border-black flex justify-center items-center">
