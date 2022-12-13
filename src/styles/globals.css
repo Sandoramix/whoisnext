@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 * {
   padding: 0;
   margin: 0;
@@ -35,7 +36,7 @@ html {
 :root {
   --scrollbar-width: 6px;
   --scrollbar-height: 6px;
-  --scrollbar-thumb-bradius: 1rem;
+  --scrollbar-thumb-radius: 1rem;
   --scrollbar-color:white;
 }
 
@@ -54,7 +55,7 @@ html {
   height: var(--scrollbar-height);
 }
 *::-webkit-scrollbar-thumb {
-  border-radius: var(--scrollbar-thumb-bradius);
+  border-radius: var(--scrollbar-thumb-radius);
   background-color: var(--scrollbar-color);
 }
 input::-webkit-outer-spin-button,
@@ -62,6 +63,24 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
+
+
+/* SOMETHING */
+
+input:checked ~ .not-red-label{
+  background: #dc0000;
+}
+
+input:checked ~ .not-red-label:hover{
+  background: #de2222;
+}
+
+
+
+
+
 
 /* MUI CUSTOMIZATIONS */
 .MuiTextField-root svg {
@@ -93,6 +112,6 @@ input::-webkit-inner-spin-button {
   :root {
     --scrollbar-width: 4px;
     --scrollbar-height: 4px;
-    --scrollbar-thumb-bradius: 0.5rem;
+    --scrollbar-thumb-radius: 0.5rem;
   }
 }
