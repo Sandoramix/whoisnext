@@ -14,7 +14,7 @@ export default function ListsPage() {
 	const [createListPanelOpened, setCreateListPanelOpened] = useState(false);
 
 	const [searchedListName, setSearchedListName] = useState("");
-	const filteredList = useMemo(() => [...lists.values()].filter(list => list.title.includes(searchedListName)), [lists, searchedListName]);
+	const filteredList = useMemo(() => [...lists.values()].filter(list => list.title.toLowerCase().includes(searchedListName.toLowerCase())), [lists, searchedListName]);
 
 	const addBtnRef = useRef<HTMLButtonElement>(null);
 	const searchInputCnt = useRef<HTMLDivElement>(null);
