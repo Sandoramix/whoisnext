@@ -48,7 +48,7 @@ export default function ListsPage() {
 	return (
 		<div className="flex flex-col items-center w-full h-full bg-gradient-to-b to-[#0f0c4c] from-[#06001a]">
 
-			<div className="flex flex-col items-center justify-start w-full overflow-auto max-h-main h-full px-2 relative">
+			<div className="relative flex flex-col items-center justify-start w-full h-full px-2 overflow-auto max-h-main">
 
 				<nav className='flex gap-2  w-full justify-center items-center py-16 sticky top-0 left-0 z-10 bg-[#060018] h-28  drop-shadow-xl shadow-md'>
 
@@ -60,22 +60,22 @@ export default function ListsPage() {
 						Add List
 					</button>
 
-					<div ref={outerInputCnt} id='searchCnt' className='flex justify-center items-center max-h-90px'>
+					<div ref={outerInputCnt} id='searchCnt' className='flex items-center justify-center transition-all duration-300 max-h-90px'>
 
-						<div ref={searchInputCnt} id='searchCnt_inputCnt' className='overflow-hidden w-0 h-unknown flex items-center  max-h-90px '>
+						<div ref={searchInputCnt} id='searchCnt_inputCnt' className='flex items-center w-0 overflow-hidden h-unknown max-h-90px'>
 							<input
 								value={searchedListName}
 								onInput={(ev) => setSearchedListName(ev.currentTarget.value ?? "")}
 								type="text"
-								className='text-2xl sm:text-4xl text-center align-bottom placeholder:text-gray-400 bg-transparent  border-b-2 border-white h-full w-full px-2 py-1 focus:outline-none mr-2'
+								className='w-full h-full px-2 py-1 mr-2 text-2xl text-center align-bottom bg-transparent border-b-2 border-white sm:text-4xl placeholder:text-gray-400 focus:outline-none'
 								placeholder='Title'
 							/>
 						</div>
 						<input type="checkbox" name="search" id="searchToggler" className='sr-only' />
-						<label onClick={toggleSearchBtn} htmlFor="searchToggler" className='not-red-label cursor-pointer  grow bg-cyan-800 hover:bg-cyan-700  p-2 min-w-min max-w-90px max-h-90px h-unknown rounded aspect-square justify-center items-center'>
+						<label onClick={toggleSearchBtn} htmlFor="searchToggler" className='items-center justify-center p-2 transition-all duration-300 rounded cursor-pointer not-red-label grow bg-emerald-800 hover:bg-emerald-700 min-w-min max-w-90px max-h-90px h-unknown aspect-square'>
 							<BiSearchAlt
 
-								className=' text-4xl sm:text-5xl aspect-square h-full w-full'
+								className='w-full h-full text-4xl sm:text-5xl aspect-square'
 							/>
 						</label>
 					</div>
@@ -117,16 +117,16 @@ const List = ({ list, openThisList }: { list: List, openThisList: () => void }) 
 	}
 
 	return (
-		<li className="relative  bg-gradient-to-r to-blue-900  from-cyan-900  overflow-visible rounded select-none">
-			<h2 className="absolute font-serif text-2xl  font-bold -translate-x-1/2 -top-4 left-1/2 whitespace-nowrap">{list.title}</h2>
+		<li className="relative overflow-visible rounded select-none bg-gradient-to-r to-blue-900 from-cyan-900">
+			<h2 className="absolute font-serif text-2xl font-bold -translate-x-1/2 -top-4 left-1/2 whitespace-nowrap">{list.title}</h2>
 			<div className="w-full grid justify-between h-[calc(100vw_*_.05_+_80px)] max-h-[120px] grid-flow-row grid-cols-3 auto-cols-min items-center  px-4 text-center font-medium font-sans">
 				<div className="text-base sm:text-xl lg:text-2xl  text-gray-200 transition-[font-size] duration-200 items-start flex">{list.people.length} <br />{list.people.length == 1 ? `Person` : `People`}</div>
 				<div className="text-base sm:text-xl lg:text-2xl  text-emerald-300 transition-[font-size] duration-200">{list.people.filter(p => p.isCompleted).length} <br />Completed</div>
 				<div
 
-					className=" flex flex-col items-end justify-center text-xl sm:text-2xl lg:text-3xl font-extrabold"
+					className="flex flex-col items-end justify-center text-xl font-extrabold sm:text-2xl lg:text-3xl"
 				>
-					<div onClick={onEditClick} className="flex flex-col justify-center items-center px-4 py-2  text-yellow-500 cursor-pointer hover:text-yellow-300">
+					<div onClick={onEditClick} className="flex flex-col items-center justify-center px-4 py-2 text-yellow-500 cursor-pointer hover:text-yellow-300">
 						<AiOutlineEdit className="text-3xl sm:text-4xl lg:text-5xl  transition-[font-size] duration-200" />
 						<h3>Edit</h3>
 					</div>
