@@ -18,12 +18,16 @@ module.exports = {
         "90px": "90px"
       },
       height: {
+        "90px": "90px",
+        "80px": "80px",
         header: '90px',
         main: 'calc(100vh - 90px)',
         unknown: "calc(100vw * .05 + 40px)"
       },
       width: {
-        unknown: "calc(100vw * .05 + 40px)"
+        unknown: "calc(100vw * .05 + 40px)",
+        "90px": "90px",
+        "80px": "80px",
       },
 
       colors: {
