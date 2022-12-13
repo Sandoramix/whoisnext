@@ -66,7 +66,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, selectedList }) => {
 
 
 	return (
-		<div className='w-full h-full flex flex-col justify-between items-center'>
+		<div className='flex flex-col items-center justify-between w-full h-full'>
 			<DeletePopup visible={deletePopupShowing} setVisible={setDeletePopupShowing} onDeleteConfirm={onListDeleteConfirm} />
 
 			<input
@@ -122,12 +122,12 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, selectedList }) => {
 
 			<div className='grow flex flex-col bg-black max-h-[calc(100%_-_140px)] h-[calc(100%_-_140px)] min-w-[290px] w-[99%] overflow-y-auto rounded outline outline-gray-900/50'>
 
-				<table className='text-sm sm:text-base border-b border-indigo-900'>
+				<table className='text-sm border-b border-indigo-900 sm:text-base'>
 					<thead className='sticky top-0 left-0 select-none'>
-						<tr className=' h-8'>
-							<th className='bg-cyan-700 px-1 py-0 capitalize border-r border-cyan-900'>Name</th>
-							<th className='bg-cyan-700 px-1 py-0 capitalize border-r border-cyan-900'>Is&nbsp;completed</th>
-							<th className='bg-cyan-700 text-sm text-rose-200'>Delete</th>
+						<tr className='h-8 '>
+							<th className='px-1 py-0 capitalize border-r bg-cyan-700 border-cyan-900'>Name</th>
+							<th className='px-1 py-0 capitalize border-r bg-cyan-700 border-cyan-900'>Is&nbsp;completed</th>
+							<th className='text-sm bg-cyan-700 text-rose-200'>Delete</th>
 						</tr>
 					</thead>
 					<tbody className=''>

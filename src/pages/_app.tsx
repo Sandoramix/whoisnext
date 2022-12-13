@@ -19,17 +19,17 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       </Head>
 
       <div className="w-screen min-h-[600px] overflow-x-hidden h-screen bg-html text-white font-main text-base relative">
-        <header className="overflow-hidden bg-header/25 w-full max-h-header h-header grid-flow-col grid grid-cols-2 justify-center items-center text-center border-b border-cyan-800/30 font-sub">
+        <header className="grid items-center justify-center w-full grid-flow-col grid-cols-2 overflow-hidden text-center border-b bg-header/25 max-h-header h-header border-cyan-800/30 font-sub">
 
-          <Link href={`/lists`} className="px-4 py-1 min-w-fit hover:text-cyemerald hover:text-xl transition-all duration-300 text-center ">
+          <Link href={`/lists`} className="px-4 py-1 text-center transition-all duration-300 min-w-fit hover:text-cyemerald hover:text-xl ">
             <h1 className={pathname == `/lists` ? `text-cyemerald [text-shadow:_2px_2px_5px_#080]` : ``}>Lists</h1>
           </Link>
-          {/* <Link href={`/`} className="flex justify-center items-center px-4 py-1 min-w-fit hover:text-cyemerald text-3xl hover:text-4xl transition-all duration-300 text-center">
+          {/* <Link href={`/`} className="flex items-center justify-center px-4 py-1 text-3xl text-center transition-all duration-300 min-w-fit hover:text-cyemerald hover:text-4xl">
             <h1 className={pathname == `/` ? `text-cyemerald [text-shadow:_2px_2px_5px_#080]` : ``}>
               <BiHome />
             </h1>
           </Link> */}
-          <Link href={`/pick`} className="px-4 py-1 min-w-fit hover:text-cyemerald hover:text-xl transition-all duration-300 text-center">
+          <Link href={`/pick`} className="px-4 py-1 text-center transition-all duration-300 min-w-fit hover:text-cyemerald hover:text-xl">
             <h1 className={pathname == `/pick` ? `text-cyemerald [text-shadow:_2px_2px_5px_#080]` : ``}>Random <br className="block" />Pick</h1>
           </Link>
 

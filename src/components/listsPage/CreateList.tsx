@@ -105,10 +105,10 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 				className='flex flex-col items-center justify-center gap-4'>
 				<div className='mt-6' />
 				<div className='flex flex-col items-center justify-center w-full'>
-					<label htmlFor="title" className='grid grid-flow-row auto-cols-fr grid-cols-3 w-full items-center'>
+					<label htmlFor="title" className='grid items-center w-full grid-flow-row grid-cols-3 auto-cols-fr'>
 						<span></span>
 						<span className='text-3xl text-gray-200 uppercase font-flat '>Title</span>
-						<span className='text-sm text-gray-400 font-mono text-end self-end'></span>
+						<span className='self-end font-mono text-sm text-gray-400 text-end'></span>
 					</label>
 
 					<div className={`relative w-full h-14 text-2xl text-center text-black rounded ${isTitleValid ? `` : `outline outline-red-500`} relative`}>
@@ -131,10 +131,10 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 
 				<div className='flex flex-col items-center justify-center w-full'>
 					<div className='flex flex-col w-full'>
-						<label htmlFor="users" className='grid grid-flow-row auto-cols-fr grid-cols-3 w-full items-center'>
+						<label htmlFor="users" className='grid items-center w-full grid-flow-row grid-cols-3 auto-cols-fr'>
 							<span></span>
 							<span className='text-3xl text-gray-200 uppercase font-flat'>Users</span>
-							<span className='text-sm text-gray-400 font-mono self-end text-end'>one<br className='sm:hidden' /><span className='sm:visible hidden'>&nbsp;</span> per line</span>
+							<span className='self-end font-mono text-sm text-gray-400 text-end'>one<br className='sm:hidden' /><span className='hidden sm:visible'>&nbsp;</span> per line</span>
 						</label>
 
 
@@ -164,8 +164,8 @@ Sophie
 								<p className='py-2 '>or</p>
 
 								<div className='w-full '>
-									<label htmlFor="usersFile" className='relative flex items-center justify-center gap-2 px-3 py-2 w-min mx-auto rounded-sm cursor-pointer min-w-fit bg-indigo-700 hover:bg-indigo-600 whitespace-nowrap'>
-										<BiImport className='text-slate-200 hover:text-slate-300 text-xl' />
+									<label htmlFor="usersFile" className='relative flex items-center justify-center gap-2 px-3 py-2 mx-auto bg-indigo-700 rounded-sm cursor-pointer w-min min-w-fit hover:bg-indigo-600 whitespace-nowrap'>
+										<BiImport className='text-xl text-slate-200 hover:text-slate-300' />
 										<span>Import from file</span>
 									</label>
 									<input ref={usersFileRef} type="file" name="text" id="usersFile" className='sr-only' accept='.txt' size={1024} onInput={onUsersFileUpload} />

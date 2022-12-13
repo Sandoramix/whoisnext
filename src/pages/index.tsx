@@ -14,8 +14,8 @@ const Home: NextPage = () => {
   return (
     <>
       <div className="w-full h-full px-6 py-2">
-        <section className="flex justify-center items-center">
-          <h1 className="text-4xl font-serif">WhoIsNext</h1>
+        <section className="flex items-center justify-center">
+          <h1 className="font-serif text-4xl">WhoIsNext</h1>
         </section>
         <section>
 

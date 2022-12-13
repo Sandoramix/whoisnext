@@ -58,7 +58,7 @@ const PickList: FC<PickListProps> = ({ setSelectedList, onlyIncompletePeople, fu
 					<div key={`opt-${option.id}`} className="flex items-center justify-between gap-2 py-2 pl-3 pr-2 text-center cursor-pointer bg-zinc-800 hover:bg-zinc-700">
 						<hr className='absolute w-1 left-1' />
 						<h4 className="font-bold capitalize text-ellipsis max-w-[90%] overflow-hidden whitespace-nowrap" >{option.title}</h4>
-						<div className='flex items-center justify-end text-sm gap-1'>
+						<div className='flex items-center justify-end gap-1 text-sm'>
 							<h5 className=" text-[greenyellow]">{option.completed}</h5>/<h5>{option.total}</h5>
 						</div>
 					</div>

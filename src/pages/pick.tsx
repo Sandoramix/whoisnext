@@ -83,7 +83,7 @@ const PickPage: NextPage = () => {
 				<QuantityInput selectedList={selectedList} setValue={setQuantity} onlyIncompletePeople  >
 					<button
 						disabled={!isQuantityValid || !selectedList}
-						className='rounded-b w-full h-10 sm:h-12 px-4 py-1 font-mono text-xl block  bg-emerald-600 hover:bg-emerald-500 disabled:bg-gray-700 disabled:cursor-not-allowed  disabled:text-gray-400 '
+						className='block w-full h-10 px-4 py-1 font-mono text-xl rounded-b sm:h-12 bg-emerald-600 hover:bg-emerald-500 disabled:bg-gray-700 disabled:cursor-not-allowed disabled:text-gray-400 '
 						onClick={onPickBtnClick}
 					>
 						Pick
@@ -102,20 +102,20 @@ const PickPage: NextPage = () => {
 					<div className=' pointer-events-auto  my-auto relative flex flex-col w-full min-w-[315px] min-h-[250px]  max-w-[800px] overflow-y-auto h-full  max-h-[calc(100vh_-_90px_-_250px)] grow justify-start items-start'>
 
 						<table className='border-b border-x border-emerald-900 bg-zinc-900'>
-							<thead className='sticky -top-0 left-0'>
+							<thead className='sticky left-0 -top-0'>
 								<tr className='text-center bg-emerald-700 '>
 									<td className='' >
 										<div className=" max-w-[80px] w-[80px] h-10 border-r border-black flex justify-center items-center">
 											<h3>&nbsp;&nbsp;N°</h3>
 										</div>
 									</td>
-									<td className='h-10 w-full relative'>
+									<td className='relative w-full h-10'>
 										<h3>Name</h3>
 										<Tooltip
 											arrow
 											placeholder="top-start"
 											title={isCopyClicked ? `Done!` : `Copy to clipboard`}
-											className="absolute right-2 top-1/2 -translate-y-1/2 text-3xl text-yellow-500"
+											className="absolute text-3xl text-yellow-500 -translate-y-1/2 right-2 top-1/2"
 											onClick={onCopyClick}
 											onMouseEnter={() => setIsCopyClicked(false)}
 										>
@@ -135,7 +135,7 @@ const PickPage: NextPage = () => {
 													{index + 1}
 												</div>
 											</td>
-											<td className='px-2 py-1 text-center w-full'>{person.name}</td>
+											<td className='w-full px-2 py-1 text-center'>{person.name}</td>
 										</tr>)
 									)
 								}

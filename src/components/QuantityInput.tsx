@@ -78,7 +78,7 @@ const QuantityInput: FC<QuantityInputProps> = ({ setValue, onlyIncompletePeople,
 				>+</button>
 			</div>
 			<hr className='border-white/20' />
-			<div id="quantity-input" className='flex grow justify-center items-center w-full'>
+			<div id="quantity-input" className='flex items-center justify-center w-full grow'>
 				{children}
 			</div>
 
