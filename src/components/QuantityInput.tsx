@@ -53,7 +53,7 @@ const QuantityInput: FC<QuantityInputProps> = ({ setValue, onlyIncompletePeople,
 
 
 	return (
-		<div className={` w-full min-w-[280px] ${fullWidth ? `` : `max-w-[550px]`} flex flex-col text-xl bg-white/10 rounded focus-within:outline-white border border-white/10 `}>
+		<div className={`${!selectedList ? `opacity-0` : ``} w-full min-w-[280px] ${fullWidth ? `` : `max-w-[550px]`} flex flex-col text-xl bg-white/10 rounded focus-within:outline-white border border-white/10 `}>
 
 			<div id="quantity-input" className='flex grow justify-center items-center relative h-12 sm:h-16 transition-all duration-200 w-full px-[2ch]'>
 				<button className='absolute left-0 p-1 text-4xl font-bold text-red-600 -translate-y-1/2 top-1/2 hover:text-red-500 disabled:text-gray-500'
