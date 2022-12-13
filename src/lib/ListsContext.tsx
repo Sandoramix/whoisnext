@@ -4,10 +4,6 @@ import type { List } from "../types";
 import { deleteLSList, getListsFromLS, updateLSList } from '../utils/lists';
 
 
-export const DB = {
-	lists: `lists`
-}
-
 export type ListsContextProps = {
 	lists: Map<string, List>,
 	setListTitle: (listId: string, title: string) => void,
