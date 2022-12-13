@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
-import { BiSearchAlt, BiSearchAlt2 } from 'react-icons/bi';
+import { BiSearchAlt } from 'react-icons/bi';
 import LayerOver from "../components/layerOver";
 import CreateList from "../components/listsPage/CreateList";
 import ListDetails from "../components/listsPage/ListDetails";
@@ -10,8 +10,6 @@ import { List } from '../types';
 
 
 export default function ListsPage() {
-
-
 	const { lists } = useLists();
 	const [createListPanelOpened, setCreateListPanelOpened] = useState(false);
 
@@ -19,7 +17,8 @@ export default function ListsPage() {
 	const filteredList = useMemo(() => [...lists.values()].filter(list => list.title.includes(searchedListName)), [lists, searchedListName]);
 
 	const addBtnRef = useRef<HTMLButtonElement>(null);
-	const searchInputCntRef = useRef<HTMLDivElement>(null);
+	const searchInputCnt = useRef<HTMLDivElement>(null);
+	const outerInputCnt = useRef<HTMLDivElement>(null);
 
 	const [selectedList, setSelectedList] = useState<List | null>(null)
 	const closeListDetails = () => {
@@ -33,42 +32,52 @@ export default function ListsPage() {
 	}
 
 	function toggleSearchBtn() {
-
 		if (!addBtnRef.current) return;
-		const isActive = addBtnRef.current.className.includes('grow');
+		const isSearchActive = addBtnRef.current.className.includes('w-full');
 
-		addBtnRef.current.textContent = !isActive ? `Add List` : `+`
-		addBtnRef.current.classList.toggle(`grow`, !isActive)
-		addBtnRef.current.classList.toggle(`!text-3xl`, isActive)
-		addBtnRef.current.classList.toggle(`!rounded-full`, isActive)
+		addBtnRef.current.textContent = isSearchActive ? `+` : `Add List`
+		addBtnRef.current.classList.toggle(`w-full`, !isSearchActive);
 
-		if (!searchInputCntRef.current) return;
-		searchInputCntRef.current.classList.toggle('!w-full', isActive)
+		addBtnRef.current.classList.toggle(`!text-3xl`, isSearchActive)
 
-
-
-
+		searchInputCnt.current?.classList.toggle('!w-full', isSearchActive)
+		outerInputCnt.current?.classList.toggle(`grow`, isSearchActive)
 	}
 
 
 	return (
 		<div className="flex flex-col items-center w-full h-full bg-gradient-to-b to-[#0f0c4c] from-[#06001a]">
-			<div className="flex flex-col items-center justify-start w-full overflow-auto max-h-main h-full ">
-				<nav className='flex gap-2 w-full justify-center items-center px-2 py-16 sticky top-0 left-0 z-10 bg-[#060018] h-28 drop-shadow-xl shadow-md'>
+
+			<div className="flex flex-col items-center justify-start w-full overflow-auto max-h-main h-full px-2 relative">
+
+				<nav className='flex gap-2  w-full justify-center items-center py-16 sticky top-0 left-0 z-10 bg-[#060018] h-28  drop-shadow-xl shadow-md'>
 
 					<button
-						// bg-[#002569] hover:bg-[#002b71]
+						id='addBtn'
 						ref={addBtnRef}
-						className="text-xl font-sub px-6 py-2 bg-indigo-900 hover:bg-indigo-800 grow rounded max-w-[400px] w-unknown aspect-square h-unknown max-h-90px whitespace-nowrap"
+						className="text-xl font-sub px-4 py-2 bg-indigo-900 hover:bg-indigo-800 w-full aspect-square  rounded max-w-[400px]  h-unknown max-h-90px whitespace-nowrap"
 						onClick={() => setCreateListPanelOpened(true)}>
 						Add List
 					</button>
 
-					<div className='flex justify-center items-center h-unknown max-h-90px'>
-						<div ref={searchInputCntRef} className='overflow-hidden w-0 h-unknown flex items-center  max-h-90px '>
-							<input value={searchedListName} onInput={(ev) => setSearchedListName(ev.currentTarget.value ?? "")} type="text" className='bg-transparent border-2 border-white h-full w-full px-2 py-1' />
+					<div ref={outerInputCnt} id='searchCnt' className='flex justify-center items-center max-h-90px'>
+
+						<div ref={searchInputCnt} id='searchCnt_inputCnt' className='overflow-hidden w-0 h-unknown flex items-center  max-h-90px '>
+							<input
+								value={searchedListName}
+								onInput={(ev) => setSearchedListName(ev.currentTarget.value ?? "")}
+								type="text"
+								className='text-2xl sm:text-4xl text-center align-bottom placeholder:text-gray-400 bg-transparent  border-b-2 border-white h-full w-full px-2 py-1 focus:outline-none mr-2'
+								placeholder='Title'
+							/>
 						</div>
-						<BiSearchAlt onClick={toggleSearchBtn} className=' text-4xl sm:text-5xl cursor-pointer grow min-w-min max-w-90px max-h-90px h-full rounded aspect-square p-2  bg-cyan-800 hover:bg-cyan-700' />
+						<input type="checkbox" name="search" id="searchToggler" className='sr-only' />
+						<label onClick={toggleSearchBtn} htmlFor="searchToggler" className='not-red-label cursor-pointer  grow bg-cyan-800 hover:bg-cyan-700  p-2 min-w-min max-w-90px max-h-90px h-unknown rounded aspect-square justify-center items-center'>
+							<BiSearchAlt
+
+								className=' text-4xl sm:text-5xl aspect-square h-full w-full'
+							/>
+						</label>
 					</div>
 
 				</nav>
