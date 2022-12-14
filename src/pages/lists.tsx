@@ -60,7 +60,7 @@ export default function ListsPage() {
 						Add List
 					</button>
 
-					<div ref={outerInputCnt} id='searchCnt' className='flex items-center justify-center transition-all duration-300 max-h-90px'>
+					<div ref={outerInputCnt} id='searchCnt' className={`${lists.size === 0 ? `hidden` : `flex`} items-center justify-center transition-all duration-300 max-h-90px`}>
 
 						<div ref={searchInputCnt} id='searchCnt_inputCnt' className='flex items-center w-0 overflow-hidden h-unknown max-h-90px'>
 							<input
