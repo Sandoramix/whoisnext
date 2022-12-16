@@ -41,7 +41,8 @@ export default function ListsPage() {
 		addBtnRef.current.classList.toggle(`!text-3xl`, isSearchActive)
 
 		searchInputCnt.current?.classList.toggle('!w-full', isSearchActive)
-		outerInputCnt.current?.classList.toggle(`grow`, isSearchActive)
+		outerInputCnt.current?.classList.toggle(`grow`, isSearchActive);
+		setSearchedListName("")
 	}
 
 
