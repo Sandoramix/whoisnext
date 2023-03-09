@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { BiImport } from 'react-icons/bi';
 import { useLists } from '../../lib/ListsContext';
-import { maxListItemsCount, maxTitleLength } from '../../utils/lists';
+import { maxListItemsCount } from '../../utils/lists';
 
 type CreateListProps = {
 	closeView: () => void,
@@ -11,15 +11,15 @@ type CreateListProps = {
 
 const CreateList: FC<CreateListProps> = ({ closeView }) => {
 
-	const { addList } = useLists();
+	const { addList, maxTitleLength } = useLists();
 	const titleInputRef = useRef<HTMLInputElement>(null);
 	const listItemsTextareaRef = useRef<HTMLTextAreaElement>(null);
 	const listItemsRef = useRef<HTMLInputElement>(null)
 
 
 	const [title, setTitle] = useState("");
-	const isTitleValid = useMemo(() => title.trim() !== `` && title.length <= maxTitleLength, [title])
-	const titleLeftChars = useMemo(() => maxTitleLength - title.trim().length, [title])
+	const isTitleValid = useMemo(() => title.trim() !== `` && title.length <= maxTitleLength, [title, maxTitleLength])
+	const titleLeftChars = useMemo(() => maxTitleLength - title.trim().length, [title, maxTitleLength])
 
 	const [listItemsTextareaValue, setListItemsTextareaValue] = useState("")
 	const listItemsLeftCount = useMemo(() => maxListItemsCount - getListItemsFromTextArea(listItemsTextareaValue).length, [listItemsTextareaValue])
@@ -32,7 +32,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 
 
 	const onTitleInput = () => {
-		const title = titleInputRef.current?.value.trim();
+		const title = titleInputRef.current?.value.trim().substring(0, maxTitleLength);
 		setTitle(title ?? "")
 	}
 
@@ -90,12 +90,14 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 	}
 
 	return (
-		<>
-			<h2
-				className='absolute -top-2 left-1/2 -translate-x-1/2 font-serif whitespace-nowrap font-bold text-cyemerald [text-shadow:_2px_2px_5px_#080] text-3xl'
-			>
-				Create new List
-			</h2>
+		<div className='flex flex-col gap-2 justify-start h-full max-h-full overflow-y-auto'>
+			<div>
+				<h2
+					className=' font-serif whitespace-nowrap font-bold text-cyemerald [text-shadow:_2px_2px_5px_#080] text-3xl'
+				>
+					Create new List
+				</h2>
+			</div>
 
 
 			<form
@@ -103,7 +105,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 				onSubmit={onFormSubmit}
 
 				className='flex flex-col items-center justify-center gap-4'>
-				<div className='mt-6' />
+
 				<div className='flex flex-col items-center justify-center w-full'>
 					<label htmlFor="title" className='grid items-center w-full grid-flow-row grid-cols-3 auto-cols-fr'>
 						<span></span>
@@ -121,7 +123,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 							autoComplete="off"
 							maxLength={maxTitleLength}
 							className={`w-full h-full px-3 py-1`}
-							placeholder='E.g. Math 5A'
+							placeholder='E.g. Pizzas'
 						/>
 						<p className={`pointer-events-none select-none absolute right-1 bottom-1 font-serif text-xl ${titleLeftChars < 0 ? `text-red-600` : `text-gray-600`}`}>{titleLeftChars}</p>
 					</div>
@@ -178,6 +180,7 @@ Sophie
 			</form>
 
 
+			<span className='grow'></span>
 			<footer className="max-h-[50px] h-[50px] mt-2 flex justify-between gap-4  items-center  text-2xl px-4 pb-2">
 
 
@@ -197,7 +200,7 @@ Sophie
 					Create
 				</button>
 			</footer>
-		</>
+		</div>
 
 	)
 }

@@ -4,14 +4,14 @@ const LayerOver: FC<{ children: JSX.Element | JSX.Element[], closeView?: () => v
 
 	return (
 		<div
-			className={`w-[99%] sm:w-full h-full z-30 absolute left-0 top-0 ${noBackdrop ? `` : `backdrop-blur-sm backdrop-brightness-50`} flex justify-center items-center min-w-[300px] min-h-[600px]`}
+			className={`max-h-100dvh w-full sm:w-full h-full z-30 fixed inset-0 ${noBackdrop ? `` : `backdrop-blur-sm backdrop-brightness-50`} flex justify-center items-center`}
 			onClick={closeView}
 		>
 			{customInnerDiv
 				? children
 				: (
 					<div
-						className="transition-all duration-500 rounded h-[90%] w-full min-w-[300px] max-w-[800px] min-h-[600px] relative overflow-visible bg-overlay bg-opacity-80 flex flex-col justify-between px-4 py-2 text-center border border-white/20"
+						className="transition-all duration-500 rounded h-[95%] w-full min-w-[300px] min-h-[320px] max-w-[800px] relative overflow-y-auto bg-overlay bg-opacity-70  px-4 py-2 text-center border border-white/20"
 						onClick={(ev) => ev.stopPropagation()}
 					>
 

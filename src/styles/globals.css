@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+:root{
+  --scrollbar-width: 6px;
+  --scrollbar-height: 6px;
+  --scrollbar-thumb-radius: 1rem;
+  --scrollbar-color:white;
+
+  --100dvh:100vh;
+  --100dvh:100dvh;
+}
+
+.max-h-100dvh{
+  max-height: var(--100dvh);
+}
+
 
 * {
   padding: 0;
@@ -31,13 +45,6 @@ html {
 @font-face {
   src: url("./fonts/octapost/OctapostNbp-3e0X.ttf");
   font-family: "flat";
-}
-
-:root {
-  --scrollbar-width: 6px;
-  --scrollbar-height: 6px;
-  --scrollbar-thumb-radius: 1rem;
-  --scrollbar-color:white;
 }
 
 .custom-scrollbar{

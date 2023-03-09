@@ -113,55 +113,53 @@ const PickPage: NextPage = () => {
 			</section>
 
 
-			<div className="h-1/5 sm:h-full"></div>
+			{/* <div className="h-1/5 sm:h-full"></div> */}
 
-			<div className="px-1 sm:px-4 py-4 flex flex-col w-full grow self-end max-h-[calc(100vh_-_90px_-_250px)] min-h-[calc(100vh_-_90px_-_250px)] justify-start items-center">
+			{/* <div className="px-1 sm:px-4 py-4 w-full grow self-end mx-auto"> */}
 
+			{extractedListItems.length > 0 && (
+				<div className=' pointer-events-auto mx-auto sm:pb-2  my-auto relative  w-full min-w-[300px] min-h-[250px]  max-w-[800px] h-full overflow-y-auto'>
 
+					<table className='border-b border-x border-emerald-900 bg-zinc-900'>
+						<thead className='sticky left-0 -top-0'>
+							<tr className='text-center bg-emerald-700 '>
+								<td className='' >
+									<div className=" max-w-[80px] w-[80px] h-10 border-r border-black flex justify-center items-center">
+										<h3>&nbsp;&nbsp;N°</h3>
+									</div>
+								</td>
+								<td className='relative h-10'>
+									<h3>Name</h3>
 
-				{extractedListItems.length > 0 && (
-					<div className=' pointer-events-auto  my-auto relative flex flex-col w-full min-w-[315px] min-h-[250px]  max-w-[800px] overflow-y-auto h-full  max-h-[calc(100vh_-_90px_-_250px)] grow justify-start items-start'>
+									<div className="absolute h-full -translate-y-1/2 right-2 top-1/2 flex gap-2 border-l border-black border-opacity-40 px-2">
+										<PickedListAction Icon={AiOutlineDownload} onClick={onDownloadClick} tooltip="Download as a file" tooltipClicked="Done!" />
+										<PickedListAction Icon={AiOutlineCopy} onClick={onCopyClick} tooltip="Copy to clipboard" tooltipClicked="Done!" />
+									</div>
+								</td>
+							</tr>
+						</thead>
+						<tbody className="">
+							{
+								extractedListItems.map((listItem, index) => (
+									<tr key={index} className="border-b last:border-none border-green-900/40">
+										<td>
+											<div className="px-2 py-1 text-center border-r border-green-900/80 max-w-[80px] w-[80px] ">
+												{index + 1}
+											</div>
+										</td>
+										<td className='w-full px-2 py-1 text-center'>{listItem.name}</td>
+									</tr>)
+								)
+							}
+						</tbody>
+					</table>
 
-						<table className='border-b border-x border-emerald-900 bg-zinc-900'>
-							<thead className='sticky left-0 -top-0'>
-								<tr className='text-center bg-emerald-700 '>
-									<td className='' >
-										<div className=" max-w-[80px] w-[80px] h-10 border-r border-black flex justify-center items-center">
-											<h3>&nbsp;&nbsp;N°</h3>
-										</div>
-									</td>
-									<td className='relative w-full h-10'>
-										<h3>Name</h3>
-
-										<div className="absolute  -translate-y-1/2 right-2 top-1/2 flex gap-2">
-											<PickedListAction Icon={AiOutlineDownload} onClick={onDownloadClick} tooltip="Download as a file" tooltipClicked="Done!" />
-											<PickedListAction Icon={AiOutlineCopy} onClick={onCopyClick} tooltip="Copy to clipboard" tooltipClicked="Done!" />
-										</div>
-									</td>
-								</tr>
-							</thead>
-							<tbody className="">
-								{
-									extractedListItems.map((listItem, index) => (
-										<tr key={index} className="border-b last:border-none border-green-900/40">
-											<td>
-												<div className="px-2 py-1 text-center border-r border-green-900/80 max-w-[80px] w-[80px] ">
-													{index + 1}
-												</div>
-											</td>
-											<td className='w-full px-2 py-1 text-center'>{listItem.name}</td>
-										</tr>)
-									)
-								}
-							</tbody>
-						</table>
-
-					</div>
-				)}
-
-			</div>
+				</div>
+			)}
 
 		</div>
+
+		// </div>
 
 	);
 };

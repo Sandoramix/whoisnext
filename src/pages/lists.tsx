@@ -47,9 +47,9 @@ export default function ListsPage() {
 
 
 	return (
-		<div className="flex flex-col items-center w-full h-full bg-gradient-to-b to-[#0f0c4c] from-[#06001a]">
+		<div className="flex flex-col items-center w-full h-full bg-gradient-to-b  to-[#0f0c4c] from-[#06001a]">
 
-			<div className="relative flex flex-col items-center justify-start w-full h-full px-2 overflow-auto max-h-main">
+			<div className="relative flex flex-col items-center justify-start w-full h-full overflow-y-auto max-h-main">
 
 				<nav className='flex gap-2  w-full justify-center items-center py-16 sticky top-0 left-0 z-10 bg-[#060018] h-28  drop-shadow-xl shadow-md'>
 
@@ -118,10 +118,15 @@ const List = ({ list, openThisList }: { list: List, openThisList: () => void }) 
 	}
 
 	return (
-		<li className="relative overflow-visible rounded select-none bg-gradient-to-r to-blue-900 from-cyan-900">
-			<h2 className="absolute font-serif text-2xl font-bold -translate-x-1/2 -top-4 left-1/2 whitespace-nowrap">{list.title}</h2>
+		<li className="relative overflow-visible rounded select-none bg-gradient-to-r to-blue-900 from-cyan-900 rounded-t-lg">
+			<div className='px-4 text-center flex justify-center items-center pt-2 pb-3'>
+				<h2 className="font-serif text-2xl font-bold whitespace-nowrap capitalize text-ellipsis overflow-hidden">{list.title}</h2>
+			</div>
+
+			<hr className='border-dotted border-emerald-400 border-opacity-80' />
+
 			<div className="w-full grid justify-between h-[calc(100vw_*_.05_+_80px)] max-h-[120px] grid-flow-row grid-cols-3 auto-cols-min items-center  px-4 text-center font-medium font-sans">
-				<div className="text-base sm:text-xl lg:text-2xl  text-gray-200 transition-[font-size] duration-200 items-start flex">{list.items.length} <br />{list.items.length == 1 ? `element` : `elements`}</div>
+				<div className="text-base sm:text-xl lg:text-2xl  text-gray-200 transition-[font-size] duration-200 items-start flex capitalize">{list.items.length} <br />{list.items.length == 1 ? `element` : `elements`}</div>
 				<div className="text-base sm:text-xl lg:text-2xl  text-emerald-300 transition-[font-size] duration-200">{list.items.filter(p => p.isCompleted).length} <br />Completed</div>
 				<div
 

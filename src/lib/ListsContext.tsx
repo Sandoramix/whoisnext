@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import type { List } from "../types";
-import { deleteLSList, getListsFromLS, updateLSList } from '../utils/lists';
+import { deleteLSList, getListsFromLS, maxTitleLength, updateLSList } from '../utils/lists';
 
 
 export type ListsContextProps = {
@@ -12,23 +12,18 @@ export type ListsContextProps = {
 	addListItemToList: (listId: string, listItemName: string, isCompleted?: boolean) => void,
 	deleteListItemFromList: (listId: string, listItemId: number) => void,
 	toggleListItemState: (listId: string, listItemId: number) => void,
+	maxTitleLength: number
 }
 
-export const ListsContext = createContext<ListsContextProps>({
-	lists: new Map(),
-	setListTitle: () => null,
-	addList: () => null,
-	deleteList: () => null,
-	addListItemToList: () => null,
-	deleteListItemFromList: () => null,
-	toggleListItemState: () => null,
-})
+export const ListsContext = createContext<ListsContextProps>({} as ListsContextProps)
 
 export const useLists = () => useContext(ListsContext);
 
 
 export const ListsProvider = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
 	const [lists, setLists] = useState<Map<string, List>>(new Map())
+
+	const maxListTitle = 25;
 
 
 
@@ -125,10 +120,11 @@ export const ListsProvider = ({ children }: { children: JSX.Element | JSX.Elemen
 		})
 	}
 
+	const value: ListsContextProps = { lists, setListTitle, addList, addListItemToList, deleteList, deleteListItemFromList, toggleListItemState, maxTitleLength }
 
 
 
 	return (
-		<ListsContext.Provider value={{ lists, setListTitle, addList, addListItemToList, deleteList, deleteListItemFromList, toggleListItemState, }}>{children}</ListsContext.Provider>
+		<ListsContext.Provider value={value}>{children}</ListsContext.Provider>
 	)
 }
