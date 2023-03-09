@@ -1,11 +1,14 @@
 import { Tooltip } from "@mui/material";
 import { type NextPage } from "next";
+import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { AiOutlineCopy } from "react-icons/ai";
+import { AiOutlineCopy, AiOutlineDownload } from "react-icons/ai";
+import type { IconType } from "react-icons/lib";
 import PickList from '../components/PickList';
 import QuantityInput from '../components/QuantityInput';
-import type { List, Person } from '../types';
-import { getPeopleCount } from '../utils/lists';
+import type { List, ListItem } from '../types';
+import { getISODateString } from "../utils/dates";
+import { getListItemsCount } from '../utils/lists';
 import { MSG } from "../utils/messages";
 
 
@@ -15,14 +18,11 @@ const PickPage: NextPage = () => {
 	// const [ignoreCompleted, setIgnoreCompleted] = useState(false)
 	const [selectedList, setSelectedList] = useState<List | null>(null)
 
-	const selectedListPeopleLength = useMemo(() => selectedList ? getPeopleCount(selectedList) : 0, [selectedList])
+	const selectedListListItemsLength = useMemo(() => selectedList ? getListItemsCount(selectedList) : 0, [selectedList])
 
-	const [extractedPeople, setExtractedPeople] = useState<Person[]>([])
+	const [extractedListItems, setExtractedListItems] = useState<ListItem[]>([])
 
 	const [quantity, setQuantity] = useState("")
-
-	const [isCopyClicked, setIsCopyClicked] = useState(false);
-
 
 
 
@@ -30,13 +30,13 @@ const PickPage: NextPage = () => {
 		if (quantity === ``) return false;
 		const number = parseInt(quantity);
 
-		return number > 0 && number <= selectedListPeopleLength
+		return number > 0 && number <= selectedListListItemsLength
 
-	}, [quantity, selectedListPeopleLength])
+	}, [quantity, selectedListListItemsLength])
 
 
 	useEffect(() => {
-		setExtractedPeople([])
+		setExtractedListItems([])
 	}, [selectedList])
 
 
@@ -44,31 +44,52 @@ const PickPage: NextPage = () => {
 		setQuantity("")
 		setSelectedList(list)
 	}
-	function onCopyClick() {
+
+	const selectedListToString = () => {
+		if (!selectedList) return "";
+		let final = `${MSG.extractedListItems(selectedList.title)}`
+		extractedListItems.forEach((listItem, index) => {
+			const n = index + 1
+			final += `\n${n} - ${listItem.name}`
+		})
+		return final;
+	}
+
+	const onDownloadClick = () => {
+		if (!selectedList) return;
+		const textToSave = selectedListToString();
+		const textToSaveAsBlob = new Blob([textToSave], { type: "text/plain" });
+		const fileNameToSaveAs = `${selectedList.title}_${getISODateString()}`;
+
+		const downloadLink = document.createElement("a");
+		downloadLink.download = fileNameToSaveAs;
+		downloadLink.innerHTML = "Download File";
+		downloadLink.href = window.URL.createObjectURL(textToSaveAsBlob);
+		downloadLink.addEventListener('click', (ev) => {
+			if (!ev.currentTarget) return;
+			document.body.removeChild(ev.target as Node);
+		});
+		downloadLink.style.display = "none";
+
+		document.body.appendChild(downloadLink);
+		downloadLink.click();
+	}
+
+	const onCopyClick = () => {
 		if (!selectedList) return;
 
-		let final = `${MSG.extractedPeople(selectedList.title)}`
-		extractedPeople.forEach((person, index) => {
-			const n = index + 1
-			final += `\n${n} - ${person.name}`
-		})
-		navigator.clipboard.writeText(final)
-
-		setIsCopyClicked(true)
-		setTimeout(() => {
-			setIsCopyClicked(false)
-		}, 4000);
+		navigator.clipboard.writeText(selectedListToString())
 	}
 
 	function onPickBtnClick() {
 		if (!selectedList) return;
 
 
-		const shuffledPeopleList = [...selectedList.people].sort(() => 0.5 - Math.random())
-		const extracted = shuffledPeopleList.slice(0, parseInt(quantity));
+		const shuffledListItemsList = [...selectedList.items].sort(() => 0.5 - Math.random())
+		const extracted = shuffledListItemsList.slice(0, parseInt(quantity));
 
 
-		setExtractedPeople(extracted)
+		setExtractedListItems(extracted)
 	}
 
 
@@ -78,9 +99,9 @@ const PickPage: NextPage = () => {
 
 			<section className='bg-[#060018] flex flex-col py-2 px-4  gap-2 justify-center  items-center sticky top-0 left-0 w-full'>
 
-				<PickList setSelectedList={updateSelectedList} onlyIncompletePeople />
+				<PickList setSelectedList={updateSelectedList} onlyIncompleteListItems />
 
-				<QuantityInput selectedList={selectedList} setValue={setQuantity} onlyIncompletePeople  >
+				<QuantityInput selectedList={selectedList} setValue={setQuantity} onlyIncompleteListItems  >
 					<button
 						disabled={!isQuantityValid || !selectedList}
 						className='block w-full h-10 px-4 py-1 font-mono text-xl rounded-b sm:h-12 bg-emerald-600 hover:bg-emerald-500 disabled:bg-gray-700 disabled:cursor-not-allowed disabled:text-gray-400 '
@@ -98,7 +119,7 @@ const PickPage: NextPage = () => {
 
 
 
-				{extractedPeople.length > 0 && (
+				{extractedListItems.length > 0 && (
 					<div className=' pointer-events-auto  my-auto relative flex flex-col w-full min-w-[315px] min-h-[250px]  max-w-[800px] overflow-y-auto h-full  max-h-[calc(100vh_-_90px_-_250px)] grow justify-start items-start'>
 
 						<table className='border-b border-x border-emerald-900 bg-zinc-900'>
@@ -111,31 +132,24 @@ const PickPage: NextPage = () => {
 									</td>
 									<td className='relative w-full h-10'>
 										<h3>Name</h3>
-										<Tooltip
-											arrow
-											placeholder="top-start"
-											title={isCopyClicked ? `Done!` : `Copy to clipboard`}
-											className="absolute text-3xl text-yellow-500 -translate-y-1/2 right-2 top-1/2"
-											onClick={onCopyClick}
-											onMouseEnter={() => setIsCopyClicked(false)}
-										>
-											<button>
-												<AiOutlineCopy />
-											</button>
-										</Tooltip>
+
+										<div className="absolute  -translate-y-1/2 right-2 top-1/2 flex gap-2">
+											<PickedListAction Icon={AiOutlineDownload} onClick={onDownloadClick} tooltip="Download as a file" tooltipClicked="Done!" />
+											<PickedListAction Icon={AiOutlineCopy} onClick={onCopyClick} tooltip="Copy to clipboard" tooltipClicked="Done!" />
+										</div>
 									</td>
 								</tr>
 							</thead>
 							<tbody className="">
 								{
-									extractedPeople.map((person, index) => (
+									extractedListItems.map((listItem, index) => (
 										<tr key={index} className="border-b last:border-none border-green-900/40">
 											<td>
 												<div className="px-2 py-1 text-center border-r border-green-900/80 max-w-[80px] w-[80px] ">
 													{index + 1}
 												</div>
 											</td>
-											<td className='w-full px-2 py-1 text-center'>{person.name}</td>
+											<td className='w-full px-2 py-1 text-center'>{listItem.name}</td>
 										</tr>)
 									)
 								}
@@ -152,7 +166,36 @@ const PickPage: NextPage = () => {
 	);
 };
 
-
-
-
 export default PickPage;
+
+
+const PickedListAction: FC<{ onClick: () => void, tooltip: string, tooltipClicked?: string, Icon: IconType }> = ({ onClick, tooltip, tooltipClicked, Icon }) => {
+	const [clicked, setClicked] = useState(false);
+
+	useEffect(() => {
+		if (!clicked) return;
+		const timeout = setTimeout(() => {
+			setClicked(false);
+		}, 2500)
+
+		return () => clearTimeout(timeout)
+	}, [clicked])
+
+	const onActionClick = () => {
+		setClicked(true);
+		onClick();
+	}
+
+	return <Tooltip
+		arrow
+		placeholder="top-start"
+		title={clicked ? tooltipClicked ?? tooltip : tooltip}
+		className="text-3xl text-yellow-500"
+		onClick={onActionClick}
+		onMouseEnter={() => setClicked(false)}
+	>
+		<button>
+			<Icon />
+		</button>
+	</Tooltip>
+}
