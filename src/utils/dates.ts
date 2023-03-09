@@ -1,0 +1,1 @@
+export const getISODateString = (date?: string | number) => (date ? new Date(date) : new Date()).toISOString().substring(0, 19).replace('T', ' ')
