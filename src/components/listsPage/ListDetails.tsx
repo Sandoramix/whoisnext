@@ -4,8 +4,8 @@ import { AiFillDelete } from 'react-icons/ai';
 import { BiExport } from 'react-icons/bi';
 import { FiDelete } from 'react-icons/fi';
 import { useLists } from '../../lib/ListsContext';
-import type { List, Person } from '../../types';
-import { maxPeopleCount } from '../../utils/lists';
+import type { List, ListItem } from '../../types';
+import { maxListItemsCount } from '../../utils/lists';
 import LayerOver from '../layerOver';
 
 
@@ -14,7 +14,7 @@ type ListDetailsProps = {
 	selectedList: List | null,
 }
 const ListDetails: FC<ListDetailsProps> = ({ closeView, selectedList }) => {
-	const { addPersonToList, deleteList, setListTitle, deletePersonFromList, togglePersonState } = useLists();
+	const { addListItemToList, deleteList, setListTitle, deleteListItemFromList, toggleListItemState } = useLists();
 
 	const newNameRef = useRef<HTMLInputElement>(null)
 	const [deletePopupShowing, setDeletePopupShowing] = useState(false)
@@ -35,7 +35,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, selectedList }) => {
 
 		const name = newNameRef.current.value.trim() ?? "";
 		if (name === '') return;
-		addPerson(name)
+		addListItem(name)
 		newNameRef.current.value = ``
 	}
 
@@ -47,9 +47,9 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, selectedList }) => {
 		setTitleInputValue(value)
 		setListTitle(selectedList.id, value)
 	}
-	function addPerson(name: string) {
+	function addListItem(name: string) {
 		if (!selectedList) return;
-		addPersonToList(selectedList.id, name)
+		addListItemToList(selectedList.id, name)
 	}
 	function onListDeleteConfirm() {
 		if (!selectedList) return;
@@ -84,7 +84,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, selectedList }) => {
 			<div className="max-h-[80px] h-[80px] flex justify-center text-sm pt-10">
 
 				{
-					(selectedList.people.length < maxPeopleCount) && (
+					(selectedList.items.length < maxListItemsCount) && (
 						<div className="flex items-center justify-center min-w-[80px] h-10 gap-2 bg-white rounded focus-within:outline-double outline-white">
 
 
@@ -131,9 +131,9 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, selectedList }) => {
 						</tr>
 					</thead>
 					<tbody className=''>
-						{selectedList.people.sort((a, b) => a.name.localeCompare(b.name)).map(
-							(person, i) =>
-								<PersonRow key={i} person={person} removeFromList={() => deletePersonFromList(selectedList.id, person.id)} toggleCompleteState={() => togglePersonState(selectedList.id, person.id)} />
+						{selectedList.items.sort((a, b) => a.name.localeCompare(b.name)).map(
+							(listItem, i) =>
+								<ListRow key={i} listItem={listItem} removeFromList={() => deleteListItemFromList(selectedList.id, listItem.id)} toggleCompleteState={() => toggleListItemState(selectedList.id, listItem.id)} />
 						)}
 					</tbody>
 				</table>
@@ -171,16 +171,16 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, selectedList }) => {
 
 
 
-const PersonRow: FC<{ person: Person, removeFromList: () => void, toggleCompleteState: () => void }> = ({ person, removeFromList, toggleCompleteState }) => {
+const ListRow: FC<{ listItem: ListItem, removeFromList: () => void, toggleCompleteState: () => void }> = ({ listItem, removeFromList, toggleCompleteState }) => {
 
 
 	return (
 		<tr className="h-12 border-b last:border-none border-indigo-900/40">
 			<td className='px-2 text-center capitalize border-r border-indigo-900'>
-				{person.name}
+				{listItem.name}
 			</td>
 			<td className='text-center border-r border-indigo-900'>
-				<input onChange={toggleCompleteState} type="checkbox" name="isCompleted" className='h-6 aspect-square' checked={person.isCompleted} />
+				<input onChange={toggleCompleteState} type="checkbox" name="isCompleted" className='h-6 aspect-square' checked={listItem.isCompleted} />
 			</td>
 			<td onClick={removeFromList} className='flex items-center justify-center h-12 px-2 text-3xl text-red-700 cursor-pointer hover:text-red-500'>
 				<FiDelete />

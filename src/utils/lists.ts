@@ -1,14 +1,14 @@
 import { listValidator, type List } from "../types";
 
 export const maxTitleLength = 25;
-export const maxPeopleCount = 200;
+export const maxListItemsCount = 200;
 
-export function getPeopleFromList(list: List, onlyIncomplete = true) {
-	return !onlyIncomplete ? list.people : list.people.filter(person => !person.isCompleted)
+export function getListItemsFromList(list: List, onlyIncomplete = true) {
+	return !onlyIncomplete ? list.items : list.items.filter(listItem => !listItem.isCompleted)
 }
 
-export function getPeopleCount(list: List, onlyIncomplete = true) {
-	return !onlyIncomplete ? list.people.length : list.people.filter(person => !person.isCompleted).length;
+export function getListItemsCount(list: List, onlyIncomplete = true) {
+	return !onlyIncomplete ? list.items.length : list.items.filter(listItem => !listItem.isCompleted).length;
 }
 
 

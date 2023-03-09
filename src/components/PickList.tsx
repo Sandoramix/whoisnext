@@ -2,31 +2,31 @@ import { Autocomplete, TextField } from "@mui/material";
 import type { FC } from "react";
 import { useLists } from '../lib/ListsContext';
 import type { List } from "../types";
-import { getPeopleCount } from "../utils/lists";
+import { getListItemsCount } from "../utils/lists";
 
 type PickListProps = {
-	onlyIncompletePeople?: boolean,
+	onlyIncompleteListItems?: boolean,
 	setSelectedList: (list: List | null) => void,
 	fullWidth?: boolean,
 }
 
-const PickList: FC<PickListProps> = ({ setSelectedList, onlyIncompletePeople, fullWidth }) => {
+const PickList: FC<PickListProps> = ({ setSelectedList, onlyIncompleteListItems, fullWidth }) => {
 	const { lists } = useLists();
 
 	const options = [...lists.values()].map((_list => {
 		const list = { ..._list }
-		const total = getPeopleCount(list, false)
+		const total = getListItemsCount(list, false)
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const firstLetter = list.title[0]!
-		if (onlyIncompletePeople) {
-			list.people = list.people.filter(p => !p.isCompleted)
+		if (onlyIncompleteListItems) {
+			list.items = list.items.filter(p => !p.isCompleted)
 		}
 		return {
 			firstLetter: /[0-9]/.test(firstLetter) ? `0-9` : firstLetter.toUpperCase(),
 			title: list.title,
 			id: list.id,
 			total,
-			completed: total - getPeopleCount(list),
+			completed: total - getListItemsCount(list),
 			list
 		}
 	}))

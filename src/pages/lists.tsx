@@ -121,8 +121,8 @@ const List = ({ list, openThisList }: { list: List, openThisList: () => void }) 
 		<li className="relative overflow-visible rounded select-none bg-gradient-to-r to-blue-900 from-cyan-900">
 			<h2 className="absolute font-serif text-2xl font-bold -translate-x-1/2 -top-4 left-1/2 whitespace-nowrap">{list.title}</h2>
 			<div className="w-full grid justify-between h-[calc(100vw_*_.05_+_80px)] max-h-[120px] grid-flow-row grid-cols-3 auto-cols-min items-center  px-4 text-center font-medium font-sans">
-				<div className="text-base sm:text-xl lg:text-2xl  text-gray-200 transition-[font-size] duration-200 items-start flex">{list.people.length} <br />{list.people.length == 1 ? `Person` : `People`}</div>
-				<div className="text-base sm:text-xl lg:text-2xl  text-emerald-300 transition-[font-size] duration-200">{list.people.filter(p => p.isCompleted).length} <br />Completed</div>
+				<div className="text-base sm:text-xl lg:text-2xl  text-gray-200 transition-[font-size] duration-200 items-start flex">{list.items.length} <br />{list.items.length == 1 ? `element` : `elements`}</div>
+				<div className="text-base sm:text-xl lg:text-2xl  text-emerald-300 transition-[font-size] duration-200">{list.items.filter(p => p.isCompleted).length} <br />Completed</div>
 				<div
 
 					className="flex flex-col items-end justify-center text-xl font-extrabold sm:text-2xl lg:text-3xl"

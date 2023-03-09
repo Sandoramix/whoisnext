@@ -1,5 +1,7 @@
+import { getISODateString } from "./dates"
+
 export const MSG = {
 
-	extractedPeople: (listName?: string) => listName ? `Extracted people from ${listName}:` : `Extracted people:`
+	extractedListItems: (listName?: string) => `${getISODateString()} - ${listName ? `Extracted from ${listName}` : `Extracted List`}`
 
 }

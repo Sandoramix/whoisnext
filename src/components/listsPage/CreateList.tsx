@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { BiImport } from 'react-icons/bi';
 import { useLists } from '../../lib/ListsContext';
-import { maxPeopleCount, maxTitleLength } from '../../utils/lists';
+import { maxListItemsCount, maxTitleLength } from '../../utils/lists';
 
 type CreateListProps = {
 	closeView: () => void,
@@ -13,21 +13,21 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 
 	const { addList } = useLists();
 	const titleInputRef = useRef<HTMLInputElement>(null);
-	const peopleTextareaRef = useRef<HTMLTextAreaElement>(null);
-	const usersFileRef = useRef<HTMLInputElement>(null)
+	const listItemsTextareaRef = useRef<HTMLTextAreaElement>(null);
+	const listItemsRef = useRef<HTMLInputElement>(null)
 
 
 	const [title, setTitle] = useState("");
 	const isTitleValid = useMemo(() => title.trim() !== `` && title.length <= maxTitleLength, [title])
 	const titleLeftChars = useMemo(() => maxTitleLength - title.trim().length, [title])
 
-	const [peopleTextareaValue, setPeopleTextareaValue] = useState("")
-	const peopleLeftCount = useMemo(() => maxPeopleCount - getPeopleFromTextArea(peopleTextareaValue).length, [peopleTextareaValue])
+	const [listItemsTextareaValue, setListItemsTextareaValue] = useState("")
+	const listItemsLeftCount = useMemo(() => maxListItemsCount - getListItemsFromTextArea(listItemsTextareaValue).length, [listItemsTextareaValue])
 
 
 	useEffect(() => {
 		setTitle("")
-		setPeopleTextareaValue("")
+		setListItemsTextareaValue("")
 	}, [])
 
 
@@ -37,8 +37,8 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 	}
 
 
-	const onUsersFileUpload = async () => {
-		const files = usersFileRef.current?.files;
+	const onListFileUpload = async () => {
+		const files = listItemsRef.current?.files;
 		if (!files) {
 			console.error(`This browser doesn't seem to support the "files" property of file inputs.`);
 			return;
@@ -55,23 +55,23 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 		const plaintext = new TextDecoder().decode(rawData)
 
 		//TODO VALIDATE text
-		const people = plaintext.trim()
+		const items = plaintext.trim()
 
-		usersFileRef.current.value = ``
-		setPeopleTextareaValue("")
+		listItemsRef.current.value = ``
+		setListItemsTextareaValue("")
 
-		onPeopleInput(people);
+		onListItemsInput(items);
 	}
-	function getPeopleFromTextArea(plaintext: string) {
-		const people = plaintext
-		if (people?.trim() === `` || !people) return [];
-		return people.split(`\n`).filter(name => name.trim() !== ``);
+	function getListItemsFromTextArea(plaintext: string) {
+		const items = plaintext
+		if (items?.trim() === `` || !items) return [];
+		return items.split(`\n`).filter(name => name.trim() !== ``);
 	}
 
 
 
-	const onPeopleInput = (plaintext: string) => {
-		setPeopleTextareaValue(plaintext)
+	const onListItemsInput = (plaintext: string) => {
+		setListItemsTextareaValue(plaintext)
 	}
 
 
@@ -82,9 +82,9 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 	const onFormSubmit = (ev: any) => {
 		ev?.preventDefault();
 
-		if (peopleLeftCount < 0 || !isTitleValid) return;
+		if (listItemsLeftCount < 0 || !isTitleValid) return;
 
-		addList(title, getPeopleFromTextArea(peopleTextareaValue))
+		addList(title, getListItemsFromTextArea(listItemsTextareaValue))
 
 		closeView();
 	}
@@ -131,30 +131,30 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 
 				<div className='flex flex-col items-center justify-center w-full'>
 					<div className='flex flex-col w-full'>
-						<label htmlFor="users" className='grid items-center w-full grid-flow-row grid-cols-3 auto-cols-fr'>
+						<label htmlFor="list" className='grid items-center w-full grid-flow-row grid-cols-3 auto-cols-fr'>
 							<span></span>
-							<span className='text-3xl text-gray-200 uppercase font-flat'>Users</span>
+							<span className='text-3xl text-gray-200 uppercase font-flat'>List</span>
 							<span className='self-end font-mono text-sm text-gray-400 text-end'>one<br className='sm:hidden' /><span className='hidden sm:visible'>&nbsp;</span> per line</span>
 						</label>
 
 
-						<div className={`flex flex-col relative text-black w-full  h-full max-h-[40vh] rounded ${peopleLeftCount < 0 ? `outline outline-red-500` : ``}`}>
+						<div className={`flex flex-col relative text-black w-full  h-full max-h-[40vh] rounded ${listItemsLeftCount < 0 ? `outline outline-red-500` : ``}`}>
 							<textarea
-								name="users"
-								id="users"
+								name="list"
+								id="list"
 								autoComplete="off"
 								rows={5}
-								onInput={(ev) => onPeopleInput(ev.currentTarget.value)}
+								onInput={(ev) => onListItemsInput(ev.currentTarget.value)}
 								draggable={false}
-								value={peopleTextareaValue}
-								ref={peopleTextareaRef}
+								value={listItemsTextareaValue}
+								ref={listItemsTextareaRef}
 								className={`px-2 py-1 h-full min-h-[40vh] max-h-[40vh] w-full custom-scrollbar`}
 								placeholder={`E.g.
 Marco
 Sophie
 							`}
 							/>
-							<p className={`pointer-events-none select-none absolute right-2 bottom-1 font-serif text-xl  ${peopleLeftCount < 0 ? `text-red-600` : `text-gray-600`}`}>{peopleLeftCount}</p>
+							<p className={`pointer-events-none select-none absolute right-2 bottom-1 font-serif text-xl  ${listItemsLeftCount < 0 ? `text-red-600` : `text-gray-600`}`}>{listItemsLeftCount}</p>
 						</div>
 					</div>
 
@@ -164,11 +164,11 @@ Sophie
 								<p className='py-2 '>or</p>
 
 								<div className='w-full '>
-									<label htmlFor="usersFile" className='relative flex items-center justify-center gap-2 px-3 py-2 mx-auto bg-indigo-700 rounded-sm cursor-pointer w-min min-w-fit hover:bg-indigo-600 whitespace-nowrap'>
+									<label htmlFor="listFile" className='relative flex items-center justify-center gap-2 px-3 py-2 mx-auto bg-indigo-700 rounded-sm cursor-pointer w-min min-w-fit hover:bg-indigo-600 whitespace-nowrap'>
 										<BiImport className='text-xl text-slate-200 hover:text-slate-300' />
 										<span>Import from file</span>
 									</label>
-									<input ref={usersFileRef} type="file" name="text" id="usersFile" className='sr-only' accept='.txt' size={1024} onInput={onUsersFileUpload} />
+									<input ref={listItemsRef} type="file" name="text" id="listFile" className='sr-only' accept='.txt' size={1024} onInput={onListFileUpload} />
 								</div>
 							</>
 						)
@@ -192,7 +192,7 @@ Sophie
 				<button
 					onClick={onFormSubmit}
 					className='rounded px-4 py-2 bg-green-800 hover:bg-green-900 min-w-[90px] disabled:bg-zinc-800 disabled:cursor-not-allowed'
-					disabled={peopleLeftCount < 0 || !isTitleValid}
+					disabled={listItemsLeftCount < 0 || !isTitleValid}
 				>
 					Create
 				</button>
