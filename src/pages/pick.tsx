@@ -50,7 +50,7 @@ const PickPage: NextPage = () => {
 		let final = `${MSG.extractedPeople(selectedList.title)}`
 		extractedPeople.forEach((person, index) => {
 			const n = index + 1
-			final += `\n${n}\t─ ${person.name}`
+			final += `\n${n} - ${person.name}`
 		})
 		navigator.clipboard.writeText(final)
 
