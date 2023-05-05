@@ -32,7 +32,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 
 
 	const onTitleInput = () => {
-		const title = titleInputRef.current?.value.trim().substring(0, maxTitleLength);
+		const title = titleInputRef.current?.value.substring(0, maxTitleLength);
 		setTitle(title ?? "")
 	}
 
@@ -119,6 +119,7 @@ const CreateList: FC<CreateListProps> = ({ closeView }) => {
 							name="title"
 							id="title"
 							onInput={onTitleInput}
+							onBlur={() => setTitle(prev => prev.trim())}
 							ref={titleInputRef}
 							autoComplete="off"
 							maxLength={maxTitleLength}

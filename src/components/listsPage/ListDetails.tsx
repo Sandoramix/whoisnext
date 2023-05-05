@@ -41,7 +41,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, selectedList }) => {
 
 	function onTitleInput(ev: ChangeEvent<HTMLInputElement>) {
 		if (!selectedList) return;
-		const value = ev.target.value.trim().substring(0, maxTitleLength);
+		const value = ev.target.value.substring(0, maxTitleLength);
 
 
 
@@ -78,6 +78,7 @@ const ListDetails: FC<ListDetailsProps> = ({ closeView, selectedList }) => {
 					value={titleInputValue}
 					maxLength={maxTitleLength}
 					onInput={onTitleInput}
+					onBlur={() => setTitleInputValue(prev => prev.trim())}
 				/>
 			</header>
 
